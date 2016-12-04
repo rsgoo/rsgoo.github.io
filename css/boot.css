@@ -1,0 +1,30 @@
+.seg_info{
+  height:auto;
+  background-color:#1abc9c;
+  color:white;
+}
+.width25{
+  background-color: #008CBA;
+  width: 25%;
+  display: inline-block;
+}
+.width50{
+  background-color: #008CBA;
+  width: 50%;
+  display: inline-block;
+  text-align: left;
+}
+.height50{
+  height: 50px;
+  line-height: 50px;
+}
+.height50:hover{
+  background-color: blue;
+}
+.left_line{
+  text-align: left;
+  clear: both;
+}
+.float_left{
+  float: left;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Foundation 实例</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/boot.css">
+  <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/foundation/5.5.3/css/foundation.min.css">
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://cdn.static.runoob.com/libs/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="http://cdn.static.runoob.com/libs/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+</head>
+<body>
+
+<div data-magellan-expedition="fixed">
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">WebSiteName</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="left">
+        <li data-magellan-arrival="page1"><a href="#page1">基本信息</a></li>
+        <li data-magellan-arrival="page2"><a href="#page2">工作经历</a></li>
+        <li data-magellan-arrival="page3"><a href="#page3">Page 3</a></li>
+      </ul>
+    </section>
+  </nav>
+</div>
+
+<div style="padding:20px;height:1500px;">
+  <h3 class="text-center">雨醉风尘的个人简历</h3>
+  <p class="text-center">向下滚动页面查看效果。</p>
+
+  <div class="seg_info text-center">
+    <h3 data-magellan-destination="page1">Page1</h3>
+    <a name="page1"></a>  <!--这个用来控制超链接，不能删-->
+      <ul class="no-bullet width25">
+        <li class="left_line height50">姓名：刘冬</li>
+        <li class="left_line height50">学校：中国地质大学(北京)</li>
+        <li class="left_line height50">专业：信息管理与信息系统</li>
+        <li class="left_line height50">手机：13161341101</li>
+        <li class="left_line height50">博客：my.oschina.net/dongdong11019</li>
+        <li class="left_line height50">求职意向:PHP开发</li>
+      </ul>
+      <ul class="no-bullet width25">
+        <li class="left_line height50">年龄：23</li>
+        <li class="left_line height50">学历：本科</li>
+        <li class="left_line height50">语言：英语四级</li>
+        <li class="left_line height50">邮箱：dongdong11019@live.com</li>
+        <li class="left_line height50">Github：github.com/inscode</li>
+        <li class="left_line height50">薪资：8k+</li>
+      </ul>
+  </div>
+
+  <div class="seg_info text-center">
+    <h3 data-magellan-destination="page2">工作经历</h3>
+    <a name="page2"></a>  <!--这个用来控制超链接，不能删-->
+    <p class="width50">
+      北京壹合互动科技有限公司&nbsp;&nbsp;/&nbsp;&nbsp;5月～11月&nbsp;&nbsp;/&nbsp;&nbsp;PHP工程师
+    </p>
+    <p class="width50">
+      使用技术：PHP,&nbsp;&nbsp;MySQL,&nbsp;&nbsp;Laravel,&nbsp;&nbsp;Git,&nbsp;&nbsp;Bootstrap,&nbsp;&nbsp;AdminLTE,&nbsp;&nbsp;阿里云OSS
+    </p>
+    <p class="width50">
+      工作内容：参与公司'聚焦云'项目开发。与前端人员配合为项目的'场景秀'功能模块提供数据保存/读取借口；使用阿里云OSS开发素材管理功能；
+      运用新浪短链服务为新增的'场景秀'页面生成短链接并用百度分享插件实现页面分享；使用阿里大于与云片短信接口开发短信模板发送功能，
+    </p>
+  </div>
+
+  <div class="seg_info text-center">
+    <h3 data-magellan-destination="page3">项目经历</h3>
+    <a name="page3"></a>  <!--这个用来控制超链接，不能删-->
+    <p class="width50">
+      北京壹合互动科技有限公司&nbsp;&nbsp;/&nbsp;&nbsp;5月～11月&nbsp;&nbsp;/&nbsp;&nbsp;PHP工程师
+    </p>
+    <p class="width50">
+      使用技术：PHP,&nbsp;&nbsp;MySQL,&nbsp;&nbsp;Laravel,&nbsp;&nbsp;Git,&nbsp;&nbsp;Bootstrap,&nbsp;&nbsp;AdminLTE,&nbsp;&nbsp;阿里云OSS
+    </p>
+    <p class="width50">
+      工作内容：参与公司'聚焦云'项目开发。与前端人员配合为项目的'场景秀'功能模块提供数据保存/读取借口；使用阿里云OSS开发素材管理功能；
+      运用新浪短链服务为新增的'场景秀'页面生成短链接并用百度分享插件实现页面分享；使用阿里大于与云片短信接口开发短信模板发送功能，
+    </p>
+  </div>
+
+  <div class="seg_info">
+    <h3 data-magellan-destination="page3">Page3</h3>
+    <a name="page3"></a>  <!--这个用来控制超链接，不能删-->
+    <p>滚动屏幕，查看导航栏上的变化。</p>
+  </div>
+</div>
+
+<!-- 初始化 Foundation JS -->
+<script>
+$(document).ready(function() {
+    $(document).foundation();
+})
+</script>
+
+</body>
+</html>
