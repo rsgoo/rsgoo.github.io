@@ -1,0 +1,25 @@
+*{padding: 0px;
+  margin: 0px;}
+.container{
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-column-width:375px;
+	  -webkit-column-gap:15px;
+	  -moz-column-gap:15px;
+    background-color: gray;
+}
+
+
+/*数据块 砖块*/
+
+.container div{
+  /*margin: 0px 4px 20px;*/
+  /*margin-top: 0px;*/
+  /*margin-bottom: 20px;*/
+  border: 1px solid blue;
+}
+img{
+  width: 100%;
+  padding-bottom: 110px;
+}
