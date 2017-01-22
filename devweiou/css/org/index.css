@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    font-family:"微软雅黑";
+}
+
+a {
+    background: transparent
+}
+
+a:focus {
+    outline: thin dotted
+}
+
+a:active, a:hover {
+    outline: 0
+}
+
+a {
+    color: #0092ef;
+    text-decoration: none
+}
+
+a:hover, a:focus {
+    color: #0092ef;
+    cursor: pointer;
+    /*text-decoration: underline*/
+}
+
+.content-title{
+    /*color: #fff;*/
+    text-align: center;
+    font-size: 50px;
+    font-weight: 300;
+    font-family:"SimSun";
+}
+
+
+.header{
+    height: 50px; 
+    background-color: #fff;
+}
+
+.header-content{
+    width: 720px;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.weiou-logo{
+/*    padding-top: 5px;
+    padding-left: 5px;
+    */
+    float:left;
+    position: relative;
+    left: 5px;
+    top: 5px;
+    bottom: 5px;
+    
+    height: 40px;
+    /*width: 200px;*/
+}
+
+.header-right{
+    float:right;
+    /*position: relative;*/
+    /*top: auto;*/
+    
+    /*color: black;*/
+    margin-right: 50px;
+    /*right: 50px;*/
+    /*top: 5px;*/
+    /*vertical-align: middle;*/
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+}
+
+/*a:hover, a:focus {
+    color: #0092ef;
+    cursor: pointer;
+    text-decoration: underline
+}*/
+.header-menu:hover{
+    color:gold;
+}
+
+
+
+.header-menu{
+    /*color:black;*/
+}
+
+.active{
+    color:gold;
+}
+
+.footer{
+    /*height: 100px;*/
+    margin-top: 30px;
+    margin-bottom: 30px;
+    /*background-color: #;*/
+    text-align: center;
+    vertical-align: middle;
+}
+
+.footer-nav{
+    font-size: 13px;
+}
+
+.footer-bottom{
+    color:gray;
+    font-size: 12px;
+}
+
+
+.main {
+    border: 1px solid #dce0e0;
+    position: relative;
+    /*height: 400px;*/
+    min-height: 400px;
+}
+
+.main__content {
+    margin-top: 20px;
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 720px;
+    /*height: 400px;*/
+    position: relative;
+    z-index: 2
+}
+
+.beian-info{ text-align: center; font-size: 12px; line-height: 30px; color: gray; margin-bottom: 10px;}
+.beian-info a{font-size: 12px; line-height: 30px; text-align: center; color: gray;}
