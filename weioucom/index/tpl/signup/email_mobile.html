@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <{include file = 'headMeta.html'}>
+
+        <title>为偶-邮箱注册</title>
+
+        <!--新 Bootstrap 核心 CSS 文件--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <!--可选的Bootstrap主题文件（一般不用引入）--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+
+        <!--jQuery文件。务必在bootstrap.min.js 之前引入--> 
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <!--最新的 Bootstrap 核心 JavaScript 文件--> 
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <!-- jquery 表单验证-->
+        <script src="//cdn.bootcss.com/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="/js/libs/jquery.form.min.js"></script>
+
+
+        <link rel="stylesheet" type="text/css" href="/css/m/global.css" />
+        <link rel="stylesheet" type="text/css" href="/css/m/style.css" />
+
+        <link rel="stylesheet" type="text/css" href="/css/m/login.css" />
+        <link rel="stylesheet" type="text/css" href="/css/m/common.css" />
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <a href="/" class="logo"><img height="50" src="/images/logo.png" alt=""/></a>
+            </div>
+            <div class="login-box">
+                <form name="signupForm" id="signupForm">
+
+                    <div class="form-group col-xs-12">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="邮箱" />
+                    </div>
+
+                    <div class="form-group col-xs-12 extra">
+                        或使用<a href="/signup/mobile">手机注册</a>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+                    </div>
+
+                    <div class="form-group col-xs-8">
+                        <input type="text" placeholder="验证码" class="form-control" id="vCode" name="vCode"/>
+                    </div>
+                    <div class="form-group col-xs-4">
+                        <img class="yz-img" src="/system/vCode" alt="点击刷新" onclick="this.src = '/system/vCode?' + Math.random()"/>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-login btn-lg btn-block">注&nbsp;&nbsp;册</button>
+                    </div>
+
+                    <div class="form-group col-xs-12 extra">
+                        <div class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked="1" name='isread'>同意<a href="/about/terms">《为偶用户协议》</a>和<a href="/about/privacy">《隐私政策》</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-12 extra">
+                        你也可以通过以下账号快速登录<br/>
+                        <a href="/login/qq">QQ</a> | 
+                        <a href="/login/wechat">微信</a> | 
+                        <a href="/login/weibo">新浪微博</a>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#signupForm").submit(function () {
+                    var ajax_option = {
+                        url: "/signup/register", //默认是form action
+                        type: "post",
+                        data: {'type': 2},
+                        dataType: "json",
+                        beforeSerialize: function () {
+                        },
+                        //data:{'txt':"JQuery"},//自定义提交的数据
+                        beforeSubmit: function () {
+
+                            return $("#signupForm").valid();
+
+//                            if (!$("#terms").is(":checked")) {
+//                                alert("请先阅读用户协议和隐私政策，并勾选同意！");
+//                                return false;
+//                            }
+//                            if ($("#email").val() === "") {
+//                                alert("请输入邮箱!");
+//                                return false;
+//                            }
+//                            if ($("#password").val() === "") {
+//                                alert("请输入密码!");
+//                                return false;
+//                            }
+//                            if ($("#vCode").val() === "") {
+//                                alert("请输入图文验证码!");
+//                                return false;
+//                            }
+                            //if($("#txt1").val()==""){return false;}//如：验证表单数据是否为空
+                        },
+                        success: function (resp) {//表单提交成功回调函数
+                            //                        alert("表单操作完成！操作结果：" + resp.state);
+                            if (resp.state === 0) {
+                                location.href = "/user";//location.href实现客户端页面的跳转
+                            } else if (resp.state === 106) {
+                                alert("图文验证码错误");
+//                                $("#error-msg-verifyCode").text("图文验证码错误");
+//                                $("#error-msg-verifyCode").addClass("show");
+                            } else if (resp.state === 101) {
+                                alert("该手机号已注册");
+//                                $("#error-msg-phone").text("该手机号已注册");
+//                                $("#error-msg-phone").addClass("show");
+                            } else if (resp.state === 103) {
+                                alert("输入的信息有误，请重新输入!");
+                            } else {
+                                alert("服务异常，请稍后再试！");
+                            }
+                        },
+                        error: function (err) {
+                            //                        alert("表单提交异常！" + err.msg);
+                        }
+                    };
+
+                    $('#signupForm').ajaxSubmit(ajax_option);
+                    return false;
+                });
+
+                $('#signupForm').validate({
+                    errorElement: 'span',
+                    errorClass: 'help-block',
+                    focusInvalid: false,
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true
+                        },
+                        vCode: {
+                            required: true
+                        },
+                        isread: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        email: {
+                            required: "请输入邮箱",
+                            email: "邮箱格式错误"
+                        },
+                        password: {
+                            required: "请输入密码"
+                        },
+                        vCode: {
+                            required: "请输入验证码"
+                        }
+                    },
+                    highlight: function (element) {
+                        $(element).closest('.form-group').addClass('has-error');
+                    },
+                    success: function (label) {
+                        label.closest('.form-group').removeClass('has-error');
+                        label.remove();
+                    },
+                    errorPlacement: function (error, element) {
+                        element.parent('div').append(error);
+                    },
+                    submitHandler: function (form) {
+                        //            form.submit();
+                    }
+                });
+            });
+
+        </script>
+
+    </body>
+</html>

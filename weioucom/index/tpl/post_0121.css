@@ -1,0 +1,524 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+header{
+    width: 100%;
+    height: 40px;
+    background:#2b2b2d;
+    font-family:PingFangSC-Medium;
+    color:#ffffff;
+
+}
+.height40{
+    line-height: 40px;
+}
+
+.header_back{
+    margin-left: 4%;
+    width: auto;
+    display: inline-block;
+    height: 40px;
+    float: left;
+    /*background-color: red;*/
+}
+
+.icon_padding{
+    float: left;
+    padding-top: 5px;
+    padding-right: 8px;
+}
+.return_word{
+    /*padding-top: 1px;*/
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    width: 34px;
+    background-color:green;
+    float:left;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    color:#ffffff;
+    text-align:left;
+
+}
+.header_title{
+    width: auto;
+    display: inline-block;
+    /*height: 100%;*/
+    background-color: blue;
+    float: left;
+    font-family:PingFangSC-Medium;
+    font-size:18px;
+    color:#ffffff;
+    /*text-align:center;*/
+    padding-left: 10px;
+    /*overflow: hidden;*/
+    /*padding-right: 10px;*/
+}
+.header_more{
+    width: auto;
+    display: inline-block;
+    float: right;
+    height: 20px;
+    width: 23px;
+    margin-top:10px;
+    margin-right: 4%;
+    background-color: red;
+}
+.main_text{
+    width: 100%;
+    height: 1400px;
+    /*background: gray;*/
+    margin-top: 12px;
+}
+.main-title{
+    font-family:PingFangSC-Regular;
+    /*background-color: #1b1b1b;*/
+    font-size:24px;
+    color:#000000;
+    text-align:left;
+    /*background-color: darkred;*/
+    margin-left: 4%;
+    margin-right: 4%;
+    display: inline-block;
+    margin-top: 25px;
+}
+.main_date_author{
+    width: 100%;
+    /*background: orange;*/
+    display: block;
+    height: auto;
+}
+.main_date{
+    display: inline-block;
+    margin-left: 4%;
+    margin-right: 3%;
+    font-family:PingFangSC-Regular;
+    /*background-color: #00acc1;*/
+    font-size:17px;
+    color:#8c8c8c;
+    text-align:left;
+    height: 24px;
+    line-height: 24px;
+}
+.main_author{
+    display: inline-block;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    color:#6b86ab;
+    text-align:left;
+    height: 24px;
+    line-height: 24px;
+    /*background-color: #00B050;*/
+}
+.main_pic_word{
+    clear: both;
+    margin-top: 26px;
+    margin-left: 4%;
+    margin-right: 4%;
+    /*height: 400px;*/
+    /*background-color:blue;*/
+    margin-bottom: 38px;
+}
+.main_Pic{
+    width: 100%;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#474747;
+    text-align:left;
+    display: block;
+}
+.main_word{
+    width: 100%;
+    display: block;
+    /*background-color: rebeccapurple;*/
+    margin-top: 20px;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#474747;
+    text-align:left;
+}
+.page_data{
+    width: auto;
+    margin-left:4%;
+    margin-right: 4%;
+    /*background: aqua;*/
+    margin-top: 2px;
+    display: block;
+    font-size:15px;
+    color:#8c8c8c;
+    text-align:left;
+    font-family:PingFangSC-Regular;
+    height: 21px;
+}
+.page_read{
+    display: inline-block;
+    height: 21px;
+    line-height: 21px;
+    width: ;
+    float: left;
+    /*background-color: blue;*/
+}
+.page_readnumber{
+    display: inline-block;
+    height: 21px;
+    line-height: 21px;
+    width: auto;
+    float: left;
+    margin-left: 10px;
+}
+
+.page_like{
+    width: auto;
+    margin-top: 0px;
+    height: 17px;
+    float: left;
+    background-color: white;
+    display: inline-block;
+    margin-left:24px;
+}
+.like_icon1{
+    width: 15px;
+    line-height: 15px;
+    height:auto;
+    padding-bottom: 4px;
+}
+.page_likenumber{
+    display: inline-block;
+    height: 21px;
+    width: 14%;
+    background-color: white;
+    float: left;
+    margin-left: 6px;
+}
+.page_complain{
+    height: 21px;
+    line-height: 21px;
+    float: right;
+    width: auto;
+    text-align: right;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#8c8c8c;
+}
+.divide_line{
+    margin-top: 14px;
+    clear: both;
+    width: 100%;
+    height: 3px;
+    /*background-color: blue;*/
+    display: block;
+    background:#d8d8d8;
+    height:1px;
+}
+.latest_comment{
+    margin-top: 26px;
+    width: 100%;
+    /*background-color: blue;*/
+    height: auto;
+}
+.comment_header{
+    margin: px;
+    padding: 0px;
+    width: 100%;
+    height: 21px;
+    /*background: red;*/
+    margin-top: 18px;
+}
+.comment_header_left{
+    width: 7px;
+    height: 18px;
+    margin-right: 9px;
+    background:#feda00;
+    display: inline-block;
+    float: left;
+}
+.latest_comment_title{
+    width: 66%;
+    height: 21px;
+    line-height: 21px;
+    display: inline-block;
+    float: left;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#474747;
+    text-align:left;
+}
+.block_write_comment{
+    width: auto;
+    /*background-color: #00CC00;*/
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#5c78aa;
+    text-align:right;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 23px;
+}
+.write_comment_icon{
+    width: 13px;
+    height: auto;
+    padding-bottom: 5px;
+}
+.write_comment{
+    width: 26%;
+    height: 21px;
+    display: inline-block;
+    float: left;
+    text-align: right;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#5c78aa;
+    margin-bottom: 23px;
+}
+.comment_every{
+    float: left;
+    width:92%;
+    height:auto;
+    /*background-color: blue;*/
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 28px;
+}
+.comment_left{
+    width: 10%;
+    height:auto;
+    display: block;
+    float: left;
+}
+.comment_center{
+    padding-left: 10px;
+    width: 90%;
+    height: auto;
+    display: block;
+    float: left;
+    display: inline-block;
+
+}
+.comment_center_top{
+    height: 21px;
+
+}
+.comment_username{
+    height: 21px;
+    line-height:21px;
+    display: inline-block;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#6c6c6c;
+    text-align:left;
+}
+.comment_like_icon{
+    width: 21px;
+    display: inline-block;
+    float: right;
+    margin-top: 4px;
+    /*display: inline-block;*/
+}
+.comment_like_number{
+    height: 21px;
+    line-height:21px;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    display: inline-block;
+    padding-left: 5px;
+    color:#8c8c8c;
+    text-align:left;
+    float: right;
+    /*background-color: #00CCFF;*/
+}
+.comment_center_middle{
+    margin-top: 5px;
+    /*background-color: #00A5E3;*/
+    width: 80%;
+    font-family:PingFangSC-Regular;
+    font-size:15px;
+    color:#474747;
+    text-align:left;
+}
+.comment_center_bottom{
+    margin-top: 7px;
+    font-family:PingFangSC-Regular;
+    font-size:12px;
+    color:#909090;
+    text-align:left;
+    /*background-color: blue;*/
+}
+.comment_left_avatar{
+    width: 100%;
+    border-radius: 100%;
+    height:auto;
+}
+
+.comment_like{
+    height: 21px;
+    /*width: 40%;*/
+    display: inline-block;
+    float: right;
+    /*background-color: darkslateblue;*/
+    display: inline-block;
+}
+.comment_like_icon{
+    width: 15px;
+    height:auto;
+    margin-left: 5px;
+    /*padding: 0 auto;*/
+}
+.comment_likenumber{
+    /*margin-right: 0px;*/
+    display: inline-block;
+    float: right;
+    height: 21px;
+    /*width: 60%;*/
+    padding-left: 2px;
+    text-align: right;
+    background-color: orange;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    color:#8c8c8c;
+}
+.recomend_download{
+    background:#feb000;;
+    border-radius:8px;
+    width:345px;
+    height:45px;
+    line-height: 45px;
+    width: auto;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    color:#ffffff;
+    text-align:center;
+}
+.user_more_pic{
+    width: auto;
+    display: block;
+    height:800px;
+    background: dodgerblue;
+    margin-top: 25px;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+.recommend_left{
+    width: 48.5%;
+    height:auto;
+    /*background-color: #4cae4c;*/
+    float: left;
+    display: inline-block;
+}
+.recommend_right{
+    width: 48.5%;;
+    height:auto;
+    background-color: orange;
+    float: left;
+    margin-left: 3%;
+    display: inline-block;
+}
+.imgwidth{
+    width: 100%;
+    height:auto;
+    border-radius:5px;
+}
+.margintop20{
+    margin-top: 34px;
+}
+.waterfall_container_info{
+    /*background-color: red;*/
+    padding-bottom: 14px;
+    /*margin-top: 25px;*/
+}
+.address_big{
+    height: 20px;
+    line-height: 20px;
+    margin-top: 4px;
+    font-family:PingFangSC-Regular;
+    font-size:11px;
+    color:#a7a7a7;
+    text-align:left;
+    display: block;
+    /*background-color: orange;*/
+}
+.address_small{
+    height: 18px;
+    line-height: 18px;
+    font-family:PingFangSC-Regular;
+    font-size:13px;
+    color:#474747;
+    text-align:left;
+    display: block;
+}
+.avatar_and_name{
+    width: 200px;
+    height:26px;
+    line-height: 26px;
+    padding-bottom: 10px;
+    /*background-color: #00B050;*/
+}
+.logo_span{
+    width: 26px;
+    height:26px;
+    /*background-color: #0D9BF2;*/
+    display: inline-block;
+}
+.logo_span_radius{
+    width: 26px;
+    height: 26px;
+    border-radius: 26px;
+    /*background-color: #00CC00;*/
+}
+.username_span{
+    height:26px;
+    line-height: 26px;
+    margin-left: 2px;
+    font-family:PingFangSC-Medium;
+    font-size:11px;
+    color:#474747;
+    text-align:left;
+    /*background-color: #00CC00;*/
+}
+.waterfall_container{
+
+    margin-top: 25px;
+    width: 92%;
+    /*background-color: #00CC00;*/
+    margin-left: auto;
+    margin-right: auto;
+    /*-webkit-column-width:180px;*/
+    column-count: 2;
+    /*-webkit-column-gap:20px;*/
+    /*-moz-column-gap:20px;*/
+    /*background-color: gray;*/
+}
+.waterfall_container div{
+    /*margin: 0px 4px 20px;*/
+    /*margin-top: 0px;*/
+    /*margin-bottom: 20px;*/
+    /*border: 1px solid blue;*/
+
+}
+.waterfall_container div img{
+    width: 100%;
+    height: auto;
+    /*padding-bottom: 20px;*/
+    border-radius: 5px;
+}
+.recommend_download{
+    margin-top: 10px;
+    width: auto;
+    height: 45px;
+    background:#feb000;
+    line-height: 45px;
+    text-align: center;
+    border-radius:8px;
+    margin-left: 4%;
+    margin-right: 4%;
+    font-family:PingFangSC-Regular;
+    font-size:17px;
+    color:#ffffff;
+    margin-bottom: 20px;
+
+}

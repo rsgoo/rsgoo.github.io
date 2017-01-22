@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>post_share_mobile<{$title}></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <{include file = 'headMeta.html'}>
+        <link href="/css/share_1.css" type="text/css" rel="stylesheet" media="all">
+        <link href="/css/share/post_share_mobile.css" type="text/css" rel="stylesheet" media="all">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <{include file = 'cdn.html'}>
+    </head>
+    <body>
+        <input id = "post_id" type = "hidden" value = "<{$post_id}>" />
+        <h3 class="text-center bold"><strong><{$post_content}></strong></h3>
+        <h5 class="text-center bold">
+            <a href="http://www.weiou.com/user?uid=<{$user_id}>"><{$user_name}></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <{$publish_time}>
+        </h5>
+        <hr />
+        <div class="container">
+            <span class="brief"><{$post_brief}></span>
+            <{foreach $picUrlArr as $picurl}>
+            <div class="auto">
+                <img src="<{$picurl.url}>" class="img-responsive radius" alt="图片加载失败^_^" width="auto" height="auto" />
+                <p class="margin">文字说明：<{$picurl.post_content}>风陵渡口初相遇,一见杨过误终身。只恨我生君已老,断肠崖前忆故人。我走过山时，山不说话，我路过海时，海不说话，小毛驴滴滴答答，倚天剑伴我走天涯。大家都说我因为爱着杨过大侠，才在峨嵋山上出了家，其实我只是爱上了峨嵋山上的云和霞，像极了十六岁那年的烟花。<p>
+            </div>
+            <{/foreach}>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><{$title}></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <{include file = 'headMeta.html'}>
+        <link href="/css/share_1.css" type="text/css" rel="stylesheet" media="all">
+        <link href="/css/share/share.css" type="text/css" rel="stylesheet" media="all">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <input id = "post_id" type = "hidden" value = "<{$post_id}>" />
+        <h3 class="text-center bold"><strong><{$post_content}></strong></h3>
+        <h5 class="text-center bold">
+            <{$user_name}>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <{$publish_time}>
+        </h5>
+        <hr />
+        <div class="container">
+            <span class="brief"><{$post_brief}></span>
+            <{foreach $picUrlArr as $picurl}>
+            <div class="auto">
+                <img src="<{$picurl.url}>" class="img-responsive radius" alt="图片加载失败^_^" width="auto" height="auto" />
+                <p class="margin">文字说明：<{$picurl.post_content}><p>
+            </div>
+            <{/foreach}>
+        </div>
+        <hr/>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weiou</title>
+        <!--//web-font-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="weiou" />
+        <meta name="keywords" content="weiou, 为偶, 为偶看世界" />
+        <meta name="author" content="ChenXu" />
+        <link type = "text/css" rel="stylesheet" href="./../common/css/jquery.mobile-1.4.4.min.css" />
+        <link rel="shortcut icon" href="/favicon.ico">
+        <script src = "./../common/libs/jquery-2.1.1.min.js"></script>
+        <script src = "./../common/libs/jquery.mobile-1.4.4.min.js"></script>
+        <style>
+            #prompt
+            {
+                width:100%; height:100%;
+                position:fixed; top:0; left:0;
+                display: none;
+                background-color:#000;
+                filter:alpha(Opacity=70);-moz-opacity:0.7;opacity: 0.7;
+                text-align: right;
+                /*vertical-align: central;*/
+                z-index:5557;
+            }
+        </style>
+
+        <script type="text/javascript" >
+            $(document).ready(function () {
+                
+                window.location = "http://www.weiou.com/";
+                
+                return;
+
+                
+               /*
+                * 检测浏览器
+                * QQ浏览器：MQQBrowser/
+                * 微信客户端：MicroMessenger/
+                * QQ客户端：QQ/
+                * 
+                * 
+                */
+                
+                var u = navigator.userAgent;
+                if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
+                    if(u.indexOf("MicroMessenger") > -1 || u.indexOf("QQ\/") > -1 ){
+                        document.getElementById("prompt").style.display = "block";
+                        document.getElementById("browser_open").style.display = "block";
+                        document.getElementById("content").style.display = "none";
+                    }else{
+                        document.getElementById("browser_open").style.display = "none";
+//                        document.getElementById("content").style.display = "block";
+                        
+                        window.location = "http://www.weiou.com/a/android.php";
+                    }
+                }else if(u.indexOf('iPhone') > -1 || u.indexOf('iPad') > -1 || u.indexOf('iPod') > -1) {//苹果手机
+                    if(u.indexOf("MicroMessenger") > -1 || u.indexOf("QQ\/") > -1 ){
+                        document.getElementById("prompt").style.display = "block";
+                        document.getElementById("safari_open").style.display = "block";
+                        document.getElementById("content").style.display = "none";
+                    }else{
+                        document.getElementById("safari_open").style.display = "none";
+//                        document.getElementById("content").style.display = "block";
+                        
+                        window.location = "itms-apps://itunes.apple.com/app/id1023094349";
+                    }
+                }else{
+                    window.location = "http://www.weiou.com/";
+                }
+            });
+        </script>
+    </head>
+    <body >
+
+        <div id="prompt">
+            <div id="browser_open" style="display: none">
+                <img height="60px" alt="" src="./../common/image/browser_open.png" style="text-align: right; margin-right: 5px;">
+            </div>
+            <div id="safari_open" style="display: none">
+                <img height="60px" alt="" src="./../common/image/safari_open.png" style="text-align: right; margin-right: 5px;">
+            </div>
+        </div>
+
+        <div id='content' style="display: block">
+            
+        </div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+
+
+<div class="popup-content pic-detail" id="pic-detail">
+    <div class="img-scroll">
+        <div class="bd">
+            <a class="prev" id="post-prev" onclick="prev(this)"></a>
+            <a class="next" id="post-next" onclick="next(this)"></a>
+            <ul>
+                <li><img src="<{$post.thumbnail}>" alt=""/></li>
+            </ul>
+        </div>
+    </div>
+    <div class="img-detail">
+        <div class="item-top">
+            <a href="/user?uid=<{$post.userId}>" class="user">
+                <div class="avatar"><img src="<{if $post.userLogo == ""}>/images/user-avatar.png<{else}><{$post.userLogo}><{/if}>" alt=""/></div>
+                <div class="user-info">
+                    <span class="name"><{$post.userName}></span>
+                    <span class="time"><{$post.publishTime}></span>
+                </div>
+            </a>
+            <div class="item-top-r">
+                <!--<a href="" class="btn-focus">+ 关注</a>-->
+                <!--<a class="btn-focused">已关注</a>-->
+            </div>
+        </div>
+        <div class="item-info">
+            <div class="item-share">
+                <a href="javascript:;" class="btn like <{if $post.isLiked == 1}>on<{/if}>" onclick=""></a>
+                <a href="javascript:;" class="btn reply"></a>
+                <a href="javascript:;" class="btn collect <{if $post.isFavorited == 1}>on<{/if}>"></a>
+
+                <!--                <div class="share-box">
+                                    <div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                                </div>-->
+
+                <div class="more">
+                    <div class="sub">
+                        <ul>
+                            <{if $post.userId != $myUserId }>
+                            <li><a href="javascript:;">举报</a></li>
+                            <{else}>
+                            <li><a href="javascript:;">删除</a></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>
+                <{if $post.userId == $myUserId }>
+                <!--<a href="javascript:;" class="btn delete"></a>-->
+                <{/if}>
+            </div>
+            <div class="item-count">
+                <span class="post-likes"><{$post.postLikes}></span>
+                <span class="post-views"><{$post.viewCount}></span>
+            </div>
+            <{if $post.address != ""}>
+            <p class="location"><{$post.address}></p>
+            <{/if}>
+        </div>
+        <div class="comment-list">
+            <ul>
+                <{if $post.content != ""}>
+                <li>
+                    <div class="date"><{$post.publishTime}></div>
+                    <a href="/user?uid=<{$post.userId}>" class="user"><{$post.userName}></a> : 
+                    <{$post.content}>
+                </li>
+                <{/if}>
+
+                <{if count($post.commentList) > $post.comments}>
+                <li>
+                    <a href="javascript:;" class="more">查看全部评论</a>
+                </li>
+                <{/if}>
+
+                <{section name=j loop=$post.commentList}>
+                <li>
+                    <div class="date"><{$post.commentList[j].commentTime}> </div>
+                    <a href="/user?uid=<{$post.commentList[j].fromUserId}>" class="user"><{$post.commentList[j].fromUserName}></a>
+                    <{if $post.commentList[j].toUserId != ""}>
+                    回复 <a href="/user?uid=<{$post.commentList[j].toUserId}>" class="user"><{$post.commentList[j].toUserName}></a>
+                    <{/if}>
+                    : 
+                    <{$post.commentList[j].commentContent}>
+                    <a href="" class="btn reply">回复</a>
+                    <{if $post.commentList[j].fromUserId == $myUserId }>
+                    <a href="" class="btn delete">删除</a>
+                    <{/if}>
+                </li>
+                <{/section}>
+            </ul>
+            <div class="comment-box">
+                <textarea name="" id="a" placeholder="添加评论..."></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- popup tip start-->
+    <div class="popup-content msg-tip" id="msg-delete" style="display: none;">
+        <p class="tip-1">确定要删除照片?</p>
+        <div class="btn-group">
+            <a href="javascript:;" class="btn btn-cancel">否</a>
+            <a href="javascript:;" class="btn btn-confirm">是</a>
+        </div>
+    </div>
+    <!-- popup tip end-->
+</div>
+
+
+<script type="text/javascript">
+
+
+
+    function next() {
+        $("#cboxNext").click();
+
+//        window.parent.next();
+    }
+
+    function prev() {
+        $("#cboxPrevious").click();
+//        window.parent.prev();
+    }
+
+</script>

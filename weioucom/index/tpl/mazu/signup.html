@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+        <{include file = 'headMeta.html'}>
+
+        <title>骑行报名</title>
+
+        <!--新 Bootstrap 核心 CSS 文件--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <!--可选的Bootstrap主题文件（一般不用引入）--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+        <!--jQuery文件。务必在bootstrap.min.js 之前引入--> 
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <!--最新的 Bootstrap 核心 JavaScript 文件--> 
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <script src="//cdn.bootcss.com/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="/js/libs/jquery.form.min.js"></script>
+
+
+        <script type="text/javascript" src="/js/libs/plupload/plupload.full.min.js"></script>
+        <script type="text/javascript" src="/js/libs/plupload/i18n/zh_CN.js"></script>
+        <script type="text/javascript" src="/js/libs/qiniu/qiniu.js"></script>
+        <script type="text/javascript" src="/mazu/upload.js"></script>
+
+
+        <script type="text/javascript" src="/js/libs/upload/jquery.uploadify.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/js/libs/upload/uploadify.css" />
+        <link rel="stylesheet" type="text/css" href="/mazu/upload.css" />
+        <link rel="stylesheet" type="text/css" href="/mazu/common.css" />
+        <link rel="stylesheet" type="text/css" href="/css/global.css" />
+
+
+        <style>
+            .banner{ 
+                height: 172px; margin: 0 auto; background-color: #ffe84f;
+                background: url("/mazu/img/CyclingSignUpTitleBG.png") no-repeat;
+                background-size: 100% 100%;
+            }
+
+            .banner-content {
+                margin: 0 auto;
+                width: 1000px;
+                height: 172px;
+                position: relative;
+            }
+
+            .banner-title {
+                position: absolute;
+                margin: 0 auto;
+                top: 49px;
+
+                color: #37485D;
+
+                height: 16px;
+                width: 1000px;
+                text-align: center;
+                font-size: 16px;
+                line-height: 16px;
+            }
+
+            .banner-title-sub {
+                position: absolute;
+                margin: 0 auto;
+                top: 85px;
+                /*left: 478px;*/
+                /*background-color: #000;*/
+                color: #1F2021;
+                /*width: 100px;*/
+                height: 23px;
+                width: 1000px;
+                /*padding-top: 10px;*/
+                text-align: center;
+                font-size: 23px;
+                line-height: 23px;
+            }
+
+            .rules {
+                position: absolute;
+                bottom: 30px;
+                right: 0px;
+                background-color: #000;
+                color: #fff;
+                width: 142px;
+                height: 32px;
+                padding-top: 9px;
+                text-align: center;
+                font-size: 14px;
+                line-height: 14px;
+            }
+
+            .h50 {
+                height: 50px;
+            }
+
+            .baseinfo {
+                margin-top: 50px;
+                margin-bottom: 25px;
+            }
+
+            .emergencyContact {
+                padding-top:25px;
+                padding-bottom: 25px;
+                background-color: #FEF6F8;
+            }
+
+            .userbrief {
+                margin-top:25px;
+                margin-bottom: 25px;
+            }
+
+            .sub-title {
+                margin-top:10px;
+                margin-bottom: 20px;
+                height: 14px;
+                line-height: 14px;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .sub-title-explain {
+                font-size: 10px;
+                color: #999;
+            }
+
+        </style>
+
+
+    </head>
+    <body>
+        <!--header start-->
+        <{include file = 'mazu/header.html'}>
+        <!--header end-->
+
+        <div class="h50">
+
+        </div>
+        <div class='banner tc'>
+            <div class="banner-content">
+                <div class="banner-title">
+                    第八届中国·天津妈祖文化旅游节暨2016首届中华两岸妈祖省亲骑行活动
+                </div>
+                <div class="banner-title-sub">
+                    骑行选手全国海选报名
+                </div>
+                <a target="_blank" href="http://www.wanliqixing.com/index.php?g=portal&m=page&a=index&id=38">
+                    <div class="rules">
+                        点击查看活动规则
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <form class="form-horizontal" name="signupForm" id="signupForm">
+
+            <div class="baseinfo wrap">        
+                <div class="sub-title">
+                    基本信息
+                    <span class="sub-title-explain">(* 请准确填写报名信息，以免在参赛时出现问题)</span>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group col-sm-6">
+                        <label for="inputName" class="col-sm-4 control-label text-left">姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputName" name="name" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputPhone" class="col-sm-4 control-label">年龄</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputAge" name="age" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-4 control-label">性别</label>
+                        <div class="controls col-sm-8">
+
+                            <!-- Inline Radios -->
+                            <label class="radio-inline">
+                                <input type="radio" value="1" name="sex">
+                                    男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="2" name="sex">
+                                    女
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputNation" class="col-sm-4 control-label">民族</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputNation" name="nation" placeholder="">
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="col-sm-12">
+
+                    <div class="form-group col-sm-6">
+
+                        <label for="inputPhone" class="col-sm-4 control-label">电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail" class="col-sm-4 control-label">邮箱</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail" name="email" placeholder="">
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="col-sm-12">
+                    <div class="form-group col-sm-6">
+                        <label for="inputIdNum" class="col-sm-4 control-label">证件号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputIdNum" name="idNum" placeholder="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-sm-6">
+                        <label for="inputAddr" class="col-sm-4 control-label">现居住地</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputAddr" name="addr" placeholder="">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12">    
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputHealth" class="col-sm-4 control-label">健康状况</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputHealth" name="health" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-4 control-label">重大病史</label>
+                        <div class="controls col-sm-8">
+
+                            <!-- Inline Radios -->
+                            <label class="radio-inline">
+                                <input type="radio" value="1" name="medicalHistory">
+                                    有
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="2" name="medicalHistory">
+                                    无
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="emergencyContact">
+                <div class="wrap">
+
+                    <div class="sub-title">
+                        紧急联系人
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label class="col-sm-4 control-label">联系人1</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputEmergencyContact1" name="emergencyContact1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-sm-4 control-label">联系电话</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputEmergencyContactPhone1" name="emergencyContactPhone1" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label class="col-sm-4 control-label">联系人2</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputEmergencyContact2" name="emergencyContact2" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-sm-4 control-label">联系电话</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputEmergencyContactPhone2" name="emergencyContactPhone2" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="userbrief wrap">
+
+                <div class="sub-title">
+                    个人秀
+                    <!--<span class="sub-title-explain">(* 请准确填写报名信息，以免在参赛时出现问题)</span>-->
+                </div>
+                <div class="form-group col-sm-12">
+                    <label class="col-sm-2 control-label">个人简介</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="inputBrief" name="brief" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <label class="col-sm-2 control-label">骑行中的公益理念</label>
+                    <div class="col-sm-10">
+                        <!--<input type="text" class="form-control" id="inputCommonweal" name="commonweal" placeholder="">-->
+
+                        <textarea class="form-control" id="inputCommonweal" name="commonweal" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <label class="col-sm-2 control-label">视频链接</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputVideoUrl" name="videoUrl" placeholder="请输入第三方视频网站的视频flash地址">
+                    </div>
+                    <!--                    <div class="col-sm-1">
+                                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                            </button>
+                                        </div>-->
+                </div>
+                <div class="form-group col-sm-12">
+                    <label class="col-sm-2 control-label">上传图片</label>
+                    <div class="col-sm-offset-2 popup-content popup-upload" id="uploadTpt">
+                        <div class="popup-upload-l">
+                            <div class="box upload-list" id="upload-container">
+                                <ul id="upload-images">
+                                </ul>
+                                <ul>
+                                    <li class="mutiple-upload" id="pickfilesDiv">
+                                        <button class="input-upload" id="pickfiles">选择图片</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <input type="text" hidden="1" readonly="true" value="" id="pickeys" name="pickeys" />
+                    </div> 
+                </div>
+
+
+                <div class="form-group col-sm-12 tc">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name='isread'> 我已阅读<a target="_blank" href="http://www.wanliqixing.com/index.php?g=portal&m=page&a=index&id=38">活动说明和特别声明</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="tc">
+                    <button type="submit" class="btn btn-primary">提交报名</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="h50">
+
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#signupForm").submit(function () {
+                    var ajax_option = {
+                        url: "/mazu/save", //默认是form action
+                        type: "post",
+                        dataType: "json",
+                        beforeSerialize: function () {
+                            var picKeyArr = [];
+                            $("#upload-images").children("li").each(function () {
+                                var key = $(this).find("span.pickey").text();
+                                if (key !== "") {
+                                    picKeyArr.push(key);
+                                }
+                            });
+                            var pickeys = picKeyArr.join(",");
+                            $("#pickeys").val(pickeys);
+                        },
+                        beforeSubmit: function () {
+                            if ($("#signupForm").valid()) {
+                                if ($("#pickeys").val() === "") {
+                                    alert("请上传照片！");
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        },
+                        success: function (resp) {//表单提交成功回调函数
+                            if (resp.state === 0) {
+                                var href = "/mazu/user";
+                                location.href = href;//location.href实现客户端页面的跳转
+                            } else if (resp.state === 101) {
+
+                            } else {
+                                alert("服务异常，请稍后再试！");
+                            }
+                        },
+                        error: function (err) {
+                            //                        alert("表单提交异常！" + err.msg);
+                        }
+                    };
+                    $('#signupForm').ajaxSubmit(ajax_option);
+                    return false;
+                });
+
+
+                $('#signupForm').validate({
+                    errorElement: 'span',
+                    errorClass: 'help-block',
+                    focusInvalid: false,
+                    rules: {
+                        name: {
+                            required: true
+                        },
+                        phone: {
+                            required: true,
+                            number: true
+                        },
+                        idNum: {
+                            required: true
+                        },
+                        isread: {
+                            required: true
+                        },
+                        age: {
+                            required: true,
+                            number: true
+                        },
+                        email: {
+                            email: true
+                        },
+                        sex: {
+                            required: true
+                        },
+                        emergencyContact1: {
+                            required: true
+                        },
+                        emergencyContactPhone1: {
+                            required: true,
+                            number: true
+                        },
+                        brief: {
+                            required: true
+                        },
+                        commonweal: {
+                            required: true
+                        },
+                        videoUrl: {
+                            required: true
+                        },
+                        addr: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "请输入姓名"
+                        },
+                        phone: {
+                            required: "请输入电话号码",
+                            number: "格式错误, 电话号码只能输入数字"
+                        },
+                        idNum: {
+                            required: "请输入身份证号"
+                        },
+                        isread: {
+                            required: "请先阅读"
+                        },
+                        age: {
+                            required: "请输入年龄",
+                            number: "格式错误"
+                        },
+                        email: {
+                            email: "邮箱格式错误"
+                        },
+                        sex: {
+                            required: "请选择性别"
+                        },
+                        emergencyContact1: {
+                            required: "至少填写一个紧急联系人"
+                        },
+                        emergencyContactPhone1: {
+                            required: "请输入联系电话",
+                            number: "格式错误, 电话号码只能输入数字"
+                        },
+                        brief: {
+                            required: "请输入个人简介"
+                        },
+                        commonweal: {
+                            required: "请输入公益理念"
+                        },
+                        videoUrl: {
+                            required: "请输入视频地址"
+                        },
+                        addr: {
+                            required: "请输入现居住地"
+                        }
+                    },
+                    highlight: function (element) {
+                        $(element).closest('.form-group').addClass('has-error');
+                    },
+                    success: function (label) {
+                        label.closest('.form-group').removeClass('has-error');
+                        label.remove();
+                    },
+                    errorPlacement: function (error, element) {
+                        element.parent('div').append(error);
+                    },
+                    submitHandler: function (form) {
+                        //            form.submit();
+                    }
+                });
+
+                //    $('.form-horizontal input').keypress(function (e) {
+                //        if (e.which == 13) {
+                //            if ($('.form-horizontal').validate().form()) {
+                //                $('.form-horizontal').submit();
+                //            }
+                //            return false;
+                //        }
+                //    });
+
+
+
+
+            });
+
+        </script>
+    </body>
+</html>

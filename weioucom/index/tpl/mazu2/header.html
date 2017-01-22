@@ -1,0 +1,38 @@
+
+<div class="header header-dark">
+    <div class="wrap header-main">
+        <a href="/" class="logo"><img height="50" src="/images/logo.png" alt=""/></a>
+        
+        <div class="header-r">
+            <div class="menu">
+                <div class="sub">
+                    <ul>
+                        <li><a href="/about/about_us">关于为偶</a></li>
+                        <li><a href="/about/join_us">加入我们</a></li>
+                        <li class="lr"><a href="/about/contacts">联系我们</a></li>
+                        <li><a href="/about/terms">用户协议</a></li>
+                        <li><a href="/about/privacy">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--<a href="">EN</a>-->
+            <{if $isLogin == 1}>
+            <div class="user">
+
+                <span class="avatar"><img src="<{$myUserLogo}>" alt=""/><{$myUserName}></span>
+
+                <div class="sub">
+                    <ul>
+                        <li class="lr"><a href="/user">我的主页</a></li>
+                        <li><a href="/login/logout">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+            <{else}>
+            <a href="/signup">注册</a>
+            <a href="/login">登录</a>
+            <{/if}>
+        </div>
+    </div>
+</div>
+

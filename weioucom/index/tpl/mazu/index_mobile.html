@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <{include file = 'headMeta.html'}>
+
+        <title>骑行报名</title>
+
+        <!--新 Bootstrap 核心 CSS 文件--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <!--可选的Bootstrap主题文件（一般不用引入）--> 
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+
+        <!--jQuery文件。务必在bootstrap.min.js 之前引入--> 
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <!--最新的 Bootstrap 核心 JavaScript 文件--> 
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+        <link rel="stylesheet" type="text/css" href="/mazu/m/global.css" />
+        <link rel="stylesheet" type="text/css" href="/mazu/m/style.css" />
+
+        <script type="text/javascript" src="/mazu/like.js"></script>
+
+        <style>
+            body {
+                background-color: #FFF;
+            }
+            .banner{ 
+                width: 100%;
+                height: 20rem; margin: 0 auto; background-color: #ffe84f;
+                background: url("/mazu/img/CyclingBannerPhoneBG.png") no-repeat;
+                background-size: 100% 100%;
+            }
+
+            .banner-content {
+                margin: 0 auto;
+                width: 100%;
+                height: 20rem;
+                position: relative;
+            }
+
+            .banner-logo-1 {
+                position: absolute;
+                top: 1.5rem;
+                left: 2.5rem;
+
+                width: 9.3rem;
+                height: 3rem;
+                background: url("/mazu/img/BannerLogo.png") no-repeat left center; background-size: 9.3rem 3rem;
+            }
+
+            .banner-logo-2 {
+                position: absolute;
+                top: 1.5rem;
+                left: 13rem;
+
+                width: 4.14rem;
+                height: 3rem;
+                background: url("/mazu/img/BannerLogo-2.png") no-repeat left center; background-size: 4.14rem 3rem;
+            }
+
+            .rules {
+                position: absolute;
+                bottom: 1.5rem;
+                left: 2.5rem;
+                /*background-color: #000;*/
+                color: #fff;
+                width: 10rem;
+                height: 3rem;
+                text-align: left;
+                font-size: 1.2rem;
+                line-height: 3rem;
+                background: url("/mazu/img/activityRulePhoneBG.png") no-repeat left center; background-size: 10rem 3rem;
+            }
+
+            .title {
+                height: 2rem;
+                line-height: 2rem;
+                /*                color: #F38E37; */
+                font-size: 2rem;
+                padding-left: 0.5rem;
+                padding: 2rem 0 2rem 2rem;
+            }
+
+            .footer-signup {
+                height: 6rem;
+                width: 100%;
+                position:fixed;
+                bottom:0; 
+                text-align: center;
+                background-color: #FFF;
+                overflow: hidden;
+                z-index:99;
+            }
+            .footer-signup .signup-text {
+                margin-top: 2.2rem;
+                height: 1.5rem;
+                line-height: 1.5rem;
+                color: #F38E37; 
+                font-size: 1.5rem;
+            }
+            .footer-blank {
+                height:10rem;
+            }
+
+            .userlist {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                /*                position: relative;*/
+            }
+
+            .useritem {
+                float:left;
+                width: 33.33%;
+                padding-left: 2px;
+                padding-right: 2px;
+                height: 20rem;
+                text-align: center;
+                margin-top: 1.5rem;
+            }
+
+            .useritem .userimg {
+                width: 100%;
+                height: 16rem;
+                /*height: 100%;*/
+                margin: 0 auto;
+                position: relative;
+            }
+
+            .useritem .userimg img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .useritem .userimg .name{
+                width: 100%;
+                height: 2rem;
+                color: #fff;
+                /*background-color: #202020;*/
+                background: url("/mazu/img/nameBG.png") repeat;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                line-height: 2rem;
+                font-size: 1rem;
+            }
+
+            .useritem .user-like-btn{
+                margin: 0 auto;
+                height: 2rem;
+                width: 85%;
+                border: 1px solid #F8A29B;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+                border-radius:5px;
+
+                font-size: 1rem;
+                line-height: 1rem;
+
+                margin: 0 auto;
+                color: #757575;
+                padding: 0px 1rem 0px 1rem;
+                margin-top: 1rem;
+            }
+
+            .notliked {
+                background: url("/mazu/img/RankingLikeNormal.png") no-repeat 25% center; background-size: 12px 10px;
+            }
+
+            .liked {
+                background: url("/mazu/img/RankingLikeSelected.png") no-repeat 25% center; background-size: 12px 10px;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+
+            <div class='banner'>
+                <div class="banner-content">
+                    <div class="banner-logo-1">
+                    </div>
+                    <div class="banner-logo-2">
+                    </div>
+                    <a target="_blank" href="http://www.wanliqixing.com/index.php?g=portal&m=page&a=index&id=38">
+                        <div class="rules">
+                            点击查看活动规则
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class='tc title'>
+                点赞票数排名
+            </div>
+
+            <div class="row userlist">
+                <{section name=i loop=$bikers}>
+                <div class="useritem">
+                    <a href="/mazu/user?uid=<{$bikers[i].userId}>">
+                        <div class="userimg">
+                            <img src="<{$bikers[i].picUrl}>"></img>
+                            <div class="name">
+                                <{$bikers[i].name}>
+                            </div>
+                        </div>
+                    </a>
+
+                    <input type="button" class="user-like-btn <{if $bikers[i].liked == 1}>liked <{else}>notliked<{/if}>" value="<{$bikers[i].likeCount}>" data-id="<{$bikers[i].id}>"/>
+                </div>
+                <{/section}>
+            </div>
+
+            <div class="footer-blank">
+
+            </div>
+
+            <div class="footer-signup">
+                <a href="/mazu/signup">
+                    <div class="signup-text tc">
+                        我要参加
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+           
+        </script>
+    </body>
+</html>

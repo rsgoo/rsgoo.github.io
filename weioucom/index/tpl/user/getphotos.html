@@ -1,0 +1,26 @@
+
+<{section name=i loop=$photos}>
+
+<li>
+    <a class="postDetail" href="/post/detail?postID=<{$photos[i].id}>" onclick="openColorBox(this)">
+        <img class="lazy" data-original="<{$photos[i].thumbnail}>">
+        
+        <div class="postId" style="display: none"> <{$photos[i].id}></div>
+        <div class="img-count">
+            <div class="bot">
+                <span class="count-bot count-fav"> <{$photos[i].postLikes}> </span>
+                <span class="count-bot count-comment"><{$photos[i].comments}></span>
+            </div>
+
+            <div class="right">
+                <{if $photos[i].type == 2 }>
+                <span class="count-sum count-sum-1"><{$photos[i].picCount}></span>
+                <!--<span class="count-sum count-sum-2">232</span>-->
+                <{/if}>
+            </div>
+
+        </div>
+    </a>
+</li>
+
+<{/section}>

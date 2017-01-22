@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <{include file = 'headMeta.html'}>
+        <title>pic list</title>
+        <{include file = 'css.html'}>
+
+    </head>
+    <body>
+
+        <div class="following-list">
+            <div class="following-list-top">
+                <h3><{$title}><span></span></h3>
+            </div>
+            <div class="following-list-main">
+                <ul id="user-list">
+
+                    <{include file = 'user/getusers.html'}>
+
+                </ul>
+            </div>
+            <div id="user-list-loading" class="none loading">
+                <img src="/images/loading.gif" />
+            </div>
+        </div>
+
+        <{include file = 'js.html'}>
+
+
+        <script type="text/javascript">
+
+            var userIsLoad = 0;
+            var userNoMoreData = 0;
+
+            $(".following-list-main").scroll(function () {
+//                var scrollTop = $(this).scrollTop();
+                //滚动条距离顶部的距离 >= 内部div高度-父div高度
+                if ($(this).scrollTop() >= $("#user-list").height() - $(".following-list-main").height() - 400) {
+                    if (userIsLoad === 0 && userNoMoreData < 2) {
+                        userIsLoad = 1;
+                        $("#user-list-loading").removeClass("none");
+//                        $(this).scrollTop(scrollTop + $("#user-list-loading").height());
+                        setTimeout("getUserList(\"more\")", 1000);
+                    }
+                }
+            });
+
+
+            function getUserList(pageType) {
+                userIsLoad = 1;
+
+                var url = "<{$dataUrl}>";
+                var params = {"pageType": pageType, "pageSize": 20, 'uid': "<{$userId}>"};
+
+                if (pageType === "more") {
+                    var sec = $("#user-list").children("li").last().find('.user-sec').text();
+                    var inc = $("#user-list").children("li").last().find('.user-inc').text();
+                    params["sec"] = sec;
+                    params["inc"] = inc;
+                }
+
+                ajaxLoadData(url, params, function (response) {
+                    renderUserList(response, pageType);
+                    userIsLoad = 0;
+                    $("#user-list-loading").addClass("none");
+                }, function () {
+                    userIsLoad = 0;
+                    $("#user-list-loading").addClass("none");
+                }, "html");
+            }
+
+            function renderUserList(html, pageType) {
+                if (html === "") {
+                    userNoMoreData += 1;
+                }
+                if (pageType === "more") {
+                    $("#user-list").append(html);
+                }
+            }
+        </script>
+
+    </body>
+</html>

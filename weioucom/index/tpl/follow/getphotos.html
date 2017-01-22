@@ -1,0 +1,90 @@
+
+<{section name=i loop=$photos}>
+
+<div class="item clearfix">
+    <div class="postId" style="display: none"> <{$photos[i].id}></div>
+    <div class="item-top">
+        <a href="/user?uid=<{$photos[i].userId}>" class="user">
+            <div class="avatar"><img src="<{if $photos[i].userLogo == ""}>/images/user-avatar.png<{else}><{$photos[i].userLogo}><{/if}>" alt=""/></div>
+            <div class="user-info">
+                <span class="name"><{$photos[i].userName}></span>
+                <span class="time"><{$photos[i].publishTime}></span>
+            </div>
+        </a>
+<!--        <div class="item-top-r">
+            <a href="" class="btn-focus">+ 关注</a>
+            <a href="" class="btn-focused">已关注</a>
+        </div>-->
+    </div>
+    <div class="item-main">
+        <!--<a href="#pic-detail" class="color-box">-->
+            <img class="lazy" height="<{$photos[i].imageHeight}>" data-original="<{$photos[i].thumbnail}>" alt=""/>
+        <!--</a>-->
+        <div class="item-info">
+            <{if $photos[i].address != ""}>
+            <p class="location"><{$photos[i].address}></p>
+            <{/if}>
+            <div class="item-share">
+                <a href="javascript:;" class="btn like <{if $photos[i].isLiked == 1}>on<{/if}>" onclick=""></a>
+                <a href="javascript:;" class="btn reply"></a>
+                <a href="javascript:;" class="btn collect <{if $photos[i].isFavorited == 1}>on<{/if}>"></a>
+<!--                <div class="share-box">
+                    <div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                </div>-->
+                <div class="more">
+                    <div class="sub">
+                        <ul>
+                            <{if $photos[i].userId != $myUserId }>
+                            <li><a href="javascript:;">举报</a></li>
+                            <{else}>
+                            <li><a href="javascript:;">删除</a></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="item-count">
+                <span class="post-likes"><{$photos[i].postLikes}></span>
+                <span class="post-views"><{$photos[i].viewCount}></span>
+            </div>
+        </div>
+    </div>
+    <div class="comment-list">
+        <ul>
+            <{if $photos[i].content != ""}>
+            <li>
+                <div class="date"><{$photos[i].publishTime}></div>
+                <a href="/user?uid=<{$photos[i].userId}>" class="user"><{$photos[i].userName}></a> : 
+                <{$photos[i].content}>
+            </li>
+            <{/if}>
+            
+            <{if count($photos[i].commentList) > $photos[i].comments}>
+            <li>
+                <a href="" class="more">查看全部评论</a>
+            </li>
+            <{/if}>
+            
+            <{section name=j loop=$photos[i].commentList}>
+            <li>
+                <div class="date"><{$photos[i].commentList[j].commentTime}> </div>
+                <a href="/user?uid=<{$photos[i].commentList[j].fromUserId}>" class="user"><{$photos[i].commentList[j].fromUserName}></a>
+                <{if $photos[i].commentList[j].toUserId != ""}>
+                回复 <a href="/user?uid=<{$photos[i].commentList[j].toUserId}>" class="user"><{$photos[i].commentList[j].toUserName}></a>
+                <{/if}>
+                : 
+                <{$photos[i].commentList[j].commentContent}>
+                <a href="" class="btn reply">回复</a>
+                <{if $photos[i].commentList[j].fromUserId == $myUserId }>
+                <a href="" class="btn delete">删除</a>
+                <{/if}>
+            </li>
+            <{/section}>
+        </ul>
+        <div class="comment-box">
+            <textarea name="bb" id="t" placeholder="添加评论..."></textarea>
+        </div>
+    </div>
+</div>
+
+<{/section}>

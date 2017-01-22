@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><{$title}></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <{include file = 'headMeta.html'}>
+        <link href="/css/share_1.css" type="text/css" rel="stylesheet" media="all">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <script src = "/js/libs/jquery-2.1.1.min.js"></script>
+    </head>
+    <body>
+        <input id = "post_id" type = "hidden" value = "<{$post_id}>" />
+        <div id = "pc-header" class="pc-header"></div>
+        <div class="container-share">
+            <div class="item clearfix">
+                <div class="item-top">
+                    <a class="user weiou_click_user" data-userId="<{$post.userId}>">
+                        <div class="avatar"><img src="<{if $post.userLogo == ""}>/images/user-avatar.png<{else}><{$post.userLogo}><{/if}>" alt=""/></div>
+                        <div class="user-info">
+                            <span class="name"><{$post.userName}></span>
+                            <span class="time"><{$post.publishTime}></span>
+                        </div>
+                    </a>
+                    <div class="item-top-r">
+                        <a href="javascript:;" class="btn-focus weiou_click_user" data-userId="<{$post.userId}>">+ 关注</a>
+                        <!--                        <a href="" class="btn-focused">已关注</a>-->
+                    </div>
+                </div>
+                <div class="item-main">
+                    <img class="im" src="<{$post.thumbnail.0}>" alt=""/>
+                    <img class="im" src="<{$post.thumbnail.1}>" alt=""/>
+                    <img class="im" src="<{$post.thumbnail.2}>" alt=""/>
+                    <img class="im" src="<{$post.thumbnail.3}>" alt=""/>
+                    <img class="im" src="<{$post.thumbnail.4}>" alt=""/>
+
+                    <!--</a>-->
+                    <div class="item-info">
+                        <{if $post.address != ""}>
+                        <p class="location weiou_click_post"><{$post.address}></p>
+                        <{/if}>
+                        <div class="item-share">
+                            <a class="btn like weiou_click_post <{if $post.isLiked == 1}>on<{/if}>" onclick=""></a>
+                            <a class="btn reply weiou_click_post"></a>
+                            <a href="javascript:;" class="btn collect weiou_click_post <{if $post.isFavorited == 1}>on<{/if}>"></a>
+                            <a href="javascript:;" class="btn share weiou_click_post"></a>
+                        </div>
+                        <div class="item-count">
+                            <span class="post-likes weiou_click_post"><{$post.postLikes}></span>
+                            <span class="post-views weiou_click_post"><{$post.viewCount}></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-list">
+                    <ul>
+                        <{if $post.content != ""}>
+                        <li>
+                            <!--<div class="date"><{$post.publishTime}></div>-->
+                            <a class="user weiou_click_user" data-userId="<{$post.userId}>"><{$post.userName}></a> : 
+                            <{$post.content}>
+                        </li>
+                        <{/if}>
+
+                        <{if count($post.commentList) > $post.comments}>
+                        <li>
+                            <a class="more weiou_click_post">查看全部评论</a>
+                        </li>
+                        <{/if}>
+
+                        <{section name=j loop=$post.commentList}>
+                        <li>
+                            <!--<div class="date"><{$post.commentList[j].commentTime}> </div>-->
+                            <a class="user weiou_click_user" data-userId="<{$post.commentList[j].fromUserId}>"><{$post.commentList[j].fromUserName}></a>
+                            <{if $post.commentList[j].toUserId != ""}>
+                            回复
+                            <a class="user weiou_click_user" data-userId="<{$post.commentList[j].toUserId}>"><{$post.commentList[j].toUserName}></a>
+                            <{/if}>
+                            : 
+                            <{$post.commentList[j].commentContent}>
+                            <!--                            <a href="" class="btn reply">回复</a>
+                                                        <{if $post.commentList[j].fromUserId == $myUserId }>
+                                                        <a href="" class="btn delete">删除</a>
+                                                        <{/if}>-->
+                        </li>
+                        <{/section}>
+                    </ul>
+                    <div class="comment-box weiou_click_post">
+                        添加评论...
+                    </div>
+                </div>
+                <div class="item-footer">
+                    <div class="userinfo">
+                        来自 <a class="user weiou_click_user" data-userId="<{$post.userId}>"><{$post.userName}></a> 的更多照片
+                    </div>
+                    <div class="more-pic">
+                        <table>
+                            <{section name=i loop=$morePic}>
+                            <tr>
+                                <{section name=j loop=$morePic[i]}>
+                                <td>
+                                    <!--<img class="weiou_click_post" data-postId="<{$morePic[i][j].id}>" width="100%" src="<{$morePic[i][j].thumbnail}>" />-->
+                                    <a href="/post?id=<{$morePic[i][j].id}>">
+                                        <img width="100%" src="<{$morePic[i][j].thumbnail}>" />
+                                    </a>
+                                </td>
+                                <{/section}>
+
+                            </tr>
+                            <{/section}>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="download_qr" align="center">
+                <br />
+                <img src="/images/ewm-img.png" width="150px"/>
+                <br /><br />
+                扫描二维码下载APP
+            </div>
+
+            <div class="clearfix" style="height: 30px"></div>
+
+        </div>
+        
+        <div id="xuanfu_pc">
+            <center>
+                <div id="xuanfu_in">
+                    <table width=100% style="margin-top: 5px;">
+                        <tr>
+                            <td width=58%>
+                                <a href="http://www.weiou.com/">
+                                    <img alt="" src="/images/share/weiou_logo_gold.png" height="40px" >
+                                </a>
+                            </td>
+                            <td width=20% style="text_align:center;vertical-align: central;">
+                                <a class="down_android" target="_blank" href="<{$androidDownloadUrl}>">
+                                    <img  height=40px alt="" src="/images/share/Android.png" > 
+                                </a>
+                            </td>
+                            <td width="2%">
+                                &nbsp;
+                            </td>
+                            <td width=20% style="text_align:center;vertical-align: central;">
+                                <a class="down_ios" target="_blank" href="<{$iosDownloadUrl}>">
+                                    <img height=40px alt="" src="/images/share/IOS.png" >
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+        </div>
+
+        <div id="prompt">
+            <div id="browser_open" style="display: none">
+                <img height=60px alt="" src="/images/share/browser_open.png" style="text-align: right; margin-right: 5px;">
+            </div>
+            <div id="safari_open" style="display: none">
+                <img height=60px alt="" src="/images/share/safari_open.png" style="text-align: right; margin-right: 5px;">
+            </div>
+        </div>
+
+
+        <script type="text/javascript" >
+            $(document).ready(function () {
+
+                $(".weiou_click_post").click(function () {
+                    var postId = $(this).attr("data-postId");
+                    if (postId) {
+
+                    } else {
+                        postId = $("#post_id").val();
+                    }
+                    window.location = "http://www.weiou.com/post?id=" + postId;
+                    
+                });
+
+                $(".weiou_click_user").click(function () {
+                    var userId = $(this).attr("data-userId");
+                    if (userId) {
+                        window.location = "http://www.weiou.com/user?id=" + userId;
+                    }
+                });
+
+                /*记录点击次数AJAX*/
+                $(".down_android").click(function () {
+                    downloadCount("Android", "web");
+                });
+                $(".down_ios").click(function () {
+                    downloadCount("iOS", "web");
+                });
+            });
+
+            function downloadCount(platform, type) {
+                $.ajax({
+                    url: "/system/statDownload?platform=" + platform + "&type=" + type,
+                    type: "POST",
+                    dataType: "json",
+                    success: function () {
+
+                    },
+                    error: function (e) {
+                        //alert("网络问题，请点击重新发送");
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

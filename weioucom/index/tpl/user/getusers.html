@@ -1,0 +1,24 @@
+
+<{section name=i loop=$users}>
+<li>
+    <a href="/user?uid=<{$users[i].userId}>" >
+        <div class="user">
+            <img class="user-avatar" src="<{if $users[i].userLogo == ""}>/images/user-avatar.png<{else}><{$users[i].userLogo}><{/if}>" alt=""/>
+            <div class="user-info">
+                <p class="name"><{$users[i].userName}></p>
+                <p class="sign"><{$users[i].userSign}></p>
+            </div>
+        </div>
+    </a>
+    <{if $users[i].isFollowed == 0 || $users[i].isFollowed == 3}>
+    <a class="btn btn-3"></a>
+    <{else if $users[i].isFollowed == 1}>
+    <a class="btn btn-1"></a>
+    <{else}>
+    <a class="btn btn-2"></a>
+    <{/if}>
+
+    <div class="user-sec" style="display: none"><{$users[i].sec}></div>
+    <div class="user-inc" style="display: none"><{$users[i].inc}></div>
+</li>
+<{/section}>
