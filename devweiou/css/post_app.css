@@ -66,6 +66,10 @@
     text-align:left;
     display: inline-block;
     margin-top: 45px;
+    font-family:PingFangSC-Regular;
+    font-size:24px;
+    color:#000000;
+    text-align:left;
 }
 .article_date
 {
