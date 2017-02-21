@@ -29,4 +29,28 @@ function encrypt($str, $operation, $key) {
     echo "加密---".$encode."<br/>";
     echo "解密---".$decode;
 
+function StrCode($string, $action = 'ENCODE') {
+
+	$action != 'ENCODE' && $string = base64_decode($string);
+
+	$code = '';
+
+	$key = 'weiou2017$#!'
+
+	$keyLen = strlen($key);
+
+	$strLen = strlen($string);
+
+	for ($i = 0; $i < $strLen; $i++) {
+
+		$k = $i % $keyLen;
+
+		$code .= $string[$i] ^ $key[$k];
+
+	}
+
+	return ($action != 'DECODE' ? base64_encode($code) : $code);
+
+}
+
  ?>
