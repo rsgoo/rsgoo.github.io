@@ -53,4 +53,24 @@ function StrCode($string, $action = 'ENCODE') {
 
 }
 
+<?php
+error_reporting(-1);
+function StrCode($string, $action = 'ENCODE') {
+	$action != 'ENCODE' && $string = base64_decode($string);
+	$code = '';
+	$key  = 'test#ds!';
+	$keyLen = strlen($key);
+	$strLen = strlen($string);
+	for ($i = 0; $i < $strLen; $i++) {
+		$k = $i % $keyLen;
+		$code .= $string[$i] ^ $key[$k];
+	}
+	return ($action != 'DECODE' ? base64_encode($code) : $code);
+}
+
+$en = StrCode("linux","ENCODE");
+$de = StrCode($en,"DECODE");
+echo "加密：".$en."<br/>";
+echo "解密：".$de;
+
  ?>
