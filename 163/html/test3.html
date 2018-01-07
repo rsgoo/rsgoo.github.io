@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单文件</title>
+    <style>
+        .label{
+            margin-right: 30px;
+        }
+        div{
+            margin-bottom: 15px;
+        }
+        #nickname{
+            height: 25px;
+            line-height: 25px;
+        }
+        #education{
+            height: 25px;
+            line-height: 25px;
+            width: 60px;
+        }
+        #female{
+            margin-left: 20px;
+        }
+        .hobby{
+            margin-left: 20px;
+        }
+        input[type="radio" i] {
+            margin: 0 5px 0 0;
+        }
+        input[type="checkbox" i] {
+            margin: 0 5px 0 0;
+            font-size: 20px;
+        }
+        .sign{
+            margin-right: 30px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<form action="post.php" method="post">
+    <div>
+        <label for="avatar" class="label">头像</label>
+        <input id="avatar" type="file">
+    </div>
+
+    <div>
+        <label for="nickname" class="label">昵称</label>
+        <input id="nickname" type="text">
+    </div>
+
+    <div>
+        <label for="education" class="label">学历</label>
+        <select id="education" name="education">
+            <option value="Junior">大专</option>
+            <option value="Bachelor">本科</option>
+        </select>
+    </div>
+
+    <div>
+        <span class="label">性别</span>
+        <input type="radio" name="sex" value="male">男
+        <input type="radio" name="sex" value="female" id="female">女
+    </div>
+
+    <div>
+        <span class="label">爱好</span>
+        <input type="checkbox" name="vehicle" value="Bike">电影
+        <input type="checkbox" name="vehicle" value="Car" class="hobby">摄影
+        <input type="checkbox" name="vehicle" value="Car" class="hobby">音乐
+        <input type="checkbox" name="vehicle" value="Car" class="hobby">阅读
+    </div>
+
+    <div>
+        <span class="sign">签名</span>
+        <textarea rows="4" cols="50" name="comment" required></textarea>
+    </div>
+
+</form>
+</body>
+</html>
