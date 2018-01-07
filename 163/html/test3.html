@@ -33,8 +33,21 @@
             font-size: 20px;
         }
         .sign{
-            margin-right: 30px;
+            margin-right: 35px;
             float: left;
+        }
+        div>textarea{margin: 0px;
+            padding: 0px;}
+        #submit{
+            border: 0px;
+            padding: 0px;
+            width: 125px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+            background-color: #f92671;
         }
     </style>
 </head>
@@ -75,6 +88,11 @@
     <div>
         <span class="sign">签名</span>
         <textarea rows="4" cols="50" name="comment" required></textarea>
+    </div>
+
+    <div>
+        <label class="label" style="visibility: hidden;">签名</label>
+        <input type="submit" id="submit">
     </div>
 
 </form>
