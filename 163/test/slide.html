@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>幻灯片效果@雨醉风尘</title>
+    <style>
+        .container {
+            position: relative;
+            width: 200px;
+        }
+        img {
+            display: block;
+            width: 200px;
+            height: auto;
+        }
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            line-height: 10px;
+        }
+       span {
+            display: inline-block;
+            width: 10px;
+            margin: auto 1px;
+            height: 10px;
+            border-radius: 10px;
+            background-color: #000;
+        }
+       .current {
+            background-color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="./docker-644x300.jpg">
+    <div class="controls">
+        <span class="current"></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+</body>
+</html>
