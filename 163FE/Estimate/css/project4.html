@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>下拉菜单</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: content-box;
+
+        }
+
+        body {
+
+            font: normal 12px "宋体";
+
+        }
+
+        li,
+
+        button {
+
+            border: 1px solid #ddd;
+
+            cursor: pointer;
+
+        }
+
+        .dropdown{
+
+            position: relative;
+
+            margin: 20px 30px;
+
+        }
+
+        button {
+
+            width: 50px;
+
+            height: 28px;
+
+            display: inline-block;
+
+            background: #eee;
+
+            border-radius: 0;
+
+        }
+
+        ul {
+
+            position: absolute;
+
+            margin-top: 1px;
+
+        }
+
+        ul li {
+
+            height: 30px;
+
+            background: #fff;
+
+            padding-left: 10px;
+
+            padding-right: 10px;
+
+            list-style: none;
+
+            line-height: 30px;
+
+        }
+
+        ul li:hover{
+
+            background: #ddd;
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+<div class="dropdown">
+
+    <button type="button">按钮</button>
+
+    <ul class="dropdown-menu">
+
+        <li>下拉菜单项</li>
+
+        <li>下拉菜单项</li>
+
+        <li>下拉菜单项</li>
+
+        <li>下拉菜单项</li>
+
+    </ul>
+
+</div>
+
+
+
+</body>
+
+
+
+</html>
