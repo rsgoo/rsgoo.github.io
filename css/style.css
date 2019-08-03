@@ -600,7 +600,7 @@ a.article-title:hover {
 }
 .article-entry img,
 .article-entry video {
-  max-width: 100%;
+  max-width: 80%;
   height: auto;
   display: block;
   margin: auto;
@@ -937,7 +937,7 @@ a.article-title:hover {
 }
 .article-gallery-img {
   display: none;
-  max-width: 100%;
+  max-width: 80%;
 }
 .article-gallery-img:first-child {
   display: block;
@@ -948,7 +948,7 @@ a.article-title:hover {
 }
 .article-gallery-img img {
   display: block;
-  max-width: 100%;
+  max-width: 80%;
   margin: 0 auto;
 }
 #comments {
@@ -1104,7 +1104,7 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry .highlight {
   background: #2d2d2d;
-  margin: auto;
+  margin-top: 5px, auto;
   padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
