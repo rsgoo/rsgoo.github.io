@@ -1,27 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[程序员数学基础 之 矩阵]]></title>
-    <url>%2F2019%2F08%2F03%2F%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5%2F</url>
-    <content type="text"></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>程序员数学基础 之 矩阵</title>
+      <link href="/2019/08/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/"/>
+      <url>/2019/08/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><h6 id="1：矩阵相加"><a href="#1：矩阵相加" class="headerlink" title="1：矩阵相加"></a>1：矩阵相加</h6><!--![](./程序员数学之矩阵/矩阵相加.jpg)--><img src="/2019/08/03/程序员数学之矩阵/矩阵相加.jpg" title="矩阵相加运算法则"><h6 id="2：矩阵相乘（不符合交换律）"><a href="#2：矩阵相乘（不符合交换律）" class="headerlink" title="2：矩阵相乘（不符合交换律）"></a>2：矩阵相乘（不符合交换律）</h6><ul><li>标量 * 矩阵</li></ul><blockquote><p>变量 * 矩阵的每一个元素，得到一个新矩阵</p></blockquote><ul><li><p>矩阵 * 矩阵</p><ul><li><p>用矩阵的 第1行 分别去 乘以 矩阵的每一列</p></li><li><p>用矩阵的 第N行 分别去 乘以 矩阵的每一列</p></li></ul></li></ul><!--![](./程序员数学之矩阵/矩阵乘上矩阵.jpg)--><img src="/2019/08/03/程序员数学之矩阵/矩阵乘上矩阵.jpg" title="矩阵乘上矩阵"><pre><code>- 矩阵A * 矩阵B != 矩阵B * 矩阵A</code></pre><ul><li>矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数</li></ul>]]></content>
+      
+      
       <categories>
-        <category>数学</category>
+          
+          <category> 数学 </category>
+          
       </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[test article]]></title>
-    <url>%2F2019%2F08%2F02%2Fpost-test-deploy-hexo%2F</url>
-    <content type="text"><![CDATA[Hexo 部署测试1：通过日志方式统计 1234567file_put_contents("loc.log", microtime(true).'_end'."-----$lat@2".PHP_EOL, FILE_APPEND);file_put_contents('exelog/'.time().'.log', var_export(Yii::$app-&gt;request-&gt;post(), true));$postdata = file_get_contents("php://input");$postdata = json_decode($postdata,true); 2：二维数组指定字段排序12345array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);array_multisort(array_column($hotelList, 'price'), SORT_ASC, $hotelList);array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));]]></content>
+      
+      
+        <tags>
+            
+            <tag> 编程 </tag>
+            
+            <tag> 数学 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test article</title>
+      <link href="/2019/08/02/post-test-deploy-hexo/"/>
+      <url>/2019/08/02/post-test-deploy-hexo/</url>
+      
+        <content type="html"><![CDATA[<h4 id="Hexo-部署测试"><a href="#Hexo-部署测试" class="headerlink" title="Hexo 部署测试"></a>Hexo 部署测试</h4><h5 id="1：通过日志方式统计"><a href="#1：通过日志方式统计" class="headerlink" title="1：通过日志方式统计"></a>1：通过日志方式统计</h5><a id="more"></a><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"loc.log"</span>, microtime(<span class="keyword">true</span>).<span class="string">'_end'</span>.<span class="string">"-----$lat@2"</span>.PHP_EOL, FILE_APPEND);</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">'exelog/'</span>.time().<span class="string">'.log'</span>, var_export(Yii::$app-&gt;request-&gt;post(), <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</span><br><span class="line">$postdata = json_decode($postdata,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure><h5 id="2：二维数组指定字段排序"><a href="#2：二维数组指定字段排序" class="headerlink" title="2：二维数组指定字段排序"></a>2：二维数组指定字段排序</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);</span><br><span class="line"></span><br><span class="line">array_multisort(array_column($hotelList, <span class="string">'price'</span>), SORT_ASC, $hotelList);</span><br><span class="line"></span><br><span class="line">array_multisort($hotelList,SORT_ASC, array_column($hotelList, <span class="string">'price'</span>));</span><br></pre></td></tr></table></figure><!--![](./post-test-deploy-hexo/smell.jpg)--><img src="/2019/08/02/post-test-deploy-hexo/smell.jpg" title="这是一张测试图片">]]></content>
+      
+      
       <categories>
-        <category>测试</category>
+          
+          <category> 测试 </category>
+          
       </categories>
-      <tags>
-        <tag>PHP</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
