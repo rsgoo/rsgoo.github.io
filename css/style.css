@@ -124,7 +124,7 @@ body,
 }
 body {
   background: #eee;
-  font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 14px Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 .outer {
@@ -348,7 +348,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("images/banner.jpg") center #000;
+  background: url("images/bing.jpeg") center #000;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -482,7 +482,7 @@ body {
   background: none;
   color: #555;
   width: 100%;
-  font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 13px Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
   outline: none;
 }
 .search-form-input::-webkit-search-results-decoration,
@@ -631,7 +631,7 @@ a.article-title:hover {
 .article-entry blockquote footer {
   font-size: 14px;
   margin: 1.6em 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
 }
 .article-entry blockquote footer cite:before {
   content: "—";
@@ -836,7 +836,7 @@ a.article-title:hover {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 14px Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
   padding: 0 15px;
   color: #555;
   outline: none;
@@ -859,7 +859,8 @@ a.article-title:hover {
 .article-share-twitter,
 .article-share-facebook,
 .article-share-pinterest,
-.article-share-google {
+.article-share-google,
+.article-share-wechat {
   width: 50px;
   height: 36px;
   display: block;
@@ -871,7 +872,8 @@ a.article-title:hover {
 .article-share-twitter:before,
 .article-share-facebook:before,
 .article-share-pinterest:before,
-.article-share-google:before {
+.article-share-google:before,
+.article-share-wechat:before {
   font-size: 20px;
   font-family: FontAwesome;
   width: 20px;
@@ -886,7 +888,8 @@ a.article-title:hover {
 .article-share-twitter:hover,
 .article-share-facebook:hover,
 .article-share-pinterest:hover,
-.article-share-google:hover {
+.article-share-google:hover,
+.article-share-wechat:hover {
   color: #fff;
 }
 .article-share-twitter:before {
@@ -916,6 +919,13 @@ a.article-title:hover {
 .article-share-google:hover {
   background: #dd4b39;
   text-shadow: 0 1px #be3221;
+}
+.article-share-wechat:before {
+  content: "\f17d";
+}
+.article-share-wechat:hover {
+  background: #54dd0e;
+  text-shadow: 0 1px #43b10b;
 }
 .article-gallery {
   background: #000;
@@ -1094,11 +1104,12 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry .highlight {
   background: #2d2d2d;
-  margin: 0 -20px;
+  margin: auto;
   padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
+  border-radius: 8px;
   overflow: auto;
   color: #ccc;
   line-height: 22.400000000000002px;
@@ -1195,7 +1206,7 @@ a.article-title:hover {
 .article-entry .gist .gist-file .gist-meta {
   background: #2d2d2d;
   color: #999;
-  font: 0.85em -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 0.85em Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
   text-shadow: 0 0;
   padding: 0;
   margin-top: 1em;

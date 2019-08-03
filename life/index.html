@@ -7,24 +7,22 @@
     
     <title>
         
-        PHP 开发中的 Ideas |
+        life |
         
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="1：通过日志方式统计">
-<meta name="keywords" content="Hexo,PHP">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PHP 开发中的 Ideas">
-<meta property="og:url" content="https://inscode.github.io/2019/08/03/post-test-deploy-hexo/index.html">
+    <meta name="description" content="雨🌧，自空，醉风，归尘。">
+<meta name="keywords" content="inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="life">
+<meta property="og:url" content="https://inscode.github.io/life/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="1：通过日志方式统计">
+<meta property="og:description" content="雨🌧，自空，醉风，归尘。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:image" content="https://inscode.github.io/2019/08/03/post-test-deploy-hexo/smell.jpg">
-<meta property="og:updated_time" content="2019-08-03T02:59:33.508Z">
+<meta property="og:updated_time" content="2019-08-03T05:04:45.827Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP 开发中的 Ideas">
-<meta name="twitter:description" content="1：通过日志方式统计">
-<meta name="twitter:image" content="https://inscode.github.io/2019/08/03/post-test-deploy-hexo/smell.jpg">
+<meta name="twitter:title" content="life">
+<meta name="twitter:description" content="雨🌧，自空，醉风，归尘。">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -81,16 +79,12 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-post-test-deploy-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/03/post-test-deploy-hexo/" class="article-date">
-  <time datetime="2019-08-03T02:12:32.000Z" itemprop="datePublished">2019-08-03</time>
+    <a href="/life/index.html" class="article-date">
+  <time datetime="2019-08-03T05:04:45.000Z" itemprop="datePublished">2019-08-03</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -99,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      PHP 开发中的 Ideas
+      life
     </h1>
   
 
@@ -107,40 +101,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="1：通过日志方式统计"><a href="#1：通过日志方式统计" class="headerlink" title="1：通过日志方式统计"></a>1：通过日志方式统计</h5><a id="more"></a>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"loc.log"</span>, microtime(<span class="keyword">true</span>).<span class="string">'_end'</span>.<span class="string">"-----$lat@2"</span>.PHP_EOL, FILE_APPEND);</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">'exelog/'</span>.time().<span class="string">'.log'</span>, var_export(Yii::$app-&gt;request-&gt;post(), <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</span><br><span class="line">$postdata = json_decode($postdata,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
-
-<h5 id="2：二维数组指定字段排序"><a href="#2：二维数组指定字段排序" class="headerlink" title="2：二维数组指定字段排序"></a>2：二维数组指定字段排序</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);</span><br><span class="line"></span><br><span class="line">array_multisort(array_column($hotelList, <span class="string">'price'</span>), SORT_ASC, $hotelList);</span><br><span class="line"></span><br><span class="line">array_multisort($hotelList,SORT_ASC, array_column($hotelList, <span class="string">'price'</span>));</span><br></pre></td></tr></table></figure>
-
-<!--![](./post-test-deploy-hexo/smell.jpg)-->
-
-<img src="/2019/08/03/post-test-deploy-hexo/smell.jpg" title="这是一张测试图片">
-
-<p><strong>日记一事，年复成书📚</strong></p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/03/post-test-deploy-hexo/" data-id="cjyv2pvwy0001v14rrz189f6a" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/life/index.html" data-id="cjyv2pvwr0000v14r4or766mp" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
-
     </footer>
   </div>
   
     
-<nav id="article-nav">
-  
-  
-    <a href="/2019/08/02/test-article/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">test article</div>
-    </a>
-  
-</nav>
-
   
 </article>
 

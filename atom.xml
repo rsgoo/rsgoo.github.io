@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>雨醉风尘</title>
+  
+  <subtitle>日记一事，年复成书。</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://inscode.github.io/"/>
+  <updated>2019-08-03T02:59:33.508Z</updated>
+  <id>https://inscode.github.io/</id>
+  
+  <author>
+    <name>雨醉风尘</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP 开发中的 Ideas</title>
+    <link href="https://inscode.github.io/2019/08/03/post-test-deploy-hexo/"/>
+    <id>https://inscode.github.io/2019/08/03/post-test-deploy-hexo/</id>
+    <published>2019-08-03T02:12:32.000Z</published>
+    <updated>2019-08-03T02:59:33.508Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="1：通过日志方式统计"><a href="#1：通过日志方式统计" class="headerlink" title="1：通过日志方式统计"></a>1：通过日志方式统计</h5><a id="more"></a><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"loc.log"</span>, microtime(<span class="keyword">true</span>).<span class="string">'_end'</span>.<span class="string">"-----$lat@2"</span>.PHP_EOL, FILE_APPEND);</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">'exelog/'</span>.time().<span class="string">'.log'</span>, var_export(Yii::$app-&gt;request-&gt;post(), <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</span><br><span class="line">$postdata = json_decode($postdata,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure><h5 id="2：二维数组指定字段排序"><a href="#2：二维数组指定字段排序" class="headerlink" title="2：二维数组指定字段排序"></a>2：二维数组指定字段排序</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);</span><br><span class="line"></span><br><span class="line">array_multisort(array_column($hotelList, <span class="string">'price'</span>), SORT_ASC, $hotelList);</span><br><span class="line"></span><br><span class="line">array_multisort($hotelList,SORT_ASC, array_column($hotelList, <span class="string">'price'</span>));</span><br></pre></td></tr></table></figure><!--![](./post-test-deploy-hexo/smell.jpg)--><img src="/2019/08/03/post-test-deploy-hexo/smell.jpg" title="这是一张测试图片"><p><strong>日记一事，年复成书📚</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h5 id=&quot;1：通过日志方式统计&quot;&gt;&lt;a href=&quot;#1：通过日志方式统计&quot; class=&quot;headerlink&quot; title=&quot;1：通过日志方式统计&quot;&gt;&lt;/a&gt;1：通过日志方式统计&lt;/h5&gt;
+    
+    </summary>
+    
+      <category term="编程语言" scheme="https://inscode.github.io/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+    
+      <category term="Hexo" scheme="https://inscode.github.io/tags/Hexo/"/>
+    
+      <category term="PHP" scheme="https://inscode.github.io/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>test article</title>
+    <link href="https://inscode.github.io/2019/08/02/test-article/"/>
+    <id>https://inscode.github.io/2019/08/02/test-article/</id>
+    <published>2019-08-02T11:10:54.000Z</published>
+    <updated>2019-08-03T02:35:24.726Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Hexo-部署测试"><a href="#Hexo-部署测试" class="headerlink" title="Hexo 部署测试"></a>Hexo 部署测试</h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;Hexo-部署测试&quot;&gt;&lt;a href=&quot;#Hexo-部署测试&quot; class=&quot;headerlink&quot; title=&quot;Hexo 部署测试&quot;&gt;&lt;/a&gt;Hexo 部署测试&lt;/h4&gt;
+      
+    
+    </summary>
+    
+      <category term="Diary" scheme="https://inscode.github.io/categories/Diary/"/>
+    
+    
+      <category term="PS3" scheme="https://inscode.github.io/tags/PS3/"/>
+    
+      <category term="Games" scheme="https://inscode.github.io/tags/Games/"/>
+    
+  </entry>
+  
+</feed>
