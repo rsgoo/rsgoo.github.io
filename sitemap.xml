@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://inscode.github.io/categories/index.html</loc>
+    
+    <lastmod>2019-08-03T14:08:46.660Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://inscode.github.io/life/node.html</loc>
+    
+    <lastmod>2019-08-03T14:04:32.026Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://inscode.github.io/life/index.html</loc>
     
-    <lastmod>2019-08-03T05:04:45.827Z</lastmod>
+    <lastmod>2019-08-03T14:03:39.805Z</lastmod>
     
   </url>
   
