@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[PHP 开发中的 Ideas]]></title>
-    <url>%2F2019%2F08%2F03%2Fpost-test-deploy-hexo%2F</url>
-    <content type="text"><![CDATA[1：通过日志方式统计 1234567file_put_contents("loc.log", microtime(true).'_end'."-----$lat@2".PHP_EOL, FILE_APPEND);file_put_contents('exelog/'.time().'.log', var_export(Yii::$app-&gt;request-&gt;post(), true));$postdata = file_get_contents("php://input");$postdata = json_decode($postdata,true); 2：二维数组指定字段排序12345array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);array_multisort(array_column($hotelList, 'price'), SORT_ASC, $hotelList);array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price')); 日记一事，年复成书📚]]></content>
+    <title><![CDATA[post 程序员数学之矩阵]]></title>
+    <url>%2F2019%2F08%2F03%2Fpost-%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5%2F</url>
+    <content type="text"></content>
       <categories>
-        <category>编程语言</category>
+        <category>数学</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>PHP</tag>
+        <tag>编程</tag>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[test article]]></title>
-    <url>%2F2019%2F08%2F02%2Ftest-article%2F</url>
-    <content type="text"><![CDATA[Hexo 部署测试]]></content>
+    <url>%2F2019%2F08%2F02%2Fpost-test-deploy-hexo%2F</url>
+    <content type="text"><![CDATA[Hexo 部署测试1：通过日志方式统计 1234567file_put_contents("loc.log", microtime(true).'_end'."-----$lat@2".PHP_EOL, FILE_APPEND);file_put_contents('exelog/'.time().'.log', var_export(Yii::$app-&gt;request-&gt;post(), true));$postdata = file_get_contents("php://input");$postdata = json_decode($postdata,true); 2：二维数组指定字段排序12345array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);array_multisort(array_column($hotelList, 'price'), SORT_ASC, $hotelList);array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));]]></content>
       <categories>
-        <category>Diary</category>
+        <category>测试</category>
       </categories>
       <tags>
-        <tag>PS3</tag>
-        <tag>Games</tag>
+        <tag>PHP</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>

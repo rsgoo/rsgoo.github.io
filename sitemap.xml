@@ -2,44 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://inscode.github.io/2019/08/02/post-test-deploy-hexo/</loc>
+    
+    <lastmod>2019-08-03T14:40:51.057Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://inscode.github.io/2019/08/03/post-%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/</loc>
+    
+    <lastmod>2019-08-03T14:37:26.506Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://inscode.github.io/categories/index.html</loc>
     
     <lastmod>2019-08-03T14:08:46.660Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://inscode.github.io/life/node.html</loc>
-    
-    <lastmod>2019-08-03T14:04:32.026Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://inscode.github.io/life/index.html</loc>
-    
-    <lastmod>2019-08-03T14:03:39.805Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://inscode.github.io/resource/index.html</loc>
-    
-    <lastmod>2019-08-03T04:59:12.581Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://inscode.github.io/2019/08/03/post-test-deploy-hexo/</loc>
-    
-    <lastmod>2019-08-03T02:59:33.508Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://inscode.github.io/2019/08/02/test-article/</loc>
-    
-    <lastmod>2019-08-03T02:35:24.726Z</lastmod>
     
   </url>
   
