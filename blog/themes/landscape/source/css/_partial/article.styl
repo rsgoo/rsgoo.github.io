@@ -302,6 +302,14 @@ $article-share-link
     background: color-google
     text-shadow: 0 1px darken(color-google, 20%)
 
+.article-share-wechat
+  @extend $article-share-link
+  &:before
+    content: "\f17d"
+  &:hover
+    background: color-wechat
+    text-shadow: 0 1px darken(color-wechat, 20%)
+
 .article-gallery
   background: #000
   position: relative

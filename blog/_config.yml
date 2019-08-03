@@ -4,7 +4,7 @@
 
 # Site
 title: 雨醉风尘
-subtitle: 每日记一事，年复可成书。
+subtitle: 日记一事，年复成书。
 description: 雨🌧，自空，醉风，归尘。
 keywords: inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo
 author: 雨醉风尘
@@ -43,7 +43,7 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace:
+  tab_replace: 4
   
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -75,6 +75,27 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: landscape
+
+Plugins:
+  hexo-generator-feed
+  hexo-generator-sitemap
+
+#Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
+#sitemap
+sitemap:
+  path: sitemap.xml
+
+# 增加本地搜索
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
