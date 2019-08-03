@@ -600,10 +600,10 @@ a.article-title:hover {
 }
 .article-entry img,
 .article-entry video {
-  max-width: 80%;
+  max-width: 90%;
   height: auto;
   display: block;
-  margin: auto;
+  margin: 5px auto;
 }
 .article-entry iframe {
   border: none;
@@ -937,7 +937,7 @@ a.article-title:hover {
 }
 .article-gallery-img {
   display: none;
-  max-width: 80%;
+  max-width: 90%;
 }
 .article-gallery-img:first-child {
   display: block;
@@ -948,8 +948,8 @@ a.article-title:hover {
 }
 .article-gallery-img img {
   display: block;
-  max-width: 80%;
-  margin: 0 auto;
+  max-width: 90%;
+  margin: 5px auto;
 }
 #comments {
   background: #fff;
@@ -1104,7 +1104,7 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry .highlight {
   background: #2d2d2d;
-  margin-top: 5px, auto;
+  margin-top: 5px auto;
   padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
@@ -1113,6 +1113,7 @@ a.article-title:hover {
   overflow: auto;
   color: #ccc;
   line-height: 22.400000000000002px;
+  max-width: 90%;
 }
 .article-entry .highlight .gutter pre,
 .article-entry .gist .gist-file .gist-data .line-numbers {
