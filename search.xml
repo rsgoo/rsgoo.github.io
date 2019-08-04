@@ -1,39 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[golang爬取百度贴吧内容]]></title>
-    <url>%2F2019%2F08%2F04%2Fgolang%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E5%86%85%E5%AE%B9%2F</url>
-    <content type="text"><![CDATA[爬虫实现步骤1：获取需要爬取URL的地址（以JavaScript举例） http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=0 http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=50 http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=1502：使用 http.Get(url) 获取到每一个URL的内容 3：将或得到URL的内容写入文件 注意文件命名 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485package mainimport ( "fmt"4"strconv"4"net/http"4"io"4"os")//贴吧的URL//http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=0//http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=50func main() &#123;4//确认起始页和终止页4var startPage int4var endPage int4fmt.Print("请输入起始页:")4fmt.Scanln(&amp;startPage)4if startPage &lt;= 1 &#123;44startPage = 14&#125;4fmt.Print("请输入终止页:")4fmt.Scanln(&amp;endPage)4if endPage &lt;= 1 &#123;44endPage = 14&#125;4working(startPage, endPage)&#125;func working(startPage, endPage int) &#123;4//fmt.Println(startPage, endPage)4fmt.Printf("正在爬取第%d页到%d页的信息...\n", startPage, endPage)4//循环爬取每一页4baseUrl := "http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn="4for i := startPage; i &lt;= endPage; i++ &#123;44pageNum := (i - 1) * 5044crawlerUrl := baseUrl + strconv.Itoa(pageNum)44result, err := httpGetUrl(crawlerUrl)44if err != nil &#123;444fmt.Println("http get error, Msg", err.Error())444continue44&#125;44//将读取到的数据存储存储为文件44file, err := os.Create("JavaScript_" + strconv.Itoa(i) + ".html")44if err != err &#123;444fmt.Println("os Create err：", err.Error())444continue44&#125;44file.WriteString(result)44file.Close() //保存好一个文件就关闭一个文件4&#125;&#125;//爬取内容func httpGetUrl(url string) (result string, err error) &#123;4resp, err1 := http.Get(url)4if err1 != nil &#123;44err = err144return4&#125;4//关闭4defer resp.Body.Close()4//读取数据4buffer := make([]byte, 8196)4for &#123;44//读取的内容至于buffer容器44n, err2 := resp.Body.Read(buffer)44if n == 0 &#123;444fmt.Println("读取网页完成")444break44&#125;44if err2 != nil &amp;&amp; err2 != io.EOF &#123;444err = err2444return44&#125;44//累次相加每一次读到的Buffer数据，存入result, 一次性返回44result += string(buffer[:n])4&#125;4return&#125;]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>golang爬取百度贴吧内容</title>
+      <link href="/2019/08/04/golang%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E5%86%85%E5%AE%B9/"/>
+      <url>/2019/08/04/golang%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E5%86%85%E5%AE%B9/</url>
+      
+        <content type="html"><![CDATA[<h5 id="爬虫实现步骤"><a href="#爬虫实现步骤" class="headerlink" title="爬虫实现步骤"></a>爬虫实现步骤</h5><p>1：获取需要爬取URL的地址（以 JavaScript吧 举例）</p><a id="more"></a><pre><code>http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=0http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=50http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=150</code></pre><p>2：使用 http.Get(url) 获取到每一个URL的内容</p><p>3：将或得到URL的内容写入文件</p><p><strong>注意文件命名</strong></p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"strconv"</span></span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line">    <span class="string">"io"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//贴吧的URL</span></span><br><span class="line"><span class="comment">//http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=0</span></span><br><span class="line"><span class="comment">//http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn=50</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//确认起始页和终止页</span></span><br><span class="line">    <span class="keyword">var</span> startPage <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">var</span> endPage <span class="keyword">int</span></span><br><span class="line">    fmt.Print(<span class="string">"请输入起始页:"</span>)</span><br><span class="line">    fmt.Scanln(&amp;startPage)</span><br><span class="line">    <span class="keyword">if</span> startPage &lt;= <span class="number">1</span> &#123;</span><br><span class="line">        startPage = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Print(<span class="string">"请输入终止页:"</span>)</span><br><span class="line">    fmt.Scanln(&amp;endPage)</span><br><span class="line">    <span class="keyword">if</span> endPage &lt;= <span class="number">1</span> &#123;</span><br><span class="line">        endPage = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    working(startPage, endPage)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">working</span><span class="params">(startPage, endPage <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">//fmt.Println(startPage, endPage)</span></span><br><span class="line">    fmt.Printf(<span class="string">"正在爬取第%d页到%d页的信息...\n"</span>, startPage, endPage)</span><br><span class="line">    <span class="comment">//循环爬取每一页</span></span><br><span class="line">    baseUrl := <span class="string">"http://tieba.baidu.com/f?kw=javascript&amp;ie=utf-8&amp;pn="</span></span><br><span class="line">    <span class="keyword">for</span> i := startPage; i &lt;= endPage; i++ &#123;</span><br><span class="line">        pageNum := (i - <span class="number">1</span>) * <span class="number">50</span></span><br><span class="line">        crawlerUrl := baseUrl + strconv.Itoa(pageNum)</span><br><span class="line">        result, err := httpGetUrl(crawlerUrl)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"http get error, Msg"</span>, err.Error())</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">//将读取到的数据存储存储为文件</span></span><br><span class="line">    file, err := os.Create(<span class="string">"JavaScript_"</span> + strconv.Itoa(i) + <span class="string">".html"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != err &#123;</span><br><span class="line">        fmt.Println(<span class="string">"os Create err："</span>, err.Error())</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    &#125;</span><br><span class="line">    file.WriteString(result)</span><br><span class="line">    file.Close() <span class="comment">//保存好一个文件就关闭一个文件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//爬取内容</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">httpGetUrl</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="params">(result <span class="keyword">string</span>, err error)</span></span> &#123;</span><br><span class="line">    resp, err1 := http.Get(url)</span><br><span class="line">    <span class="keyword">if</span> err1 != <span class="literal">nil</span> &#123;</span><br><span class="line">        err = err1</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//关闭</span></span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//读取数据</span></span><br><span class="line">    buffer := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">8196</span>)</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="comment">//读取的内容至于buffer容器</span></span><br><span class="line">        n, err2 := resp.Body.Read(buffer)</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">"读取网页完成"</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> err2 != <span class="literal">nil</span> &amp;&amp; err2 != io.EOF &#123;</span><br><span class="line">            err = err2</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//累次相加每一次读到的Buffer数据，存入result, 一次性返回</span></span><br><span class="line">        result += <span class="keyword">string</span>(buffer[:n])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>Golang</category>
+          
+          <category> Golang </category>
+          
       </categories>
-      <tags>
-        <tag>爬虫</tag>
-        <tag>Golang</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[程序员数学基础 之 矩阵]]></title>
-    <url>%2F2019%2F08%2F03%2F%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5%2F</url>
-    <content type="text"><![CDATA[1：矩阵相加 2：矩阵相乘（不符合交换律） 标量 * 矩阵 变量 * 矩阵的每一个元素，得到一个新矩阵 矩阵 * 矩阵 用矩阵的 第1行 分别去 乘以 矩阵的每一列 用矩阵的 第N行 分别去 乘以 矩阵的每一列 - 矩阵A * 矩阵B != 矩阵B * 矩阵A 矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数]]></content>
+      
+      
+        <tags>
+            
+            <tag> 爬虫 </tag>
+            
+            <tag> Golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>程序员数学基础 之 矩阵</title>
+      <link href="/2019/08/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/"/>
+      <url>/2019/08/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/</url>
+      
+        <content type="html"><![CDATA[<h6 id="1：矩阵相加"><a href="#1：矩阵相加" class="headerlink" title="1：矩阵相加"></a>1：矩阵相加</h6><a id="more"></a><!--![](./程序员数学之矩阵/矩阵相加.jpg)--><img src="/2019/08/03/程序员数学之矩阵/矩阵相加.jpg" title="矩阵相加运算法则"><h6 id="2：矩阵相乘（不符合交换律）"><a href="#2：矩阵相乘（不符合交换律）" class="headerlink" title="2：矩阵相乘（不符合交换律）"></a>2：矩阵相乘（不符合交换律）</h6><ul><li><p>标量 * 矩阵</p><ul><li>变量 * 矩阵的每一个元素，得到一个新矩阵</li></ul></li><li><p>矩阵 * 矩阵</p><ul><li><p>用矩阵的 第1行 分别去 乘以 矩阵的每一列</p></li><li><p>用矩阵的 第N行 分别去 乘以 矩阵的每一列</p></li></ul></li></ul><!--![](./程序员数学之矩阵/矩阵乘上矩阵.jpg)--><img src="/2019/08/03/程序员数学之矩阵/矩阵乘上矩阵.jpg" title="矩阵乘上矩阵"><pre><code>- 矩阵A * 矩阵B != 矩阵B * 矩阵A</code></pre><ul><li>矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数</li></ul>]]></content>
+      
+      
       <categories>
-        <category>数学</category>
+          
+          <category> 数学 </category>
+          
       </categories>
-      <tags>
-        <tag>编程</tag>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[test article]]></title>
-    <url>%2F2019%2F08%2F02%2Fpost-test-deploy-hexo%2F</url>
-    <content type="text"><![CDATA[Hexo 部署测试1：通过日志方式统计 1234567file_put_contents("loc.log", microtime(true).'_end'."-----$lat@2".PHP_EOL, FILE_APPEND);file_put_contents('exelog/'.time().'.log', var_export(Yii::$app-&gt;request-&gt;post(), true));$postdata = file_get_contents("php://input");$postdata = json_decode($postdata,true); 2：二维数组指定字段排序12345array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);array_multisort(array_column($hotelList, 'price'), SORT_ASC, $hotelList);array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));]]></content>
+      
+      
+        <tags>
+            
+            <tag> 编程 </tag>
+            
+            <tag> 数学 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test article</title>
+      <link href="/2019/08/02/post-test-deploy-hexo/"/>
+      <url>/2019/08/02/post-test-deploy-hexo/</url>
+      
+        <content type="html"><![CDATA[<h4 id="Hexo-部署测试"><a href="#Hexo-部署测试" class="headerlink" title="Hexo 部署测试"></a>Hexo 部署测试</h4><h5 id="1：通过日志方式统计"><a href="#1：通过日志方式统计" class="headerlink" title="1：通过日志方式统计"></a>1：通过日志方式统计</h5><a id="more"></a><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"loc.log"</span>, microtime(<span class="keyword">true</span>).<span class="string">'_end'</span>.<span class="string">"-----$lat@2"</span>.PHP_EOL, FILE_APPEND);</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">'exelog/'</span>.time().<span class="string">'.log'</span>, var_export(Yii::$app-&gt;request-&gt;post(), <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</span><br><span class="line">$postdata = json_decode($postdata,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure><h5 id="2：二维数组指定字段排序"><a href="#2：二维数组指定字段排序" class="headerlink" title="2：二维数组指定字段排序"></a>2：二维数组指定字段排序</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);</span><br><span class="line"></span><br><span class="line">array_multisort(array_column($hotelList, <span class="string">'price'</span>), SORT_ASC, $hotelList);</span><br><span class="line"></span><br><span class="line">array_multisort($hotelList,SORT_ASC, array_column($hotelList, <span class="string">'price'</span>));</span><br></pre></td></tr></table></figure><!--![](./post-test-deploy-hexo/smell.jpg)--><img src="/2019/08/02/post-test-deploy-hexo/smell.jpg" title="这是一张测试图片">]]></content>
+      
+      
       <categories>
-        <category>测试</category>
+          
+          <category> 测试 </category>
+          
       </categories>
-      <tags>
-        <tag>PHP</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
