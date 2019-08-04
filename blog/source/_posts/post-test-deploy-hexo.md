@@ -1,13 +1,14 @@
 ---
-title: PHP 开发中的 Ideas
-date: 2019-08-03 10:12:32
+title: test article
+date: 2019-08-02 19:10:54
+type: archives
 tags:
-    - Hexo
     - PHP
+    - Hexo
 categories:
-    - 编程语言
+    - 测试
 ---
-
+#### Hexo 部署测试
 
 ##### 1：通过日志方式统计
 
@@ -40,4 +41,3 @@ array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));
 
 {% asset_img smell.jpg 这是一张测试图片 %}
 
-**日记一事，年复成书📚**

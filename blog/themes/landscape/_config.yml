@@ -3,9 +3,10 @@ menu:
 #  Home: /
 #  Archives: /archives
   首页: /
-  归档: /archives
-  资源: /resource
-  日志: /life
+  归档: /archives/
+#  资源: /resource/
+#  分类: /categories/
+#  日志: /life/  #commend>hexo new page categories
 rss: /atom.xml
 sitemap: /sitemap.xml
 banner: images/banner.jpg
