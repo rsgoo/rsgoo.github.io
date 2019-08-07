@@ -9,7 +9,7 @@ menu:
 #  日志: /life/  #commend>hexo new page categories
 rss: /atom.xml
 sitemap: /sitemap.xml
-banner: images/banner.jpg
+banner: all-images/banner.jpg
 
 # Content
 excerpt_link: Read More
