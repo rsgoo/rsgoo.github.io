@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        PHP foreach循环使用&amp;引用的小坑 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
+<meta name="keywords" content="编程,PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP foreach循环使用&amp;引用的小坑">
+<meta property="og:url" content="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
+<meta property="og:locale" content="Chinese">
+<meta property="og:image" content="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
+<meta property="og:updated_time" content="2019-08-07T08:32:27.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP foreach循环使用&amp;引用的小坑">
+<meta name="twitter:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
+<meta name="twitter:image" content="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PHP-foreach循环使用-引用的小坑" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/" class="article-date">
+  <time datetime="2019-08-07T07:00:55.000Z" itemprop="datePublished">2019-08-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP foreach循环使用&amp;引用的小坑
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>源起：今天有小🔥伴发了一段 <code>PHP</code> 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 <code>foreach</code> 使用 <code>&amp;</code> 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。<a id="more"></a></p>
+<p><strong>小伙伴给的原始代码如下</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">    $arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>];</span><br><span class="line">    <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">        <span class="comment">//四次循环迭代后依次输出 1, 2, 4, 8; 没任何毛病</span></span><br><span class="line">        <span class="keyword">echo</span> $val . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    print_r($arr);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"************************"</span> . PHP_EOL;</span><br><span class="line">    <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $val) &#123;</span><br><span class="line">        print_r($arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> $val . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"###################"</span> . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//echo 依次打印的是： 1，2，4，4 [(O_O)]?</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码执行结果如下图</strong></p>
+<!--![](./PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg)-->
+<img src="/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg" title="PHP-foreach循环使用-引用的小坑1">
+
+
+<p>那么问题来了，第一次输出 <code>1，2，4，8</code> 没有任何问题。但是，但是，但是为什么第二次输出的是 <code>1, 2, 4, 4</code> 而不是 <code>1、2
+ 4、8</code> 呢？查询 <a href="https://www.php.net/manual/zh/control-structures.foreach.php" target="_blank" rel="noopener">PHP foreach 文档</a> 有辣么一句特别提醒</p>
+<h6 id="Warning-数组最后一个元素的-value-引用在-foreach-循环之后仍会保留。建议使用-unset-来将其销毁。"><a href="#Warning-数组最后一个元素的-value-引用在-foreach-循环之后仍会保留。建议使用-unset-来将其销毁。" class="headerlink" title="Warning 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。"></a><code>Warning 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。</code></h6><p>看此提示，冥冥之中好像知道了答案。</p>
+<ul>
+<li>第一次 <code>foreach</code> 由于使用的是 <code>&amp; 引用赋值</code>，在循环完成后如果没有 <code>unset($val)</code> 会保留最后一个元素的 <code>$val引用</code></li>
+</ul>
+<ul>
+<li>第二次 <code>foreach</code> 由于使用的和第一次同样的迭代变量 <code>$val</code>,  数组的最后一个元素 <code>$arr[3]</code> 和当前循环迭代值 <code>$val</code> 指向同一个变量地址，此时 <code>$val</code> 值改变时 <code>$arr[3]</code> 的值也跟着改变了。</li>
+</ul>
+<p><strong>用上图说明</strong></p>
+<ul>
+<li><p>原始数组为图中 <code>A区域</code> 数组</p>
+</li>
+<li><p>第 <code>0</code> 次循环迭代：最后一个元素 <code>$arr[3]</code> 和 <code>$val 即($arr[0])</code> 值相同。<code>$arr[3] = $val = 1</code>，如图中 <code>0区域</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [1] =&gt; 2</span><br><span class="line">    [2] =&gt; 4</span><br><span class="line">    [3] =&gt; 1</span><br><span class="line">)</span><br><span class="line">第0次循环结果：1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第 <code>1</code> 次循环迭代：最后一个元素 <code>$arr[3]</code> 和 <code>$val 即($arr[1])</code> 值相同。<code>$arr[3] = $val = 2</code>，如图中 <code>1区域</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [1] =&gt; 2</span><br><span class="line">    [2] =&gt; 4</span><br><span class="line">    [3] =&gt; 2</span><br><span class="line">)</span><br><span class="line">第1次循环结果：2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第 <code>2</code> 次循环迭代：最后一个元素 <code>$arr[3]</code> 和 <code>$val 即($arr[2])</code> 值相同。<code>$arr[3] = $val = 4</code>，如图中 <code>2区域</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [1] =&gt; 2</span><br><span class="line">    [2] =&gt; 4</span><br><span class="line">    [3] =&gt; 4</span><br><span class="line">)</span><br><span class="line">第2次循环结果：4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第 <code>3</code> 次循环迭代：最后一个元素 <code>$arr[3]</code> 和 <code>$val 即($arr[3])</code> 值相同。<code>$arr[3] = $val = 4</code>，如图中 <code>3区域</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [1] =&gt; 2</span><br><span class="line">    [2] =&gt; 4</span><br><span class="line">    [3] =&gt; 4</span><br><span class="line">)</span><br><span class="line">第2次循环结果：4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>综上，第二次循环 <code>1, 2, 4, 4</code> 就是这么来的 😜</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjz0zz1ps0000ji4r7pfii4t6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/04/golang爬取百度贴吧内容/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">golang爬取百度贴吧内容</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Golang/" style="font-size: 10px;">Golang</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/PHP/" style="font-size: 20px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/编程/" style="font-size: 20px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/04/golang爬取百度贴吧内容/">golang爬取百度贴吧内容</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/03/程序员数学之矩阵/">程序员数学基础 之 矩阵</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/02/post-test-deploy-hexo/">test article</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
