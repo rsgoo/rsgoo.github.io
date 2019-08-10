@@ -3,7 +3,7 @@ title: golang爬取百度贴吧内容
 date: 2019-08-04 12:26:26
 tags:
     - 爬虫
-    - Golang
+    - Go
 categories:
     - Golang
 ---
