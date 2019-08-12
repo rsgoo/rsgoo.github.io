@@ -1,5 +1,5 @@
 ---
-title: golang爬取百度贴吧内容
+title: Golang爬虫系列零：爬取百度贴吧内容
 date: 2019-08-04 12:26:26
 tags:
     - 爬虫
@@ -8,9 +8,11 @@ categories:
     - Golang
 ---
 
+###### 声明：以下内容仅供技术学习
+
 ##### 爬虫实现步骤
 
-1：获取需要爬取URL的地址（以 JavaScript吧 举例）
+1：获取需要爬取URL的地址（以 [`JavaScript吧`](http://tieba.baidu.com/f?kw=javascript&ie=utf-8) 举例）
 
 <!--more-->
 
