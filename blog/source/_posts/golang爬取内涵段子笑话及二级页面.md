@@ -12,9 +12,6 @@ categories:
 
 简述：爬取 [捧腹网 ](https://www.pengfu.com) 中的 [段子](https://www.pengfu.com/xiaohua_1.html)页面数据及每一条数据所链接的 [笑话详情页](https://www.pengfu.com/content_1857807_1.html)。
 
-
-
-
 <!--more-->
 
 ##### 步骤如下
