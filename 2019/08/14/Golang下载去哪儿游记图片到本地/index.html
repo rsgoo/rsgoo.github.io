@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        Golang爬虫系列三：下载去哪儿游记图片到本地 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="声明：以下内容仅供技术学习简述： 获取去哪儿网 中的的游记（eg: 美在“十二背后” ）页面中的图片地址并将图片保存到本地">
+<meta name="keywords" content="Go,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang爬虫系列三：下载去哪儿游记图片到本地">
+<meta property="og:url" content="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="声明：以下内容仅供技术学习简述： 获取去哪儿网 中的的游记（eg: 美在“十二背后” ）页面中的图片地址并将图片保存到本地">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-14T11:27:37.526Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang爬虫系列三：下载去哪儿游记图片到本地">
+<meta name="twitter:description" content="声明：以下内容仅供技术学习简述： 获取去哪儿网 中的的游记（eg: 美在“十二背后” ）页面中的图片地址并将图片保存到本地">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Golang下载去哪儿游记图片到本地" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/" class="article-date">
+  <time datetime="2019-08-14T11:21:39.000Z" itemprop="datePublished">2019-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Golang/">Golang</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Golang爬虫系列三：下载去哪儿游记图片到本地
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><p>简述： 获取<a href="http://www.qunar.com/" target="_blank" rel="noopener">去哪儿网</a> 中的的游记（eg: <a href="https://travel.qunar.com/youji/6961284" target="_blank" rel="noopener">美在“十二背后”</a> ）页面中的图片地址并将图片保存到本地</p>
+<a id="more"></a>
+
+<h5 id="步骤如下"><a href="#步骤如下" class="headerlink" title="步骤如下"></a>步骤如下</h5><p>1: 使用正则获取图片的链接并存储到一个 <code>slice</code> 中</p>
+<p>2: 遍历 <code>slice</code> 中的 图片地址，读取数据保存到本地</p>
+<p><strong>代码如下</strong></p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"strconv"</span></span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line">    <span class="string">"io"</span></span><br><span class="line">    <span class="string">"regexp"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> articleId <span class="keyword">int</span></span><br><span class="line">    fmt.Print(<span class="string">"请输入游记id: "</span>)</span><br><span class="line">    fmt.Scan(&amp;articleId)</span><br><span class="line"></span><br><span class="line">    spiderArticleImageUrls(articleId)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spiderArticleImageUrls</span><span class="params">(articleId <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">//https://travel.qunar.com/youji/5908435</span></span><br><span class="line">    articleUrl := <span class="string">"https://travel.qunar.com/youji/"</span> + strconv.Itoa(articleId)</span><br><span class="line">    resp, err1 := http.Get(articleUrl)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//fmt.Println(resp.StatusCode)</span></span><br><span class="line">    <span class="comment">//os.Exit(1)</span></span><br><span class="line">    <span class="keyword">if</span> err1 != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"http get err:"</span>, <span class="literal">nil</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> resp.StatusCode != <span class="number">200</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"404 not found"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pageContent <span class="keyword">string</span></span><br><span class="line">    buffer := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">8192</span>)</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        n, err2 := resp.Body.Read(buffer)</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">"读取网页完成"</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> err2 != <span class="literal">nil</span> &amp;&amp; err2 != io.EOF &#123;</span><br><span class="line">            fmt.Println(<span class="string">"err2:"</span>, err2)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pageContent += <span class="keyword">string</span>(buffer[:n])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    osDir, _ := os.Getwd()</span><br><span class="line">    dir := osDir + <span class="string">"/qunar/"</span></span><br><span class="line">    os.Mkdir(dir, os.ModePerm)</span><br><span class="line">    fileName := dir + strconv.Itoa(articleId) + <span class="string">".txt"</span></span><br><span class="line"></span><br><span class="line">    file, err3 := os.Create(fileName)</span><br><span class="line">    <span class="keyword">if</span> err3 != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"文件创建失败: "</span>, err3)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 写入内容到文件*/</span></span><br><span class="line">    image_pat := regexp.MustCompile(<span class="string">`data-retina="(.*?)" class="box_img js_box_img js_lazyimg ajaxloading"`</span>)</span><br><span class="line">    image_urls := image_pat.FindAllStringSubmatch(pageContent, <span class="number">-1</span>)</span><br><span class="line">    <span class="comment">//var saveImages []string</span></span><br><span class="line">    imgDir := osDir + <span class="string">"/qunar/"</span> + strconv.Itoa(articleId) + <span class="string">"/"</span></span><br><span class="line">    os.Mkdir(imgDir, os.ModePerm)</span><br><span class="line">    fileSaveChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">    <span class="keyword">for</span> key, image := <span class="keyword">range</span> image_urls &#123;</span><br><span class="line">        key++</span><br><span class="line">        <span class="keyword">go</span> saveImageUrlToFile(key, image[<span class="number">1</span>], imgDir, fileSaveChan)</span><br><span class="line">        file.WriteString(<span class="keyword">string</span>(key) + <span class="string">"--"</span> + image[<span class="number">1</span>] + <span class="string">"\n"</span>)</span><br><span class="line">        <span class="comment">//saveImages = append(saveImages, image[1])</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    imgCount := (<span class="built_in">len</span>(image_urls))</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; imgCount; i++ &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"图片%d.jpg 保存成功\n"</span>, &lt;-fileSaveChan)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//保存文件件</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">saveImageUrlToFile</span><span class="params">(i <span class="keyword">int</span>, imgUrl, dir <span class="keyword">string</span>, fileSaveChan <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    fileName := dir + strconv.Itoa(i) + <span class="string">".jpg"</span></span><br><span class="line">    file, _ := os.Create(fileName)</span><br><span class="line">    resp, err1 := http.Get(imgUrl)</span><br><span class="line">    <span class="keyword">if</span> err1 != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"saveImageUrlToFile err:"</span>, err1)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line"></span><br><span class="line">    buffer := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">8192</span>)</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        n, err2 := resp.Body.Read(buffer)</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">            <span class="comment">//fmt.Println("saveImageUrlToFile 读取网页完成:", i)</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> err2 != <span class="literal">nil</span> &amp;&amp; err2 != io.EOF &#123;</span><br><span class="line">            fmt.Println(<span class="string">"err2:"</span>, err2)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//数据写入文件</span></span><br><span class="line">        file.Write(buffer[:n])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fileSaveChan &lt;- i</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzb67rx90000yr4rwyscbpak" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/tags/编程/" style="font-size: 15px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/">Golang爬虫系列三：下载去哪儿游记图片到本地</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/04/golang爬取百度贴吧内容/">Golang爬虫系列零：爬取百度贴吧内容</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
