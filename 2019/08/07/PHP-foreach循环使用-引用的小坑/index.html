@@ -19,14 +19,14 @@
 <meta property="og:site_name" content="雨醉风尘">
 <meta property="og:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:image" content="https://inscode.github.io/blog/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
+<meta property="og:image" content="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
 <meta property="og:updated_time" content="2019-08-07T08:32:27.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP foreach循环使用&amp;引用的小坑">
 <meta name="twitter:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
-<meta name="twitter:image" content="https://inscode.github.io/blog/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
+<meta name="twitter:image" content="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg">
     
-    <link rel="alternate" href="/blog/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
     
     <link rel="icon" href="/images/favicon.png">
@@ -36,7 +36,7 @@
         <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
         <link href="/css/google-font.css" rel="stylesheet" type="text/css">
     
-    <link rel="stylesheet" href="/blog/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 </html>
 <body>
@@ -47,11 +47,11 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/blog/" id="logo">雨醉风尘</a>
+        <a href="/" id="logo">雨醉风尘</a>
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/blog/" id="subtitle">日记一事，年复成书</a>
+          <a href="/" id="subtitle">日记一事，年复成书</a>
         </h2>
       
     </div>
@@ -59,14 +59,14 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/blog/">首页</a>
+          <a class="main-nav-link" href="/">首页</a>
         
-          <a class="main-nav-link" href="/blog/archives/">归档</a>
+          <a class="main-nav-link" href="/archives/">归档</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
@@ -79,12 +79,12 @@
       <div class="outer">
         <section id="main"><article id="post-PHP-foreach循环使用-引用的小坑" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/blog/2019/08/07/PHP-foreach循环使用-引用的小坑/" class="article-date">
+    <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/" class="article-date">
   <time datetime="2019-08-07T07:00:55.000Z" itemprop="datePublished">2019-08-07</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/blog/categories/PHP/">PHP</a>
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
   </div>
 
   </div>
@@ -109,7 +109,7 @@
 
 <p><strong>代码执行结果如下图</strong></p>
 <!--![](./PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg)-->
-<img src="/blog/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg" title="PHP-foreach循环使用-引用的小坑1">
+<img src="/2019/08/07/PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg" title="PHP-foreach循环使用-引用的小坑1">
 
 
 <p>那么问题来了，第一次输出 <code>1，2，4，8</code> 没有任何问题。但是，但是，但是为什么第二次输出的是 <code>1, 2, 4, 4</code> 而不是 <code>1、2
@@ -144,10 +144,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzc0kbjj0000s84rgjqfnby7" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzc0odpl0000tg4r9bzeqoyh" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/编程/">编程</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
 
     </footer>
   </div>
@@ -155,7 +155,7 @@
     
 <nav id="article-nav">
   
-    <a href="/blog/2019/08/10/豆瓣电影top250数据爬取/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/10/豆瓣电影top250数据爬取/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -165,7 +165,7 @@
     </a>
   
   
-    <a href="/blog/2019/08/04/golang爬取百度贴吧内容/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/04/golang爬取百度贴吧内容/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Golang爬虫系列零：爬取百度贴吧内容</div>
     </a>
@@ -183,7 +183,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -193,7 +193,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/blog/tags/Go/" style="font-size: 20px;">Go</a> <a href="/blog/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/blog/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/blog/tags/数学/" style="font-size: 10px;">数学</a> <a href="/blog/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/blog/tags/编程/" style="font-size: 15px;">编程</a>
+      <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/tags/编程/" style="font-size: 15px;">编程</a>
     </div>
   </div>
 
@@ -212,7 +212,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/08/">August 2019</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -225,23 +225,23 @@
       <ul>
         
           <li>
-            <a href="/blog/2019/08/14/Golang下载去哪儿游记图片到本地/">Golang爬虫系列三：下载去哪儿游记图片到本地</a>
+            <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/">Golang爬虫系列三：下载去哪儿游记图片到本地</a>
           </li>
         
           <li>
-            <a href="/blog/2019/08/12/golang爬取内涵段子笑话及二级页面/">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</a>
+            <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</a>
           </li>
         
           <li>
-            <a href="/blog/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
+            <a href="/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
           </li>
         
           <li>
-            <a href="/blog/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
+            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
           </li>
         
           <li>
-            <a href="/blog/2019/08/04/golang爬取百度贴吧内容/">Golang爬虫系列零：爬取百度贴吧内容</a>
+            <a href="/2019/08/04/golang爬取百度贴吧内容/">Golang爬虫系列零：爬取百度贴吧内容</a>
           </li>
         
       </ul>
@@ -264,9 +264,9 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/blog/" class="mobile-nav-link">首页</a>
+    <a href="/" class="mobile-nav-link">首页</a>
   
-    <a href="/blog/archives/" class="mobile-nav-link">归档</a>
+    <a href="/archives/" class="mobile-nav-link">归档</a>
   
 </nav>
     
@@ -276,10 +276,10 @@
 
 
 
-<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
-<script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-<script src="/blog/js/script.js"></script>
+<script src="/js/script.js"></script>
 
 
 
