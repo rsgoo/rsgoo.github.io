@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL 5.7.21-1配置文件my.cnf |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="简述：MySQL 5.7.21-1 原始配置文件 my.cnf，为以后查询方便特此记录">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 5.7.21-1配置文件my.cnf">
+<meta property="og:url" content="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="简述：MySQL 5.7.21-1 原始配置文件 my.cnf，为以后查询方便特此记录">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-15T14:37:43.341Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 5.7.21-1配置文件my.cnf">
+<meta name="twitter:description" content="简述：MySQL 5.7.21-1 原始配置文件 my.cnf，为以后查询方便特此记录">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL-5-7-21-1配置文件my-cnf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" class="article-date">
+  <time datetime="2019-08-15T14:34:35.000Z" itemprop="datePublished">2019-08-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL 5.7.21-1配置文件my.cnf
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简述：<code>MySQL 5.7.21-1</code> 原始配置文件 my.cnf，为以后查询方便特此记录</p>
+ <a id="more"></a>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The MySQL database server configuration file.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># You can copy this to one of:</span></span><br><span class="line"><span class="comment"># - "/etc/mysql/my.cnf" to set global options,</span></span><br><span class="line"><span class="comment"># - "~/.my.cnf" to set user-specific options.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># One can use all long options that the program supports.</span></span><br><span class="line"><span class="comment"># Run program with --help to get a list of available options and with</span></span><br><span class="line"><span class="comment"># --print-defaults to see which it would actually understand and use.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For explanations see</span></span><br><span class="line"><span class="comment"># http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This will be passed to all mysql clients</span></span><br><span class="line"><span class="comment"># It has been reported that passwords should be enclosed with ticks/quotes</span></span><br><span class="line"><span class="comment"># escpecially if they contain "#" chars...</span></span><br><span class="line"><span class="comment"># Remember to edit /etc/mysql/debian.cnf when changing the socket location.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Here is entries for some specific programs</span></span><br><span class="line"><span class="comment"># The following values assume you have at least 32M ram</span></span><br><span class="line"></span><br><span class="line">[mysqld_safe]</span><br><span class="line">socket		= /var/run/mysqld/mysqld.sock</span><br><span class="line">nice		= 0</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Basic Settings</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">user		= mysql</span><br><span class="line">pid-file	= /var/run/mysqld/mysqld.pid</span><br><span class="line">socket		= /var/run/mysqld/mysqld.sock</span><br><span class="line">port		= 3306</span><br><span class="line">basedir		= /usr</span><br><span class="line">datadir		= /var/lib/mysql</span><br><span class="line">tmpdir		= /tmp</span><br><span class="line">lc-messages-dir	= /usr/share/mysql</span><br><span class="line">skip-external-locking</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line">bind-address		= 127.0.0.1</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Fine Tuning</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">key_buffer_size		= 16M</span><br><span class="line">max_allowed_packet	= 16M</span><br><span class="line">thread_stack		= 192K</span><br><span class="line">thread_cache_size       = 8</span><br><span class="line"><span class="comment"># This replaces the startup script and checks MyISAM tables if needed</span></span><br><span class="line"><span class="comment"># the first time they are touched</span></span><br><span class="line">myisam-recover-options  = <span class="keyword">BACKUP</span></span><br><span class="line"><span class="comment">#max_connections        = 100</span></span><br><span class="line"><span class="comment">#table_open_cache       = 64</span></span><br><span class="line"><span class="comment">#thread_concurrency     = 10</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Query Cache Configuration</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">query_cache_limit	= <span class="number">1</span>M</span><br><span class="line">query_cache_size        = <span class="number">16</span>M</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Logging and Replication</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Both location gets rotated by the cronjob.</span></span><br><span class="line"><span class="comment"># Be aware that this log type is a performance killer.</span></span><br><span class="line"><span class="comment"># As of 5.1 you can enable the log at runtime!</span></span><br><span class="line"><span class="comment">#general_log_file        = /var/log/mysql/mysql.log</span></span><br><span class="line"><span class="comment">#general_log             = 1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Error log - should be very few entries.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">log_error = /<span class="keyword">var</span>/<span class="keyword">log</span>/mysql/error.log</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Here you can see queries with especially long duration</span></span><br><span class="line"><span class="comment">#slow_query_log		= 1</span></span><br><span class="line"><span class="comment">#slow_query_log_file	= /var/log/mysql/mysql-slow.log</span></span><br><span class="line"><span class="comment">#long_query_time = 2</span></span><br><span class="line"><span class="comment">#log-queries-not-using-indexes</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The following can be used as easy to replay backup logs or for replication.</span></span><br><span class="line"><span class="comment"># <span class="doctag">note:</span> if you are setting up a replication slave, see README.Debian about</span></span><br><span class="line"><span class="comment">#       other settings you may need to change.</span></span><br><span class="line"><span class="comment">#server-id		= 1</span></span><br><span class="line"><span class="comment">#log_bin			= /var/log/mysql/mysql-bin.log</span></span><br><span class="line">expire_logs_days	= <span class="number">10</span></span><br><span class="line">max_binlog_size   = <span class="number">100</span>M</span><br><span class="line"><span class="comment">#binlog_do_db		= include_database_name</span></span><br><span class="line"><span class="comment">#binlog_ignore_db	= include_database_name</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * InnoDB</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.</span></span><br><span class="line"><span class="comment"># Read the manual for more InnoDB related options. There are many!</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Security Features</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Read the manual, too, if you want chroot!</span></span><br><span class="line"><span class="comment"># chroot = /var/lib/mysql/</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For generating SSL certificates I recommend the OpenSSL GUI "tinyca".</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ssl-ca=/etc/mysql/cacert.pem</span></span><br><span class="line"><span class="comment"># ssl-cert=/etc/mysql/server-cert.pem</span></span><br><span class="line"><span class="comment"># ssl-key=/etc/mysql/server-key.pem</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzcsg6gz0000034r9mjdxuol" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Golang爬虫系列三：下载去哪儿游记图片到本地</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/tags/编程/" style="font-size: 15px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/">MySQL 5.7.21-1配置文件my.cnf</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/">Golang爬虫系列三：下载去哪儿游记图片到本地</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
