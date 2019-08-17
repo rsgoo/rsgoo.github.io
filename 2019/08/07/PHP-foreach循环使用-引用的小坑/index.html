@@ -19,10 +19,12 @@
 <meta property="og:site_name" content="雨醉风尘">
 <meta property="og:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-07T08:32:27.559Z">
+<meta property="og:image" content="https://inscode.github.io/images/blog/PHP-foreach%E5%BE%AA%E7%8E%AF%E4%BD%BF%E7%94%A8-%E5%BC%95%E7%94%A8%E7%9A%84%E5%B0%8F%E5%9D%91.jpeg">
+<meta property="og:updated_time" content="2019-08-17T02:42:05.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP foreach循环使用&amp;引用的小坑">
 <meta name="twitter:description" content="源起：今天有小🔥伴发了一段 PHP 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 foreach 使用 &amp;amp; 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。">
+<meta name="twitter:image" content="https://inscode.github.io/images/blog/PHP-foreach%E5%BE%AA%E7%8E%AF%E4%BD%BF%E7%94%A8-%E5%BC%95%E7%94%A8%E7%9A%84%E5%B0%8F%E5%9D%91.jpeg">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -106,10 +108,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">    $arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>];</span><br><span class="line">    <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">        <span class="comment">//四次循环迭代后依次输出 1, 2, 4, 8; 没任何毛病</span></span><br><span class="line">        <span class="keyword">echo</span> $val . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    print_r($arr);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"************************"</span> . PHP_EOL;</span><br><span class="line">    <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $val) &#123;</span><br><span class="line">        print_r($arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> $val . PHP_EOL;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"###################"</span> . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//echo 依次打印的是： 1，2，4，4 [(O_O)]?</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>代码执行结果如下图</strong></p>
-<!--![](./PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg)-->
-
-
-
+<p><img src="/images/blog/PHP-foreach%E5%BE%AA%E7%8E%AF%E4%BD%BF%E7%94%A8-%E5%BC%95%E7%94%A8%E7%9A%84%E5%B0%8F%E5%9D%91.jpeg" alt></p>
 <p>那么问题来了，第一次输出 <code>1，2，4，8</code> 没有任何问题。但是，但是，但是为什么第二次输出的是 <code>1, 2, 4, 4</code> 而不是 <code>1、2
  4、8</code> 呢？查询 <a href="https://www.php.net/manual/zh/control-structures.foreach.php" target="_blank" rel="noopener">PHP foreach 文档</a> 有辣么一句特别提醒</p>
 <h6 id="Warning-数组最后一个元素的-value-引用在-foreach-循环之后仍会保留。建议使用-unset-来将其销毁。"><a href="#Warning-数组最后一个元素的-value-引用在-foreach-循环之后仍会保留。建议使用-unset-来将其销毁。" class="headerlink" title="Warning 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。"></a><code>Warning 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。</code></h6><p>看此提示，冥冥之中好像知道了答案。</p>
@@ -142,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzewmbz900006p4ri9994xmt" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzexrjsg0005ce4rgmnxyzcv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
