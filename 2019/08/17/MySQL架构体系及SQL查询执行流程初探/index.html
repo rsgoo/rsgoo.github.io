@@ -21,7 +21,7 @@
 <meta property="og:locale" content="Chinese">
 <meta property="og:image" content="https://inscode.github.io/images/blog/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
 <meta property="og:image" content="https://inscode.github.io/images/blog/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg">
-<meta property="og:updated_time" content="2019-08-17T06:53:10.760Z">
+<meta property="og:updated_time" content="2019-08-17T06:59:05.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL架构体系及SQL查询执行流程初探">
 <meta name="twitter:description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
@@ -117,17 +117,19 @@
 
 <h4 id="2：MySQL-Server"><a href="#2：MySQL-Server" class="headerlink" title="2：MySQL Server"></a>2：MySQL Server</h4><p>Server 层是 MySQL 提供服务的核心。主要分为以下几个模块（查询缓存 <code>MySQL8.0</code> 版本被删除，故此不做记录📝）</p>
 <h5 id="2-1：Connection-Pool（连接池）"><a href="#2-1：Connection-Pool（连接池）" class="headerlink" title="2.1：Connection Pool（连接池）"></a>2.1：Connection Pool（连接池）</h5><p>连接池主要实现以下功能</p>
-<h6 id="2-1-1：Authentication（进行身份验证）"><a href="#2-1-1：Authentication（进行身份验证）" class="headerlink" title="2.1.1：Authentication（进行身份验证）**"></a>2.1.1：Authentication（进行身份验证）**</h6><p><code>terminal</code> 下连接命令如下 <code>mysql -u root -h localhost - p</code>。如果用户名密码认证通过，连接器会到 <code>权限表</code> 里面查出用户拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。一旦一个用户成功建立连接后，<br>即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。修改完成后，只有再新建的连接才会使用新的权限设置。</p>
+<h6 id="2-1-1：Authentication（进行身份验证）"><a href="#2-1-1：Authentication（进行身份验证）" class="headerlink" title="2.1.1：Authentication（进行身份验证）**"></a>2.1.1：Authentication（进行身份验证）**</h6><p><code>terminal</code> 下连接命令如下 <code>mysql -u root -h localhost - p</code>。如果用户名密码认证通过，连接器会到 <code>权限表</code> 里面查出用户拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。</p>
+<p>一旦一个用户成功建立连接后，即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。修改完成后，只有再新建的连接才会使用新的权限设置。</p>
 <p>连接完成后如果没有使用，该连接就处于 <code>Sleep</code> 状态。如果超过 MySQL 服务器配置的 <code>wait_time</code> 值，可通过 <code>show variables like &#39;%wait%&#39;;</code> 查看该值，默认是 <code>28800</code> 秒，该连接就会被回收，使用时就需要重新建立连接了。</p>
-<p>如果客户端持续有请求，则一直使用同一个连接，则称该连接为长连接。短连接则是指每次执行完很少的几次查询就断开连接，下次查询再重新建立一个。由于建立连接比较复杂，应当减少连接的操作而使用长连接。但是过多使用长连接会使得内存飙升（因为 MySQL 在执行过程中临时使用的内存是管理在连接对象里面的。<br>这些资源会在连接断开的时候才释放）导致 MySQL 异常重启。</p>
-<p>解决方案1：定期断开长连接。使用一段时间后或者程序里面判断执行过一个占用内存的大查询后，定期断开连接，之后要查询时再重新建立连接；</p>
-<p>解决方案2：对于 MySQL 5.7 及后续版本，可以在每次执行一个比较大的操作后，通过执行 mysql_reset_connection 来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
+<p>如果客户端持续有请求，则一直使用同一个连接，则称该连接为长连接。短连接则是指每次执行完很少的几次查询就断开连接，下次查询再重新建立一个。由于建立连接比较复杂，应当减少连接的操作而使用长连接。但是过多使用长连接会使得内存飙升（因为 MySQL 在执行过程中临时使用的内存是管理在连接对象里面的。这些资源会在连接断开的时候才释放）导致 MySQL 异常重启。</p>
+<p><strong>解决方案1</strong> ：定期断开长连接。使用一段时间后或者程序里面判断执行过一个占用内存的大查询后，定期断开连接，之后要查询时再重新建立连接；</p>
+<p><strong>解决方案2</strong> ：对于 MySQL 5.7 及后续版本，可以在每次执行一个比较大的操作后，通过执行 mysql_reset_connection 来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
 <h6 id="2-1-2：Thread-Reuse（线程重用）"><a href="#2-1-2：Thread-Reuse（线程重用）" class="headerlink" title="2.1.2：Thread Reuse（线程重用）"></a>2.1.2：Thread Reuse（线程重用）</h6><h6 id="2-1-3：Connection-Limits（连接限制"><a href="#2-1-3：Connection-Limits（连接限制" class="headerlink" title="2.1.3：Connection Limits（连接限制)"></a>2.1.3：Connection Limits（连接限制)</h6><h6 id="2-1-4：Check-Memory-内存检测"><a href="#2-1-4：Check-Memory-内存检测" class="headerlink" title="2.1.4：Check Memory (内存检测)"></a>2.1.4：Check Memory (内存检测)</h6><h6 id="2-1-5：缓存"><a href="#2-1-5：缓存" class="headerlink" title="2.1.5：缓存"></a>2.1.5：缓存</h6><p>每个客户端连接都会在服务器进程中拥有一个线程，这个连接的查询只会在这个单独的线程中执行，该线程只能轮流在某个 <code>cpu</code> 上运行，服务器会负责缓存线程。因此，不需要为每一个新建的连接创建或销毁线程，或者直接使用线程池功能，来维护大量的可用连接。</p>
 <hr>
 <h5 id="2-2：SQL-Interface（SQL-接口）"><a href="#2-2：SQL-Interface（SQL-接口）" class="headerlink" title="2.2：SQL Interface（SQL 接口）"></a>2.2：SQL Interface（SQL 接口）</h5><p>用于执行 <code>DML</code>, <code>DDL</code>, 存储过程, 视图, 触发器等。接收客户端发来的sql请求查询，并返回需要查询的结构。</p>
 <h5 id="2-3：Parser（解析器）"><a href="#2-3：Parser（解析器）" class="headerlink" title="2.3：Parser（解析器）"></a>2.3：Parser（解析器）</h5><p>解析器通过关键字将SQL语句进行解析（<strong>词法分析 + 预发分析</strong>），并生成对应的数据结构（解析树）。然后对其进行各种优化，包括重写查询，决定查询的读写顺序，以及选择须使用的索引等。MySQL解析器将使用MySQL语法规则验证和解析查询。</p>
 <p>预处理器则根据一些MySQL规则进行进一步检查解析书是否合法，例如检查数据表和数据列是否存在，还会解析名字和别名，看看它们是否有歧义。</p>
-<h5 id="2-4：Optimizer（优化器）"><a href="#2-4：Optimizer（优化器）" class="headerlink" title="2.4：Optimizer（优化器）"></a>2.4：Optimizer（优化器）</h5><p>优化器会将 <code>解析树</code> 转化成 <code>执行计划</code>。一条查询可以有多种执行方法，最后都是返回相同结果。优化器的作用就是 <strong>找到这其中最好的执行计划</strong>。生成执行计划的过程会消耗较多的时间，特别是存在许多可选的执行计划时。<br>如果在一条SQL语句执行的过程中将该语句对应的最终执行计划进行缓存，当相似的语句再次被输入服务器时，就可以直接使用已缓存的执行计划，从而跳过SQL语句生成执行计划的整个过程，进而可以提高语句的执行速度。</p>
+<h5 id="2-4：Optimizer（优化器）"><a href="#2-4：Optimizer（优化器）" class="headerlink" title="2.4：Optimizer（优化器）"></a>2.4：Optimizer（优化器）</h5><p>优化器会将 <code>解析树</code> 转化成 <code>执行计划</code>。一条查询可以有多种执行方法，最后都是返回相同结果。优化器的作用就是 <strong>找到这其中最好的执行计划</strong>。生成执行计划的过程会消耗较多的时间，特别是存在许多可选的执行计划时。</p>
+<p>如果在一条SQL语句执行的过程中将该语句对应的最终执行计划进行缓存，当相似的语句再次被输入服务器时，就可以直接使用已缓存的执行计划，从而跳过SQL语句生成执行计划的整个过程，进而可以提高语句的执行速度。</p>
 <p>eg：怎么使用索引，怎么处理表的 Join 优化器处理</p>
 <p>解析器，预处理器，优化器处理流程 <a href="https://zhuanlan.zhihu.com/p/61546435" target="_blank" rel="noopener">如下图</a></p>
 <p><img src="/images/blog/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg" alt></p>
@@ -152,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzf6qdz80001li4rdmzn7w5m" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzf6y0wl0001nh4rfo38kxx8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
