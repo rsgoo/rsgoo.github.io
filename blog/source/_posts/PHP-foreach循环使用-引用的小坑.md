@@ -36,8 +36,7 @@ categories:
 
 **代码执行结果如下图**
 
-<!--![](./PHP-foreach循环使用-引用的小坑/PHP-foreach循环使用-引用的小坑.jpeg)-->
-{% asset_img PHP-foreach循环使用-引用的小坑.jpeg PHP-foreach循环使用-引用的小坑1 %}
+![](/images/blog/PHP-foreach循环使用-引用的小坑.jpeg)
 
 
 那么问题来了，第一次输出 `1，2，4，8` 没有任何问题。但是，但是，但是为什么第二次输出的是 `1, 2, 4, 4` 而不是 `1、2

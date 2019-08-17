@@ -1,9 +1,8 @@
 ---
-title: test article
+title: Hexo 部署测试
 date: 2019-08-02 19:10:54
 type: archives
 tags:
-    - PHP
     - Hexo
 categories:
     - 测试
@@ -37,7 +36,4 @@ array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));
 ```
 
 
-<!--![](./post-test-deploy-hexo/smell.jpg)-->
-
-{% asset_img smell.jpg 这是一张测试图片 %}
-
+![](/images/tom.jpg)

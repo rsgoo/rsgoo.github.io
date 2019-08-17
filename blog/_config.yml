@@ -21,7 +21,7 @@ permalink_defaults:
 
 # Directory
 source_dir: source        #资源文件夹，这个文件夹用来存放内容。
-public_dir: public        #公共文件夹，这个文件夹用于存放生成的站点文件。
+public_dir: public        #公共文件夹，这个文件夹用于存放生成的站点markdown文件
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
@@ -37,7 +37,8 @@ titlecase: false          # Transform title into titlecase
 external_link: true       # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+#post_asset_folder: true   #生成与markdown文件名同名的文件夹
+post_asset_folder: false   #生成与markdown文件名同名的文件夹
 relative_link: false
 future: true
 highlight:
