@@ -74,6 +74,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MySQL架构体系及SQL查询执行流程初探" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" class="article-date">
+  <time datetime="2019-08-17T03:25:22.000Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简述: 自工作以来，大部分的时间接触的关系型都是 <code>MySQL</code> 数据库系统，但使用都比较浅显基础(<code>CRUD</code>)。最近打算重新深入学习下 <code>MySQL</code>，安装的版本是 <code>5.7.21</code>，学习记录于此，便日后温习查看。</p>
+<p>首先来看看 <code>MySQL</code> 的架构图，然后依次来看看每一部分是做什么的。</p>
+<p><img src="/images/blog/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg" alt></p>
+<h4 id="1：Client"><a href="#1：Client" class="headerlink" title="1：Client"></a>1：Client</h4><p><code>连接器（Connectors）</code>，也就是通常所说的 MySQL 客户端。不同的编程语言提供了对应的 <code>API</code> 与 MySQL 服务系统进行交互通讯。</p>
+<ul>
+<li>通过 <code>show variables like &#39;%connection%;</code> 来查看 MySQl 服务器的连接信息。默认最大连接数是151。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%connection%&apos;;</span><br><span class="line">+--------------------------+-----------------+</span><br><span class="line">| Variable_name            | Value           |</span><br><span class="line">+--------------------------+-----------------+</span><br><span class="line">| character_set_connection | utf8            |</span><br><span class="line">| collation_connection     | utf8_general_ci |</span><br><span class="line">| max_connections          | 151             |</span><br><span class="line">| max_user_connections     | 0               |</span><br><span class="line">+--------------------------+-----------------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="2：MySQL-Server"><a href="#2：MySQL-Server" class="headerlink" title="2：MySQL Server"></a>2：MySQL Server</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzf14m2j0000x84rjudqjcrw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MySQL-5-7-21-1配置文件my-cnf" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" class="article-date">
@@ -111,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzeya2m40002gw4rfc4v7jds" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzf14m2u0004x84rhuf1xcnf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -158,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzeya2lz0000gw4rltw4mi1j" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzf14m2r0001x84ri1gu6lrz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -205,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzeya2m80005gw4rpthieirj" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzf14m2v0005x84r56r6l7cf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -252,7 +303,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzeya2mx0018gw4rs98cky4h" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzf14m4r001dx84rgxnnaupv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -299,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzeya2ma0007gw4rvak1t6fg" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzf14m3k000qx84rb575kg61" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
@@ -346,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzeya2m90006gw4rih8l5hzr" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzf14m3o000rx84rg97r6cq5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -393,7 +444,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/03/程序员数学之矩阵/" data-id="cjzeya2me000bgw4ruc2w3rne" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/03/程序员数学之矩阵/" data-id="cjzf14m3v000wx84rd04f7tye" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
@@ -440,7 +491,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/02/hexo-test-deploy/" data-id="cjzeya2mc000agw4rve3bgmmn" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/02/hexo-test-deploy/" data-id="cjzf14m3s000ux84rhrc7238z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
@@ -462,7 +513,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -472,7 +523,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -482,7 +533,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/tags/编程/" style="font-size: 15px;">编程</a>
+      <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 10px;">数学</a> <a href="/tags/爬虫/" style="font-size: 20px;">爬虫</a> <a href="/tags/编程/" style="font-size: 15px;">编程</a>
     </div>
   </div>
 
@@ -491,7 +542,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -502,6 +553,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
+          </li>
         
           <li>
             <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/">MySQL 5.7.21-1配置文件my.cnf</a>
@@ -517,10 +572,6 @@
         
           <li>
             <a href="/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
           </li>
         
       </ul>
