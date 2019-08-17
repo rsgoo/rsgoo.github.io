@@ -185,11 +185,11 @@
   </entry>
   
   <entry>
-    <title>test article</title>
-    <link href="https://inscode.github.io/2019/08/02/post-test-deploy-hexo/"/>
-    <id>https://inscode.github.io/2019/08/02/post-test-deploy-hexo/</id>
+    <title>Hexo 部署测试</title>
+    <link href="https://inscode.github.io/2019/08/02/hexo-test-deploy/"/>
+    <id>https://inscode.github.io/2019/08/02/hexo-test-deploy/</id>
     <published>2019-08-02T11:10:54.000Z</published>
-    <updated>2019-08-17T02:39:18.057Z</updated>
+    <updated>2019-08-17T02:51:06.771Z</updated>
     
     <content type="html"><![CDATA[<h4 id="Hexo-部署测试"><a href="#Hexo-部署测试" class="headerlink" title="Hexo 部署测试"></a>Hexo 部署测试</h4><h5 id="1：通过日志方式统计"><a href="#1：通过日志方式统计" class="headerlink" title="1：通过日志方式统计"></a>1：通过日志方式统计</h5><a id="more"></a><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"loc.log"</span>, microtime(<span class="keyword">true</span>).<span class="string">'_end'</span>.<span class="string">"-----$lat@2"</span>.PHP_EOL, FILE_APPEND);</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">'exelog/'</span>.time().<span class="string">'.log'</span>, var_export(Yii::$app-&gt;request-&gt;post(), <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</span><br><span class="line">$postdata = json_decode($postdata,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure><h5 id="2：二维数组指定字段排序"><a href="#2：二维数组指定字段排序" class="headerlink" title="2：二维数组指定字段排序"></a>2：二维数组指定字段排序</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array_multisort (array_column($citiesMddBaseInfo, ‘hot’), SORT_DESC, $citiesMddBaseInfo);</span><br><span class="line"></span><br><span class="line">array_multisort(array_column($hotelList, <span class="string">'price'</span>), SORT_ASC, $hotelList);</span><br><span class="line"></span><br><span class="line">array_multisort($hotelList,SORT_ASC, array_column($hotelList, <span class="string">'price'</span>));</span><br></pre></td></tr></table></figure><p><img src="/images/tom.jpg" alt></p>]]></content>
     
@@ -201,8 +201,6 @@
     
       <category term="测试" scheme="https://inscode.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
     
-    
-      <category term="PHP" scheme="https://inscode.github.io/tags/PHP/"/>
     
       <category term="Hexo" scheme="https://inscode.github.io/tags/Hexo/"/>
     
