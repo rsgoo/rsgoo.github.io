@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://inscode.github.io/"/>
-  <updated>2019-08-18T08:38:44.506Z</updated>
+  <updated>2019-08-18T08:44:43.517Z</updated>
   <id>https://inscode.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://inscode.github.io/2019/08/17/MySQL-%E7%B4%A2%E5%BC%95%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     <id>https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/</id>
     <published>2019-08-17T15:45:08.000Z</published>
-    <updated>2019-08-18T08:38:44.506Z</updated>
+    <updated>2019-08-18T08:44:43.517Z</updated>
     
     <content type="html"><![CDATA[<p><strong>索引定义</strong>: 索引是帮助 <code>MySQL</code> 高效获取数据的 <strong>数据结构</strong>（官方）。简单理解就是 <code>排好序的快速查找数据结构</code>。</p><a id="more"></a><p>在数据库系统中，除了保存数据之外，数据库系统还维护着 <code>满足特定查找算法</code> 的 <code>数据结构</code>，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法，这种数据结构就成为索引。</p><p>通常来说索引本身也是会占用很大的存储空间，不可能全部存储在内存中。因此索引往往以索引文件形式存储在磁盘上。</p><h4 id="一-索引优缺点"><a href="#一-索引优缺点" class="headerlink" title="一: 索引优缺点"></a>一: 索引优缺点</h4><ul><li><p>优点:</p><ul><li><p>类似于书籍的目录索引，提高了数据检索的效率，降低数据库 <code>IO</code> 成本</p></li><li><p>通过索引列对数据进行排序，降低数据排序的成本，从而降低 <code>CPU</code> 计算的消耗</p></li></ul></li><li><p>缺点:</p><ul><li><p>实际上 <code>索引也是一张表</code>，该表保留了主键和索引字段，并指向实体表的记录。</p></li><li><p>索引虽然提高了查询速度，但同时也降低了更新表的速度，如当对表进行 insert, update, delete 操作时。因为更新表时，需要重建索引。</p></li></ul></li></ul><h4 id="二-索引分类"><a href="#二-索引分类" class="headerlink" title="二: 索引分类"></a>二: 索引分类</h4><ul><li><p>单值索引: 一个索引值包含一个列，一个表可以有多个单列索引</p></li><li><p>唯一索引: 索引列的值必须唯一，单允许空值</p></li><li><p>复合索引: 一个索引包含多个列</p></li></ul><h4 id="三-索引创建、删除及查看"><a href="#三-索引创建、删除及查看" class="headerlink" title="三: 索引创建、删除及查看"></a>三: 索引创建、删除及查看</h4><ul><li><p>创建</p><p>  <code>create [unique] index indexName on tableName(colName(length))</code></p><p>  <code>alter table tableName add [unique] index indexName(colName1, ... , colNameN)</code></p></li><li><p>删除</p><p>  <code>Drop index indexName on tableName</code></p></li><li><p>查看</p><p>  <code>show index from taleName</code></p></li></ul><h4 id="四-索引的使用场景"><a href="#四-索引的使用场景" class="headerlink" title="四: 索引的使用场景"></a>四: 索引的使用场景</h4><ul><li><p>使用索引</p><ul><li><p>1: 主键自动建立唯一索引</p></li><li><p>2: 频繁作为查询条件的字段应该建立索引</p></li><li><p>3: 查询中已其他表关联的字段，外键关系建立索引</p></li><li><p>4: 频繁更新的不适合建立索引</p></li><li><p>5: 查询中排序的字段建立索引可提高排序速度</p></li><li><p>6: 查询中统计或者分组字段</p></li></ul></li></ul><ul><li><p>不使用索引</p><ul><li><p>1: 表记录太少</p></li><li><p>2: 经常增删改的字段</p></li><li><p>3: 数据重复且分布平均的表字段（如性别），这种场景下建立索引没有任何效果。</p><ul><li><code>索引的选择性</code> 是指索引列中的不同值的数目与表中记录数的比。如果一个表有 2000 条记录，表索引列有 1980 个不同的值。<code>索引的选择性为 1980 / 2000 = 0.99</code>；索引的选择性越接近1，这个索引的效率越高。</li></ul></li></ul></li></ul><h4 id="五-B-Tree-检索原理"><a href="#五-B-Tree-检索原理" class="headerlink" title="五: B Tree 检索原理"></a>五: <code>B Tree</code> 检索原理</h4><p><img src="/images/blog/6-MySQL-Btree%E6%A3%80%E7%B4%A2%E5%8E%9F%E7%90%86.jpeg" alt="6-MySQL Btree检索原理"></p><p>【<strong>初始化介绍</strong>】</p><p>这是一个 <code>B+树🌲</code> , 绿色的色块是一个个的磁盘块，每个磁盘块包括几个数据项（蓝色色块）和指针（橙色色块）。如磁盘块1包含数据项 17 和 35，包含指针 <code>P1,P2,P3</code>。P1指向小于17的磁盘块，P2指向17和35之间的磁盘块，P3表示大于35的磁盘块。</p><p>真实的数据存在于叶子🍃节点，即是 <code>3, 5, 9, 10, 13, 15, 28, 29, 36, 60, 75, 79, 90, 99</code></p><p>非叶子节点不存储真实的数据，只存储指向搜索方向的数据项</p><p>【<strong>查找过程，以数字29举例</strong>】</p><p>1: 首先把磁盘块1由磁盘加载到内存中，此时发生 <code>第一次IO</code>，在内存中使用二分查找确定29在17和35之间，从而确定使用磁盘块1的P2指针。</p><p>2: 由于P2指向磁盘块3，此时将磁盘块3由磁盘加载至内存中，发生 <code>第二次IO</code>。</p><p>3: 29在26和30之间，从而确定使用磁盘块3的P2指针，通过指针加载磁盘块8到内存中，发生 <code>第三次IO</code>，同时内存中使用二分查找找到29。</p><hr><p><strong>Q1: 为什么数据表记录的删除多使用软删除？</strong></p><ul><li><p>保留数据记录，为了数据分析</p></li><li><p>为了保留原来原来索引，原因删除元素需要重建索引</p></li></ul><!--more-->]]></content>
     
@@ -32,6 +32,8 @@
     </summary>
     
       <category term="数据库" scheme="https://inscode.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="MySQL" scheme="https://inscode.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"/>
     
     
       <category term="MySQL" scheme="https://inscode.github.io/tags/MySQL/"/>
