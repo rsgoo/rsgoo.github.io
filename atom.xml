@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://inscode.github.io/"/>
-  <updated>2019-08-18T08:44:43.517Z</updated>
+  <updated>2019-08-18T15:34:03.420Z</updated>
   <id>https://inscode.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数学思维修炼一: 数据的表示</title>
+    <link href="https://inscode.github.io/2019/08/18/%E6%95%B0%E5%AD%A6%E6%80%9D%E7%BB%B4%E4%BF%AE%E7%82%BC%E4%B8%80-%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA/"/>
+    <id>https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/</id>
+    <published>2019-08-18T13:57:49.000Z</published>
+    <updated>2019-08-18T15:34:03.420Z</updated>
+    
+    <content type="html"><![CDATA[<p>写在前面: 以下为书籍📚 <strong>《程序员的数学思维修炼》</strong> 第1章 <strong>&lt;数据的表示&gt;</strong> 读书记录。</p><a id="more"></a><h3 id="1-8-和-8-0-相等吗？含义相同吗？"><a href="#1-8-和-8-0-相等吗？含义相同吗？" class="headerlink" title="1: 8 和 8.0 相等吗？含义相同吗？"></a>1: 8 和 8.0 相等吗？含义相同吗？</h3><ul><li><p>从数值大小比较来说，8.0 和 8 是相等的。</p></li><li><p>在近似数的表示中，数字 8 表示数据值精确到个位，如 7.9、8.2 等数精确到个位都表示为 8。而 8.0 则表示数据精确到十分位（小数点后一位），如 8.02、7.99 等精确到十分位都表示为 8.0。因此从这个角度看两者是不同的</p></li><li><p>ps: 看问题得分场景❓❓❓</p></li></ul><h3 id="2-进制的表示"><a href="#2-进制的表示" class="headerlink" title="2: 进制的表示"></a>2: 进制的表示</h3><p><strong>2.1: 二人类为什么习惯十进制？</strong></p><ul><li><p>人类最开始计数时，首先想到的是用 <code>数手指</code> 的方式来计数，满 10 个以后再借一双手，这种 <code>便捷性</code> 使得人类习惯于使用十进制。</p></li><li><p>十进制对比其他进制（如二进制）更简洁，更易识别。</p></li></ul><p><strong>2.2: 计算机为什么要使用二进制？</strong></p><ul><li><p>如果计算机使用 <code>十进制</code>，那么需要让电脑能识别 <code>十进制</code> 中的十个数字。假设最高电压是 <code>12V</code>，那么10个数字中每个数码（0~9）分配到的电压区间是 <code>12 / 9 ≈ 1.3(v)</code>。这样导致数码之间的电压间隔小，如果外界干扰造成电压大幅变化，数据标识就不太准确了。另外最大的问题是硬件上要标识十种状态的话，其电路构造的复杂度就非常复杂了</p></li><li><p>二进制的技术实现比较简单。逻辑电路通常就只有两种状态 [开 or 关]</p></li><li><p>运算规则简单，利于简化计算机内部结构，提高运算速度</p></li><li><p>适合于逻辑运算</p></li><li><p>二进制易于和别的进制进行转换</p></li><li><p>抗干扰能力强👍。因为每位数码只有高低两种状态，当受到一定程度的干扰时，仍能可靠的分辨出是 <code>高电平</code>还是 <code>低电平</code>    </p></li></ul><p><strong>2.3: 二进制的运算</strong></p><ul><li><p>加法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 + 0 = 0</span><br><span class="line">0 + 1 = 1</span><br><span class="line">1 + 0 = 1</span><br><span class="line">1 + 1 = 10(逢2进1)</span><br></pre></td></tr></table></figure></li><li><p>减法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 - 0 = 0</span><br><span class="line">0 - 1 = 1（借1当2）</span><br><span class="line">1 - 0 = 1</span><br><span class="line">1 - 1 = 0</span><br></pre></td></tr></table></figure></li><li><p>乘法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 * 0 = 0</span><br><span class="line">0 * 1 = 0</span><br><span class="line">1 * 0 = 0</span><br><span class="line">1 * 1 = 1</span><br></pre></td></tr></table></figure></li><li><p>除法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 / 0 (无意义)</span><br><span class="line">0 / 1 = 0</span><br><span class="line">1 / 0 (无意义)</span><br><span class="line">1 / 1 = 1</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;写在前面: 以下为书籍📚 &lt;strong&gt;《程序员的数学思维修炼》&lt;/strong&gt; 第1章 &lt;strong&gt;&amp;lt;数据的表示&amp;gt;&lt;/strong&gt; 读书记录。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数学" scheme="https://inscode.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    
+      <category term="数学" scheme="https://inscode.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL 索引那些事儿一</title>

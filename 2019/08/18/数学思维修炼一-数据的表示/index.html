@@ -7,21 +7,22 @@
     
     <title>
         
-        Category: MySQL |
+        数学思维修炼一: 数据的表示 |
         
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="雨🌧，自空，醉风，归尘。">
-<meta name="keywords" content="inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="雨醉风尘">
-<meta property="og:url" content="https://inscode.github.io/categories/数据库/MySQL/index.html">
+    <meta name="description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
+<meta name="keywords" content="数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学思维修炼一: 数据的表示">
+<meta property="og:url" content="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="雨🌧，自空，醉风，归尘。">
+<meta property="og:description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-18T15:34:03.420Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="雨醉风尘">
-<meta name="twitter:description" content="雨🌧，自空，醉风，归尘。">
+<meta name="twitter:title" content="数学思维修炼一: 数据的表示">
+<meta name="twitter:description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -74,59 +75,106 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/17/MySQL-索引那些事儿/" class="archive-article-date">
-  <time datetime="2019-08-17T15:45:08.000Z" itemprop="datePublished">Aug 17</time>
+        <section id="main"><article id="post-数学思维修炼一-数据的表示" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/数学思维修炼一-数据的表示/" class="article-date">
+  <time datetime="2019-08-18T13:57:49.000Z" itemprop="datePublished">2019-08-18</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数学/">数学</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MySQL-索引那些事儿/">MySQL 索引那些事儿一</a>
+    <h1 class="article-title" itemprop="name">
+      数学思维修炼一: 数据的表示
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" class="archive-article-date">
-  <time datetime="2019-08-17T03:25:22.000Z" itemprop="datePublished">Aug 17</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
-    </h1>
-  
+        <p>写在前面: 以下为书籍📚 <strong>《程序员的数学思维修炼》</strong> 第1章 <strong>&lt;数据的表示&gt;</strong> 读书记录。</p>
+<a id="more"></a>
 
-    </header>
+<h3 id="1-8-和-8-0-相等吗？含义相同吗？"><a href="#1-8-和-8-0-相等吗？含义相同吗？" class="headerlink" title="1: 8 和 8.0 相等吗？含义相同吗？"></a>1: 8 和 8.0 相等吗？含义相同吗？</h3><ul>
+<li><p>从数值大小比较来说，8.0 和 8 是相等的。</p>
+</li>
+<li><p>在近似数的表示中，数字 8 表示数据值精确到个位，如 7.9、8.2 等数精确到个位都表示为 8。而 8.0 则表示数据精确到十分位（小数点后一位），如 8.02、7.99 等精确到十分位都表示为 8.0。因此从这个角度看两者是不同的</p>
+</li>
+<li><p>ps: 看问题得分场景❓❓❓</p>
+</li>
+</ul>
+<h3 id="2-进制的表示"><a href="#2-进制的表示" class="headerlink" title="2: 进制的表示"></a>2: 进制的表示</h3><p><strong>2.1: 二人类为什么习惯十进制？</strong></p>
+<ul>
+<li><p>人类最开始计数时，首先想到的是用 <code>数手指</code> 的方式来计数，满 10 个以后再借一双手，这种 <code>便捷性</code> 使得人类习惯于使用十进制。</p>
+</li>
+<li><p>十进制对比其他进制（如二进制）更简洁，更易识别。</p>
+</li>
+</ul>
+<p><strong>2.2: 计算机为什么要使用二进制？</strong></p>
+<ul>
+<li><p>如果计算机使用 <code>十进制</code>，那么需要让电脑能识别 <code>十进制</code> 中的十个数字。假设最高电压是 <code>12V</code>，那么10个数字中每个数码（0~9）分配到的电压区间是 <code>12 / 9 ≈ 1.3(v)</code>。这样导致数码之间的电压间隔小，如果外界干扰造成电压大幅变化，数据标识就不太准确了。另外最大的问题是硬件上要标识十种状态的话，其电路构造的复杂度就非常复杂了</p>
+</li>
+<li><p>二进制的技术实现比较简单。逻辑电路通常就只有两种状态 [开 or 关]</p>
+</li>
+<li><p>运算规则简单，利于简化计算机内部结构，提高运算速度</p>
+</li>
+<li><p>适合于逻辑运算</p>
+</li>
+<li><p>二进制易于和别的进制进行转换</p>
+</li>
+<li><p>抗干扰能力强👍。因为每位数码只有高低两种状态，当受到一定程度的干扰时，仍能可靠的分辨出是 <code>高电平</code>还是 <code>低电平</code>    </p>
+</li>
+</ul>
+<p><strong>2.3: 二进制的运算</strong></p>
+<ul>
+<li><p>加法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 + 0 = 0</span><br><span class="line">0 + 1 = 1</span><br><span class="line">1 + 0 = 1</span><br><span class="line">1 + 1 = 10(逢2进1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>减法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 - 0 = 0</span><br><span class="line">0 - 1 = 1（借1当2）</span><br><span class="line">1 - 0 = 1</span><br><span class="line">1 - 1 = 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>乘法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 * 0 = 0</span><br><span class="line">0 * 1 = 0</span><br><span class="line">1 * 0 = 0</span><br><span class="line">1 * 1 = 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 / 0 (无意义)</span><br><span class="line">0 / 1 = 0</span><br><span class="line">1 / 0 (无意义)</span><br><span class="line">1 / 1 = 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzh4s0bb000i574ryd9pxvvf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
+
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/08/17/MySQL-索引那些事儿/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL 索引那些事儿一</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
