@@ -7,19 +7,22 @@
     
     <title>
         
+        MySQL性能优化之Explain使用浅析 |
+        
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="雨🌧，自空，醉风，归尘。">
-<meta name="keywords" content="inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="雨醉风尘">
-<meta property="og:url" content="https://inscode.github.io/index.html">
+    <meta name="description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL性能优化之Explain使用浅析">
+<meta property="og:url" content="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="雨🌧，自空，醉风，归尘。">
+<meta property="og:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-19T16:22:02.034Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="雨醉风尘">
-<meta name="twitter:description" content="雨🌧，自空，醉风，归尘。">
+<meta name="twitter:title" content="MySQL性能优化之Explain使用浅析">
+<meta name="twitter:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -72,9 +75,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-MySQL性能优化之Explain使用浅析" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MySQL性能优化之Explain使用浅析" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/19/MySQL性能优化之Explain使用浅析/" class="article-date">
   <time datetime="2019-08-19T14:18:54.000Z" itemprop="datePublished">2019-08-19</time>
@@ -91,8 +92,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/MySQL性能优化之Explain使用浅析/">MySQL性能优化之Explain使用浅析</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL性能优化之Explain使用浅析
     </h1>
   
 
@@ -154,442 +155,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-数学思维修炼一-数据的表示" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/18/数学思维修炼一-数据的表示/" class="article-date">
-  <time datetime="2019-08-18T13:57:49.000Z" itemprop="datePublished">2019-08-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/数学/">数学</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/18/数学思维修炼一-数据的表示/">数学思维修炼一: 数据的表示</a>
-    </h1>
+    <a href="/2019/08/18/数学思维修炼一-数据的表示/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数学思维修炼一: 数据的表示</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>写在前面: 以下为书籍📚 <strong>《程序员的数学思维修炼》</strong> 第1章 <strong>&lt;数据的表示&gt;</strong> 读书记录。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/18/数学思维修炼一-数据的表示/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzilyx2l000mbb4rnr5t7iwt" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-MySQL-索引那些事儿" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/17/MySQL-索引那些事儿/" class="article-date">
-  <time datetime="2019-08-17T15:45:08.000Z" itemprop="datePublished">2019-08-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/17/MySQL-索引那些事儿/">MySQL 索引那些事儿一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>索引定义</strong>: 索引是帮助 <code>MySQL</code> 高效获取数据的 <strong>数据结构</strong>（官方）。简单理解就是 <code>排好序的快速查找数据结构</code>。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/17/MySQL-索引那些事儿/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzilyx1s0000bb4rmbtmont1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-MySQL架构体系及SQL查询执行流程初探" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" class="article-date">
-  <time datetime="2019-08-17T03:25:22.000Z" itemprop="datePublished">2019-08-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>简述: 自工作以来，大部分的时间接触的关系型都是 <code>MySQL</code> 数据库系统，但使用都比较浅显基础(<code>CRUD</code>)。最近打算重新深入学习下 <code>MySQL</code>，安装的版本是 <code>5.7.21</code>，学习记录于此，便日后温习查看。</p>
-<p>首先来看看 <code>MySQL</code> 的架构图，然后依次来看看每一部分是做什么的。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzilyx280006bb4rp5prom7t" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-MySQL-5-7-21-1配置文件my-cnf" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" class="article-date">
-  <time datetime="2019-08-15T14:34:35.000Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/数据库/">数据库</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/">MySQL 5.7.21-1配置文件my.cnf</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>简述：<code>MySQL 5.7.21-1</code> 原始配置文件 <code>my.cnf</code>，为以后查询方便特此记录</p>
-<p>MySQL 安装后的一些注意点</p>
-<p>1：安装后先设置字符编码。如果一个库（<code>eg:DB1</code>）在使用期间改变了 <code>my.cnf</code> 的字符编码配置，此时 DB1 的原有的字符串编码不受影响，如果再新建一个 <code>DB</code>2 库，则 <code>DB2</code> 使用心得字符编码。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzilyx220002bb4ruwkr8mxf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Golang下载去哪儿游记图片到本地" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/" class="article-date">
-  <time datetime="2019-08-14T11:21:39.000Z" itemprop="datePublished">2019-08-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Golang/">Golang</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/14/Golang下载去哪儿游记图片到本地/">Golang爬虫系列三：下载去哪儿游记图片到本地</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><p>简述： 获取<a href="http://www.qunar.com/" target="_blank" rel="noopener">去哪儿网</a> 中的的游记（eg: <a href="https://travel.qunar.com/youji/6961284" target="_blank" rel="noopener">美在“十二背后”</a> ）页面中的图片地址并将图片保存到本地</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/14/Golang下载去哪儿游记图片到本地/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzilyx2c000bbb4r2cwfrbgm" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-golang爬取内涵段子笑话及二级页面" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/" class="article-date">
-  <time datetime="2019-08-12T13:55:04.000Z" itemprop="datePublished">2019-08-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Golang/">Golang</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/12/golang爬取内涵段子笑话及二级页面/">Golang爬虫系列二：爬取捧腹网段子及其笑话详情</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><p>简述：爬取 <a href="https://www.pengfu.com" target="_blank" rel="noopener">捧腹网 </a> 中的 <a href="https://www.pengfu.com/xiaohua_1.html" target="_blank" rel="noopener">段子</a>页面数据及每一条数据所链接的 <a href="https://www.pengfu.com/content_1857807_1.html" target="_blank" rel="noopener">笑话详情页</a>。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/12/golang爬取内涵段子笑话及二级页面/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzilyx290007bb4r1i3xwknc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-豆瓣电影top250数据爬取" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/10/豆瓣电影top250数据爬取/" class="article-date">
-  <time datetime="2019-08-10T10:19:03.000Z" itemprop="datePublished">2019-08-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Golang/">Golang</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/10/豆瓣电影top250数据爬取/">Golang爬虫系列一：爬取豆瓣电影top250数据信息</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><p>简述：爬取豆瓣电影 <code>top 250</code> 的基础信息，包括电影🎬名，评分，评价人数，电影链接。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/10/豆瓣电影top250数据爬取/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzilyx3a001tbb4rcr2lhi7u" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-PHP-foreach循环使用-引用的小坑" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/" class="article-date">
-  <time datetime="2019-08-07T07:00:55.000Z" itemprop="datePublished">2019-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PHP/">PHP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/07/PHP-foreach循环使用-引用的小坑/">PHP foreach循环使用&amp;引用的小坑</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>源起：今天有小🔥伴发了一段 <code>PHP</code> 代码问执行结果和常规逻辑思考🤔结果为啥么不一样。代码如下，当时只是说和 <code>foreach</code> 使用 <code>&amp;</code> 有关。也没深入思考到底是什么关系，午睡过后，心血来潮的想搞搞这个问题，故做如下记录。
-        
-          <p class="article-more-link">
-            <a href="/2019/08/07/PHP-foreach循环使用-引用的小坑/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzilyx260005bb4r7pzw36ci" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-golang爬取百度贴吧内容" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/04/golang爬取百度贴吧内容/" class="article-date">
-  <time datetime="2019-08-04T04:26:26.000Z" itemprop="datePublished">2019-08-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Golang/">Golang</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/golang爬取百度贴吧内容/">Golang爬虫系列零：爬取百度贴吧内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><h5 id="爬虫实现步骤"><a href="#爬虫实现步骤" class="headerlink" title="爬虫实现步骤"></a>爬虫实现步骤</h5><p>1：获取需要爬取URL的地址（以 <a href="http://tieba.baidu.com/f?kw=javascript&ie=utf-8" target="_blank" rel="noopener"><code>JavaScript吧</code></a> 举例）</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/04/golang爬取百度贴吧内容/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzilyx2d000dbb4r7fel45tp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
 
 </section>
         
