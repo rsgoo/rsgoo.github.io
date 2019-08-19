@@ -26,10 +26,10 @@ categories:
 
 - 每张表有多少行被优化器查询
 
-#### 2: explain 的使用语法 `exlain + sql语句`
+#### 2: explain 的使用及其字段说明
 
-得到的执行计划如下表
 ```SQL
+-- 得到的执行计划如下表
 mysql> explain select * from employees;
 +----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+
 | id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
