@@ -136,4 +136,4 @@ eg：怎么使用索引，怎么处理表的 Join 优化器处理
 
 [mysql体系架构图以及二进制安装mariadb](https://www.jianshu.com/p/1a3a932ccf88)
 
-
+[MySQL中的实例、数据库关系简介](https://blog.csdn.net/u010342038/article/details/52798320)
