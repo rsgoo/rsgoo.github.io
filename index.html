@@ -159,21 +159,18 @@
 <h5 id="2-4-type-字段"><a href="#2-4-type-字段" class="headerlink" title="2.4: type 字段"></a>2.4: <code>type</code> 字段</h5><p><strong>含义或用途</strong>: 显示查询使用了何种连接类型。结果值从最好到最坏依次如下，通常来说保证 type 值能达到 Range。</p>
 <p><strong><code>SYSTEM &gt; CONST &gt; EQ_REF &gt; REF &gt; RANGE &gt; INDEX &gt; ALL</code></strong></p>
 <ul>
-<li><p><strong>1-SYSTEM:</strong> 表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
+<li><p><strong>1-SYSTEM:</strong>  表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
 </li>
-<li><p><strong>2-CONST:</strong>  </p>
+<li><p><strong>2-CONST:</strong>  该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
 </li>
 </ul>
-<blockquote>
-<p>该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
-</blockquote>
 <hr>
 <p>未完待续</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7cda3001m814rquur4kfk" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7iqpl0016af4r4ja5uvzo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -220,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzj7cd9n000m814rni7i56if" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzj7iqp0000baf4rmsfrgajn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
@@ -267,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzj7cd8u0001814r6g4cpzpy" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzj7iqoy0006af4r057n7jsi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -315,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzj7cd990006814rzod96ce0" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzj7iqpp0019af4rbbfk33g8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -364,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzj7cd960005814rjj85fnii" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzj7iqol0001af4r0w1z8ihn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -411,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzj7cd900002814rhqtbjc0v" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzj7iqow0005af4rpgvvnvv3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -458,7 +455,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzj7cd9b0007814r6lxqp0xy" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzj7iqoz0007af4rqh0ftglu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -505,7 +502,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzj7cdak001q814roty4x2e3" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzj7iqq8001laf4r3r8p16ol" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -552,7 +549,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzj7cd9d000b814rj3y4rrfh" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzj7iqor0002af4r4gkxretc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
@@ -599,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzj7cd9i000g814rqhll8jwz" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzj7iqpn0017af4rsnavd8up" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>

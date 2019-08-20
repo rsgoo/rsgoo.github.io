@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="雨醉风尘">
 <meta property="og:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-20T02:21:01.581Z">
+<meta property="og:updated_time" content="2019-08-20T02:24:05.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL性能优化之Explain使用浅析">
 <meta name="twitter:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
@@ -160,21 +160,18 @@
 <h5 id="2-4-type-字段"><a href="#2-4-type-字段" class="headerlink" title="2.4: type 字段"></a>2.4: <code>type</code> 字段</h5><p><strong>含义或用途</strong>: 显示查询使用了何种连接类型。结果值从最好到最坏依次如下，通常来说保证 type 值能达到 Range。</p>
 <p><strong><code>SYSTEM &gt; CONST &gt; EQ_REF &gt; REF &gt; RANGE &gt; INDEX &gt; ALL</code></strong></p>
 <ul>
-<li><p><strong>1-SYSTEM:</strong> 表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
+<li><p><strong>1-SYSTEM:</strong>  表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
 </li>
-<li><p><strong>2-CONST:</strong>  </p>
+<li><p><strong>2-CONST:</strong>  该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
 </li>
 </ul>
-<blockquote>
-<p>该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
-</blockquote>
 <hr>
 <p>未完待续</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7cda3001m814rquur4kfk" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7iqpl0016af4r4ja5uvzo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
