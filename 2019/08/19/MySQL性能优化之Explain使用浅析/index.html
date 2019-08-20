@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="雨醉风尘">
 <meta property="og:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-20T02:24:05.972Z">
+<meta property="og:updated_time" content="2019-08-20T07:35:40.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL性能优化之Explain使用浅析">
 <meta name="twitter:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
@@ -102,6 +102,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>写在前面</strong>: 在软件开发中，遵循着 <code>first finish then perfect</code> 的原则。前期我们往往会更加关注程序功能的实现，编写的 <code>SQL</code> 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 <code>SQL</code> 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 <code>SQL</code> 语句的优化就显得格外重要了。要优化 <code>SQL</code> 就需要定位 <code>SQL</code> 存在的问题。<code>MySQL</code> 提供了 <code>explain  + sql</code> 命令来获取 <code>SQL</code> 语句执行计划的信息，包括有关如何连接表以及以何种顺序连接表。以下为 <code>explain</code> 使用浅析，记录📝以便今后翻阅。</p>
+<a id="more"></a>
+
 <p>备注: 文中用到的sql数据来自 <a href="https://github.com/inscode/inscode.github.io/blob/master/blog/source/static/myemployees.sql" target="_blank" rel="noopener">employees.sql</a></p>
 <hr>
 <h4 id="1-explain-能获取到那些信息？"><a href="#1-explain-能获取到那些信息？" class="headerlink" title="1: explain 能获取到那些信息？"></a>1: explain 能获取到那些信息？</h4><ul>
@@ -141,17 +143,17 @@
 </ul>
 <h5 id="2-2-select-type-字段"><a href="#2-2-select-type-字段" class="headerlink" title="2.2: select_type 字段"></a>2.2: <code>select_type</code> 字段</h5><p><strong>含义或用途</strong>: 表示 <code>SELECT</code> 的类型，主要用于区别 普通查询、联合查询、子查询等复杂查询。常见的取值如下</p>
 <ul>
-<li><p><strong>1-SIMPLE:</strong> 简单 select 查询，不包含子查询或者连接查询（union）</p>
+<li><p><strong>1-SIMPLE:</strong>  简单 select 查询，不包含子查询或者连接查询（union）</p>
 </li>
-<li><p><strong>2-PRIMARY:</strong> 主查询，即是外层的查询（查询中包含了子查询），PRIMARY 是最后加载的查询</p>
+<li><p><strong>2-PRIMARY:</strong>  主查询，即是外层的查询（查询中包含了子查询），PRIMARY 是最后加载的查询</p>
 </li>
-<li><p><strong>3-SUBQUERY:</strong> 在 SELECT 或 where 查询包含了 子查询</p>
+<li><p><strong>3-SUBQUERY:</strong>  在 SELECT 或 where 查询包含了 子查询</p>
 </li>
-<li><p><strong>4-DERIVED:</strong> 在 From 列表中包含的子查询被标记为 DEVIRED(衍生)。MySQL会递归执行这些子查询，把结果放在临时表中（会增加系统消耗）</p>
+<li><p><strong>4-DERIVED:</strong>  在 From 列表中包含的子查询被标记为 DEVIRED(衍生)。MySQL会递归执行这些子查询，把结果放在临时表中（会增加系统消耗）</p>
 </li>
-<li><p><strong>5-UNION:</strong> 若第二个 SELECT 出现在 UNION 之后，则标记为 UNION; 若 UNION 包含在 FROM 字句的子查询中，外层的 SELECT 被标记 DEVIRED</p>
+<li><p><strong>5-UNION:</strong>  若第二个 SELECT 出现在 UNION 之后，则标记为 UNION; 若 UNION 包含在 FROM 字句的子查询中，外层的 SELECT 被标记 DEVIRED</p>
 </li>
-<li><p><strong>6-UNION RESULT:</strong> 两种 UNION 结果的合并</p>
+<li><p><strong>6-UNION RESULT:</strong>  两种 UNION 结果的合并</p>
   <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from employees where email like '%a%' union select * from employees where department_id&gt;90;</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">| id  | select_type  | table      | partitions | type  | possible_keys | key        | key_len | ref  | rows | filtered | Extra                 |</span><br><span class="line">+<span class="comment">-----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">|  1  | PRIMARY      | employees  | NULL       | ALL   | NULL          | NULL       | NULL    | NULL |  107 |    11.11 | Using where           |</span><br><span class="line">|  2  | UNION        | employees  | NULL       | range | dept_id_fk    | dept_id_fk | 5       | NULL |    8 |   100.00 | Using index condition |</span><br><span class="line">| NULL| UNION RESULT | &lt;union1,2&gt; | NULL       | ALL   | NULL          | NULL       | NULL    | NULL | NULL |     NULL | Using temporary       |</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
 
 </li>
@@ -162,7 +164,7 @@
 <ul>
 <li><p><strong>1-SYSTEM:</strong>  表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
 </li>
-<li><p><strong>2-CONST:</strong>  该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
+<li><p><strong>2-CONST:</strong>  该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。const表非常快，因为它们只读一次。const 将 PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
 </li>
 </ul>
 <hr>
@@ -171,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7iqpl0016af4r4ja5uvzo" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzjilaqx001nsu4rs12nz987" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
