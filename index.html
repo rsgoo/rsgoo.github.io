@@ -100,8 +100,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>写在前面: 在软件开发中，遵循着 <code>first finish then perfect</code> 的原则。前期我们往往会更加关注程序功能的实现，编写的 <code>SQL</code> 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 <code>SQL</code> 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 <code>SQL</code> 语句的优化就显得格外重要了。要优化 <code>SQL</code> 就需要定位 <code>SQL</code> 存在的问题。<code>MySQL</code> 提供了 <code>explain  + sql</code> 命令来获取 <code>SQL</code> 语句执行计划的信息，包括有关如何连接表以及以何种顺序连接表。以下为 <code>explain</code> 使用浅析，记录📝以便今后翻阅。</p>
+        <p><strong>写在前面</strong>: 在软件开发中，遵循着 <code>first finish then perfect</code> 的原则。前期我们往往会更加关注程序功能的实现，编写的 <code>SQL</code> 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 <code>SQL</code> 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 <code>SQL</code> 语句的优化就显得格外重要了。要优化 <code>SQL</code> 就需要定位 <code>SQL</code> 存在的问题。<code>MySQL</code> 提供了 <code>explain  + sql</code> 命令来获取 <code>SQL</code> 语句执行计划的信息，包括有关如何连接表以及以何种顺序连接表。以下为 <code>explain</code> 使用浅析，记录📝以便今后翻阅。</p>
 <p>备注: 文中用到的sql数据来自 <a href="https://github.com/inscode/inscode.github.io/blob/master/blog/source/static/myemployees.sql" target="_blank" rel="noopener">employees.sql</a></p>
+<hr>
 <h4 id="1-explain-能获取到那些信息？"><a href="#1-explain-能获取到那些信息？" class="headerlink" title="1: explain 能获取到那些信息？"></a>1: explain 能获取到那些信息？</h4><ul>
 <li><p>表的读取顺序</p>
 </li>
@@ -138,14 +139,41 @@
 </li>
 </ul>
 <h5 id="2-2-select-type-字段"><a href="#2-2-select-type-字段" class="headerlink" title="2.2: select_type 字段"></a>2.2: <code>select_type</code> 字段</h5><p><strong>含义或用途</strong>: 表示 <code>SELECT</code> 的类型，主要用于区别 普通查询、联合查询、子查询等复杂查询。常见的取值如下</p>
-<pre><code><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1  SIMPLE     简单 select 查询，不包含子查询或者连接查询（union）</span></span><br><span class="line"><span class="comment">-- 2  PRIMARY    主查询，即是外层的查询（查询中包含了子查询），PRIMARY 是最后加载的查询</span></span><br><span class="line"><span class="comment">-- 3  SUBQUERY   在 SELECT 或 where 查询包含了 子查询</span></span><br><span class="line"><span class="comment">-- 4  DERIVED    在 From 列表中包含的子查询被标记为 DEVIRED(衍生)。MySQL会递归执行这些子查询，把结果放在临时表中（会增加系统消耗）</span></span><br><span class="line"><span class="comment">-- 5  UNION      若第二个 SELECT 出现在 UNION 之后，则标记为 UNION; 若 UNION 包含在 FROM 字句的子查询中，外层的 SELECT 被标记 DEVIRED</span></span><br><span class="line"><span class="comment">-- 6  UNION RESULT  两种 UNION 结果的合并</span></span><br><span class="line"></span><br><span class="line">mysql&gt; explain select * from employees where email like '%a%' union select * from employees where department_id&gt;90;</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">| id  | select_type  | table      | partitions | type  | possible_keys | key        | key_len | ref  | rows | filtered | Extra                 |</span><br><span class="line">+<span class="comment">-----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">|  1  | PRIMARY      | employees  | NULL       | ALL   | NULL          | NULL       | NULL    | NULL |  107 |    11.11 | Using where           |</span><br><span class="line">|  2  | UNION        | employees  | NULL       | range | dept_id_fk    | dept_id_fk | 5       | NULL |    8 |   100.00 | Using index condition |</span><br><span class="line">| NULL| UNION RESULT | &lt;union1,2&gt; | NULL       | ALL   | NULL          | NULL       | NULL    | NULL | NULL |     NULL | Using temporary       |</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure></code></pre><h5 id="2-3-table-字段"><a href="#2-3-table-字段" class="headerlink" title="2.3: table 字段"></a>2.3: <code>table</code> 字段</h5><p><strong>含义或用途</strong>: 输出结果集的表</p>
+<ul>
+<li><p><strong>1-SIMPLE:</strong> 简单 select 查询，不包含子查询或者连接查询（union）</p>
+</li>
+<li><p><strong>2-PRIMARY:</strong> 主查询，即是外层的查询（查询中包含了子查询），PRIMARY 是最后加载的查询</p>
+</li>
+<li><p><strong>3-SUBQUERY:</strong> 在 SELECT 或 where 查询包含了 子查询</p>
+</li>
+<li><p><strong>4-DERIVED:</strong> 在 From 列表中包含的子查询被标记为 DEVIRED(衍生)。MySQL会递归执行这些子查询，把结果放在临时表中（会增加系统消耗）</p>
+</li>
+<li><p><strong>5-UNION:</strong> 若第二个 SELECT 出现在 UNION 之后，则标记为 UNION; 若 UNION 包含在 FROM 字句的子查询中，外层的 SELECT 被标记 DEVIRED</p>
+</li>
+<li><p><strong>6-UNION RESULT:</strong> 两种 UNION 结果的合并</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from employees where email like '%a%' union select * from employees where department_id&gt;90;</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">| id  | select_type  | table      | partitions | type  | possible_keys | key        | key_len | ref  | rows | filtered | Extra                 |</span><br><span class="line">+<span class="comment">-----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">|  1  | PRIMARY      | employees  | NULL       | ALL   | NULL          | NULL       | NULL    | NULL |  107 |    11.11 | Using where           |</span><br><span class="line">|  2  | UNION        | employees  | NULL       | range | dept_id_fk    | dept_id_fk | 5       | NULL |    8 |   100.00 | Using index condition |</span><br><span class="line">| NULL| UNION RESULT | &lt;union1,2&gt; | NULL       | ALL   | NULL          | NULL       | NULL    | NULL | NULL |     NULL | Using temporary       |</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="2-3-table-字段"><a href="#2-3-table-字段" class="headerlink" title="2.3: table 字段"></a>2.3: <code>table</code> 字段</h5><p><strong>含义或用途</strong>: 输出结果集的表</p>
+<h5 id="2-4-type-字段"><a href="#2-4-type-字段" class="headerlink" title="2.4: type 字段"></a>2.4: <code>type</code> 字段</h5><p><strong>含义或用途</strong>: 显示查询使用了何种连接类型。结果值从最好到最坏依次如下，通常来说保证 type 值能达到 Range。</p>
+<p><strong><code>SYSTEM &gt; CONST &gt; EQ_REF &gt; REF &gt; RANGE &gt; INDEX &gt; ALL</code></strong></p>
+<ul>
+<li><p><strong>1-SYSTEM:</strong> 表只有一行（等于系统表），是const连接类型的特例。可以忽略不计</p>
+</li>
+<li><p><strong>2-CONST:</strong>  </p>
+</li>
+</ul>
+<blockquote>
+<p>该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。 const表非常快，因为它们只读一次。const将a PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
+</blockquote>
 <hr>
 <p>未完待续</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzim6jdq001pgv4ri00mjeek" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzj7cda3001m814rquur4kfk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -192,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzim6jd7000hgv4rp9imy4gy" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzj7cd9n000m814rni7i56if" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
@@ -239,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzim6jcv0002gv4rixt7q071" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzj7cd8u0001814r6g4cpzpy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -287,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzim6jcy0005gv4rtyxzzfs7" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzj7cd990006814rzod96ce0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -336,7 +364,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzim6jco0000gv4rnswgpqeb" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzj7cd960005814rjj85fnii" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -383,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzim6jd4000bgv4rllf8biyd" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzj7cd900002814rhqtbjc0v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -430,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzim6jcz0006gv4r6m7eufhq" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzj7cd9b0007814r6lxqp0xy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -477,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzim6je4001tgv4rl0kelfmj" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzj7cdak001q814roty4x2e3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -524,7 +552,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzim6jd10007gv4rqu4jj9a6" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzj7cd9d000b814rj3y4rrfh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
@@ -571,7 +599,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzim6jdb000mgv4rtjj4ad4l" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzj7cd9i000g814rqhll8jwz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
