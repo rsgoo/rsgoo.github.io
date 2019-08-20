@@ -74,9 +74,45 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-MySQL性能优化之Explain使用浅析" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MySQL性能优化之Explain浅析（中）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/19/MySQL性能优化之Explain使用浅析/" class="article-date">
+    <a href="/2019/08/20/MySQL性能优化之Explain浅析（中）/" class="article-date">
+  <time datetime="2019-08-20T13:53:16.000Z" itemprop="datePublished">2019-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/20/MySQL性能优化之Explain浅析（中）/">MySQL性能优化之Explain浅析（中）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/20/MySQL性能优化之Explain浅析（中）/" data-id="cjzjw3jwg0005v84r2vrkk9n2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MySQL性能优化之Explain浅析（上）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/" class="article-date">
   <time datetime="2019-08-19T14:18:54.000Z" itemprop="datePublished">2019-08-19</time>
 </a>
     
@@ -92,7 +128,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/MySQL性能优化之Explain使用浅析/">MySQL性能优化之Explain浅析（上）</a>
+      <a class="article-title" href="/2019/08/19/MySQL性能优化之Explain浅析（上）/">MySQL性能优化之Explain浅析（上）</a>
     </h1>
   
 
@@ -101,16 +137,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>写在前面</strong>: 在软件开发中，遵循着 <code>first finish then perfect</code> 的原则。前期我们往往会更加关注程序功能的实现，编写的 <code>SQL</code> 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 <code>SQL</code> 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 <code>SQL</code> 语句的优化就显得格外重要了。要优化 <code>SQL</code> 就需要定位 <code>SQL</code> 存在的问题。<code>MySQL</code> 提供了 <code>explain  + sql</code> 命令来获取 <code>SQL</code> 语句执行计划的信息，包括有关如何连接表以及以何种顺序连接表。以下为 <code>explain</code> 学习中所做笔记，记录于此📝以便今后翻阅。</p>
-<p>鉴于篇幅: </p>
+<p>鉴于篇幅: 这里记录截至 <code>explain</code> 中 <code>type</code> 前的字段</p>
         
           <p class="article-more-link">
-            <a href="/2019/08/19/MySQL性能优化之Explain使用浅析/#more">Read More</a>
+            <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain使用浅析/" data-id="cjzjntmwh001ozd4rkii4jduv" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain浅析（上）/" data-id="cjzjw3jxu001pv84rebp46gul" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -157,7 +193,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzjntmvo000czd4r0x3f74vc" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="cjzjw3jwn000dv84rpb6eiezx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
@@ -204,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzjntmvq000gzd4rndels992" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL-索引那些事儿/" data-id="cjzjw3jwd0002v84r0lqml15r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -252,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzjntmuy0000zd4rf8mdag8n" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzjw3jwk0007v84rb2ee9d5c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -271,7 +307,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/数据库/">数据库</a>
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQl/">MySQl</a>
   </div>
 
   </div>
@@ -301,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzjntmv90002zd4rsyo1jf1m" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" data-id="cjzjw3jw60000v84r89wi8hj5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -348,7 +384,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzjntmvw000mzd4r5tvcjhag" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/14/Golang下载去哪儿游记图片到本地/" data-id="cjzjw3jwi0006v84rub2eafsa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -395,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzjntmvs000hzd4rvm0d3e8h" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/12/golang爬取内涵段子笑话及二级页面/" data-id="cjzjw3jwm000bv84rx8l28zv7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -442,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzjntmx0001szd4rjcs55fqt" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/10/豆瓣电影top250数据爬取/" data-id="cjzjw3jy3001tv84rd1taweh7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
@@ -489,57 +525,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzjntmvg0005zd4rt1uh4r80" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/07/PHP-foreach循环使用-引用的小坑/" data-id="cjzjw3jwy000iv84rsayxa6iw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-golang爬取百度贴吧内容" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/04/golang爬取百度贴吧内容/" class="article-date">
-  <time datetime="2019-08-04T04:26:26.000Z" itemprop="datePublished">2019-08-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Golang/">Golang</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/golang爬取百度贴吧内容/">Golang爬虫系列零：爬取百度贴吧内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="声明：以下内容仅供技术学习"><a href="#声明：以下内容仅供技术学习" class="headerlink" title="声明：以下内容仅供技术学习"></a>声明：以下内容仅供技术学习</h6><h5 id="爬虫实现步骤"><a href="#爬虫实现步骤" class="headerlink" title="爬虫实现步骤"></a>爬虫实现步骤</h5><p>1：获取需要爬取URL的地址（以 <a href="http://tieba.baidu.com/f?kw=javascript&ie=utf-8" target="_blank" rel="noopener"><code>JavaScript吧</code></a> 举例）</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/08/04/golang爬取百度贴吧内容/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/04/golang爬取百度贴吧内容/" data-id="cjzjntmvh0006zd4rxb3tkgl3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
 
     </footer>
   </div>
@@ -563,7 +552,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQl/">MySQl</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -592,7 +581,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">12</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -605,7 +594,11 @@
       <ul>
         
           <li>
-            <a href="/2019/08/19/MySQL性能优化之Explain使用浅析/">MySQL性能优化之Explain浅析（上）</a>
+            <a href="/2019/08/20/MySQL性能优化之Explain浅析（中）/">MySQL性能优化之Explain浅析（中）</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/">MySQL性能优化之Explain浅析（上）</a>
           </li>
         
           <li>
@@ -618,10 +611,6 @@
         
           <li>
             <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/">MySQL 5.7.21-1配置文件my.cnf</a>
           </li>
         
       </ul>
