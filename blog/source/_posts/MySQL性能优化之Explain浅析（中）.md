@@ -81,13 +81,54 @@ mysql> explain select * from employees,departments where employees.department_id
 
 ##### 1.5: rows 字段
 
-**含义或用途**: 表示MySQL认为必须检查以执行查询的行数（值越少越好）。此数字是估算值，可能并不总是准确的
+**含义或用途**: 每张表有多少行被优化器查询（值越少越好）。此数字是估算值，可能并不总是准确的
 
+##### 1.6: Extra 字段
 
+- `Using filesort`: 说明 `MySQL` 会对数据使用一个 **外部的索引排序**，而不是按照表内的索引顺序进行读取。`MySQL` 中无法利用索引完成的排序称之为 **文件排序**。出现时表示需要优化了
+
+    ```SQL
+    mysql> show index from apps;
+    +-------+------------+--------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+    | Table | Non_unique | Key_name                 | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
+    +-------+------------+--------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+    | apps  |          0 | PRIMARY                  |            1 | id          | A         |           5 |     NULL | NULL   |      | BTREE      |         |               |
+    | apps  |          1 | idx_url_country_language |            1 | url         | A         |           5 |     NULL | NULL   |      | BTREE      |         |               |
+    | apps  |          1 | idx_url_country_language |            2 | country     | A         |           5 |     NULL | NULL   |      | BTREE      |         |               |
+    | apps  |          1 | idx_url_country_language |            3 | language    | A         |           5 |     NULL | NULL   |      | BTREE      |         |               |
+    +-------+------------+--------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+    4 rows in set (0.00 sec)
+
+    -- 组合索引是 idx_url_country_language， 下面的SQL 中间隔了组合索引的 country 字段
+    mysql> explain select * from apps where url="https://golang.org" order by language;
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+---------------------------------------+
+    | id | select_type | table | partitions | type | possible_keys            | key                      | key_len | ref   | rows | filtered | Extra                                 |
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+---------------------------------------+
+    |  1 | SIMPLE      | apps  | NULL       | ref  | idx_url_country_language | idx_url_country_language | 767     | const |    1 |   100.00 | Using index condition; Using filesort |
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+---------------------------------------+
+
+    mysql> explain select * from apps where url="https://golang.org" order by country,language;
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+-----------------------+
+    | id | select_type | table | partitions | type | possible_keys            | key                      | key_len | ref   | rows | filtered | Extra                 |
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+-----------------------+
+    |  1 | SIMPLE      | apps  | NULL       | ref  | idx_url_country_language | idx_url_country_language | 767     | const |    1 |   100.00 | Using index condition |
+    +----+-------------+-------+------------+------+--------------------------+--------------------------+---------+-------+------+----------+-----------------------+
+    ```
+
+- `Using temporary`: 使用临时表保存中间查询结果，MySQL 在对结果排序时使用临时表，常见于排序 `order by` 和 分组查询 `group by`。出现时表示 **急需优化** 了
+
+    ```SQL
+    mysql> explain select country from apps group by country;
+    +----+-------------+-------+------------+-------+--------------------------+--------------------------+---------+------+------+----------+----------------------------------------------+
+    | id | select_type | table | partitions | type  | possible_keys            | key                      | key_len | ref  | rows | filtered | Extra                                        |
+    +----+-------------+-------+------------+-------+--------------------------+--------------------------+---------+------+------+----------+----------------------------------------------+
+    |  1 | SIMPLE      | apps  | NULL       | index | idx_url_country_language | idx_url_country_language | 895     | NULL |    5 |   100.00 | Using index; Using temporary; Using filesort |
+    +----+-------------+-------+------------+-------+--------------------------+--------------------------+---------+------+------+----------+----------------------------------------------+
+    ```
+
+- `Using index`: 表示相应的 select 操作使用了覆盖索引（`Covering index`）,避免访问表的数据行，效率还阔以。如果还同时出现了 `using where`，表明
 
 ```
-explain SELECT employees.employee_id,employees.last_name, departments.department_name
-from employees
-inner join departments
-on employees.department_id = departments.department_id;
+select country,url from apps where url="https://golang.org" group by country;
+explain select country from apps where url="https://golang.org" group by country;
 ```
