@@ -4,6 +4,13 @@
     <title><![CDATA[MySQL性能优化之Explain浅析实例]]></title>
     <url>%2F2019%2F08%2F24%2FMySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BExplain%E6%B5%85%E6%9E%90%E5%AE%9E%E4%BE%8B%2F</url>
     <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[MySQL性能优化之Explain浅析（下）]]></title>
