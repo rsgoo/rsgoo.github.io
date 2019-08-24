@@ -1,8 +1,11 @@
 ---
-title: MySQL性能优化之Explain浅析（中）
+title: MySQL性能优化之Explain浅析（下）
 date: 2019-08-20 21:53:16
 tags:
+    - MySQL
 categories:
+    - 数据库
+    - MySQL
 ---
 
 **写在前面**: 接上篇 [MySQL性能优化之Explain浅析（上）](https://inscode.github.io/2019/08/19/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BExplain%E6%B5%85%E6%9E%90%EF%BC%88%E4%B8%8A%EF%BC%89/)。
@@ -126,9 +129,28 @@ mysql> explain select * from employees,departments where employees.department_id
     +----+-------------+-------+------------+-------+--------------------------+--------------------------+---------+------+------+----------+----------------------------------------------+
     ```
 
-- `Using index`: 表示相应的 select 操作使用了覆盖索引（`Covering index`）,避免访问表的数据行，效率还阔以。如果还同时出现了 `using where`，表明
+- `Using index`: 表示相应的 select 操作使用了覆盖索引（`Covering index`）,避免访问表的数据行，效率还阔以。如果还同时出现了 `using where`，表明索引还被用来执行索引值的查找。如果没有同时出现 `using where`，表明索引只是用来读取数据而非执行查询操作。
 
-```
-select country,url from apps where url="https://golang.org" group by country;
-explain select country from apps where url="https://golang.org" group by country;
-```
+    ```SQL
+    mysql> explain select employee_id from employees where employee_id order by  employee_id;
+    +----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+--------------------------+
+    | id | select_type | table     | partitions | type  | possible_keys | key     | key_len | ref  | rows | filtered | Extra                    |
+    +----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+--------------------------+
+    |  1 | SIMPLE      | employees | NULL       | index | NULL          | PRIMARY | 4       | NULL |  107 |    90.00 | Using where; Using index |
+    +----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+--------------------------+
+    ```
+
+        覆盖索引：MySQL 可以利用索引返回 `select` 查询的字段，而不必根据索引再次去读取数据文件。也就是说查询的列是索引的一部分，那么查询就只在索引上进行。
+
+- `using join buffer`: 使用了连接缓存
+
+- `impossible where`: where 字句的值总是 false，不能用来获取任何元祖
+
+    ```sql
+    mysql> explain select * from employees where employee_id= 1 and employee_id=2;
+    +----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+------------------+
+    | id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra            |
+    +----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+------------------+
+    |  1 | SIMPLE      | NULL  | NULL       | NULL | NULL          | NULL | NULL    | NULL | NULL |     NULL | Impossible WHERE |
+    +----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+------------------+
+    ```

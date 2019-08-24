@@ -5,7 +5,7 @@ tags:
     - MySQL
 categories:
     - 数据库
-    - MySQl
+    - MySQL
 ---
 
 简述：`MySQL 5.7.21-1` 原始配置文件 `my.cnf`，为以后查询方便特此记录
