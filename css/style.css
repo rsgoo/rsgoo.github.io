@@ -282,7 +282,7 @@ body {
 .article-entry dl,
 .widget dl {
   margin: 0 20px;
-  line-height: 1.2em;
+  line-height: 1.6em;
 }
 .article-entry ul ul,
 .widget ul ul,
@@ -565,8 +565,8 @@ a.article-title:hover {
 }
 .article-entry p,
 .article-entry table {
-  line-height: 1.2em;
-  margin: 1.2em 0;
+  line-height: 1.6em;
+  margin: 1.6em 0;
 }
 .article-entry h1,
 .article-entry h2,
@@ -595,8 +595,8 @@ a.article-title:hover {
 .article-entry ul,
 .article-entry ol,
 .article-entry dl {
-  margin-top: 1.2em;
-  margin-bottom: 1.2em;
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
 }
 .article-entry img,
 .article-entry video {
@@ -625,12 +625,12 @@ a.article-title:hover {
 .article-entry blockquote {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.4em;
-  margin: 1.2em 20px;
+  margin: 1.6em 20px;
   text-align: center;
 }
 .article-entry blockquote footer {
   font-size: 15px;
-  margin: 1.2em 0;
+  margin: 1.6em 0;
   font-family: Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
 }
 .article-entry blockquote footer cite:before {
@@ -692,9 +692,9 @@ a.article-title:hover {
 }
 .article-footer {
   font-size: 0.85em;
-  line-height: 1.2em;
+  line-height: 1.6em;
   border-top: 1px solid #ddd;
-  padding-top: 1.2em;
+  padding-top: 1.6em;
   margin: 0 20px 20px;
 }
 .article-footer:before,
@@ -813,7 +813,7 @@ a.article-title:hover {
 }
 .article-nav-title {
   font-size: 0.85em;
-  line-height: 1.2em;
+  line-height: 1.6em;
   margin-top: 0.5em;
 }
 .article-share-box {
@@ -1014,7 +1014,7 @@ a.article-title:hover {
   -moz-transition: color 0.2s;
   -ms-transition: color 0.2s;
   transition: color 0.2s;
-  line-height: 1.2em;
+  line-height: 1.6em;
 }
 .archive-article-title:hover {
   color: #258fb8;
@@ -1098,7 +1098,7 @@ a.article-title:hover {
   text-decoration: underline;
 }
 #footer-info {
-  line-height: 1.2em;
+  line-height: 1.6em;
   font-size: 0.85em;
 }
 .article-entry pre,
@@ -1112,7 +1112,7 @@ a.article-title:hover {
   border-radius: 8px;
   overflow: auto;
   color: #ccc;
-  line-height: 18px;
+  line-height: 24px;
 }
 .article-entry .highlight .gutter pre,
 .article-entry .gist .gist-file .gist-data .line-numbers {
@@ -1168,7 +1168,7 @@ a.article-title:hover {
   padding-right: 20px;
 }
 .article-entry .highlight .line {
-  height: 18px;
+  height: 24px;
 }
 .article-entry .highlight .line.marked {
   background: #515151;
@@ -1339,7 +1339,7 @@ pre .javascript .function {
   list-style: disc;
 }
 .widget {
-  line-height: 1.2em;
+  line-height: 1.6em;
   word-wrap: break-word;
   font-size: 0.9em;
 }
