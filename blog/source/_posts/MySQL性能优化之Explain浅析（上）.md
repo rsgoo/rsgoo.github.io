@@ -129,7 +129,7 @@ mysql> explain select * from employees;
 
 ##### 2.3: `table` 字段
 
-**含义或用途**: 输出结果集的表
+**含义或用途**: 输出结果集的表（查询结果的来源表）
 
 ##### 2.4: `type` 字段
 
