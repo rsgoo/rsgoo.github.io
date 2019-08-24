@@ -307,9 +307,9 @@
     <link href="https://inscode.github.io/2019/08/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%9F%A9%E9%98%B5/"/>
     <id>https://inscode.github.io/2019/08/03/程序员数学之矩阵/</id>
     <published>2019-08-03T14:35:24.000Z</published>
-    <updated>2019-08-19T01:41:09.310Z</updated>
+    <updated>2019-08-24T08:04:56.429Z</updated>
     
-    <content type="html"><![CDATA[<h6 id="1：矩阵相加"><a href="#1：矩阵相加" class="headerlink" title="1：矩阵相加"></a>1：矩阵相加</h6><a id="more"></a><p><img src="/images/blog/%E7%9F%A9%E9%98%B5%E7%9B%B8%E5%8A%A0.jpg" alt></p><h6 id="2：矩阵相乘（不符合交换律）"><a href="#2：矩阵相乘（不符合交换律）" class="headerlink" title="2：矩阵相乘（不符合交换律）"></a>2：矩阵相乘（不符合交换律）</h6><ul><li><p>标量 * 矩阵</p><ul><li>变量 * 矩阵的每一个元素，得到一个新矩阵</li></ul></li><li><p>矩阵 * 矩阵</p><ul><li><p>用矩阵的 第1行 分别去 乘以 矩阵的每一列</p></li><li><p>用矩阵的 第N行 分别去 乘以 矩阵的每一列</p></li></ul></li></ul><p><img src="/images/blog/%E7%9F%A9%E9%98%B5%E4%B9%98%E4%B8%8A%E7%9F%A9%E9%98%B5.jpg" alt></p><ul><li><p>矩阵A * 矩阵B != 矩阵B * 矩阵A</p></li><li><p>矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数</p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h6 id="1：矩阵相加"><a href="#1：矩阵相加" class="headerlink" title="1：矩阵相加"></a>1：矩阵相加</h6><a id="more"></a><p><img src="/images/blog/201908/1-%E7%9F%A9%E9%98%B5%E7%9B%B8%E5%8A%A0.jpg" alt></p><h6 id="2：矩阵相乘（不符合交换律）"><a href="#2：矩阵相乘（不符合交换律）" class="headerlink" title="2：矩阵相乘（不符合交换律）"></a>2：矩阵相乘（不符合交换律）</h6><ul><li><p>标量 * 矩阵</p><ul><li>变量 * 矩阵的每一个元素，得到一个新矩阵</li></ul></li><li><p>矩阵 * 矩阵</p><ul><li><p>用矩阵的 第1行 分别去 乘以 矩阵的每一列</p></li><li><p>用矩阵的 第N行 分别去 乘以 矩阵的每一列</p></li></ul></li></ul><p><img src="/images/blog/201908/2-%E7%9F%A9%E9%98%B5%E4%B9%98%E4%B8%8A%E7%9F%A9%E9%98%B5.jpg" alt></p><ul><li><p>矩阵A * 矩阵B != 矩阵B * 矩阵A</p></li><li><p>矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数</p></li></ul>]]></content>
     
     <summary type="html">
     
