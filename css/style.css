@@ -623,10 +623,12 @@ a.article-title:hover {
   padding: 10px 0;
 }
 .article-entry blockquote {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.4em;
+  font-family: 14px Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 1em;
   margin: 1.6em 20px;
-  text-align: center;
+  text-align: left;
+  border-left: 0.25em solid #dfe2e5;
+  padding: 0 1em;
 }
 .article-entry blockquote footer {
   font-size: 15px;
