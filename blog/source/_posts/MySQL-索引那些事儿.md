@@ -88,7 +88,7 @@ categories:
 
 #### 五: `B Tree` 检索原理
 
-![6-MySQL Btree检索原理](/images/blog/6-MySQL-Btree检索原理.jpeg)
+![6-MySQL Btree检索原理](/images/blog/201908/6-MySQL-Btree检索原理.jpeg)
 
 【**初始化介绍**】
 

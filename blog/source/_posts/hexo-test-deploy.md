@@ -36,4 +36,4 @@ array_multisort($hotelList,SORT_ASC, array_column($hotelList, 'price'));
 ```
 
 
-![](/images/tom.jpg)
+![](/images/blog/201908/tom.jpg)

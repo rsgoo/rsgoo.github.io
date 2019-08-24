@@ -14,7 +14,7 @@ categories:
 
 <!--more-->
 
-![](/images/blog/3-MySQL体系架构图.jpg)
+![](/images/blog/201908/3-MySQL体系架构图.jpg)
 
 #### 1：Client
 
@@ -89,7 +89,7 @@ eg：怎么使用索引，怎么处理表的 Join 优化器处理
 
 解析器，预处理器，优化器处理流程 [如下图](https://zhuanlan.zhihu.com/p/61546435)
 
-![](/images/blog/4-MySQL解析器和优化器.jpg)
+![](/images/blog/201908/4-MySQL解析器和优化器.jpg)
 
 [图片引用自 程序员历小冰](https://zhuanlan.zhihu.com/p/61546435)
 
@@ -112,7 +112,7 @@ eg：怎么使用索引，怎么处理表的 Join 优化器处理
 
 **补充: 一条 SQL 查询语句各个关键字解析的顺序过程**
 
-![SQL 语句解析过程](/images/blog/5-SQL解析流程.jpg)
+![SQL 语句解析过程](/images/blog/201908/5-SQL解析流程.jpg)
 
 
 写着写着发现提及很多知识点还是未知，路漫漫其修远兮，需要学的东西还多，愿每日都比昨日进步，即使进步很微小。那先吃饭去了🍚
