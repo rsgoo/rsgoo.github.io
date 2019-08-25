@@ -87,6 +87,8 @@ Server 层是 MySQL 提供服务的核心。主要分为以下几个模块（查
 
 eg：怎么使用索引，怎么处理表的 Join 优化器处理
 
+> 例如一个数据表建立的组合索引 idx_table_c1c2c3c4, 当查询条件为 `where c3='c3' and c2='c2'  and c4='c4' and c1='c1';` 时查询优化器会自动调整和优化，此时等价于 `where c1='c1' and c2='c2'  and c4='c4' and c3='c3';`。但是最佳实践是按照索引建立的顺序来使用，以此来减少底层优化器的工作量。
+
 解析器，预处理器，优化器处理流程 [如下图](https://zhuanlan.zhihu.com/p/61546435)
 
 ![](/images/blog/201908/4-MySQL解析器和优化器.jpg)
