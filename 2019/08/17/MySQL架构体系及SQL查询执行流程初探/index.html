@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg">
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/5-SQL%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B.jpg">
-<meta property="og:updated_time" content="2019-08-24T03:17:31.077Z">
+<meta property="og:updated_time" content="2019-08-25T13:53:44.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL架构体系及SQL查询执行流程初探">
 <meta name="twitter:description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
@@ -132,6 +132,9 @@
 <h5 id="2-4：Optimizer（优化器）"><a href="#2-4：Optimizer（优化器）" class="headerlink" title="2.4：Optimizer（优化器）"></a>2.4：Optimizer（优化器）</h5><p>优化器会将 <code>解析树</code> 转化成 <code>执行计划</code>。一条查询可以有多种执行方法，最后都是返回相同结果。优化器的作用就是 <strong>找到这其中最好的执行计划</strong>。生成执行计划的过程会消耗较多的时间，特别是存在许多可选的执行计划时。</p>
 <p>如果在一条SQL语句执行的过程中将该语句对应的最终执行计划进行缓存，当相似的语句再次被输入服务器时，就可以直接使用已缓存的执行计划，从而跳过SQL语句生成执行计划的整个过程，进而可以提高语句的执行速度。</p>
 <p>eg：怎么使用索引，怎么处理表的 Join 优化器处理</p>
+<blockquote>
+<p>例如一个数据表建立的组合索引 idx_table_c1c2c3c4, 当查询条件为 <code>where c3=&#39;c3&#39; and c2=&#39;c2&#39;  and c4=&#39;c4&#39; and c1=&#39;c1&#39;;</code> 时查询优化器会自动调整和优化，此时等价于 <code>where c1=&#39;c1&#39; and c2=&#39;c2&#39;  and c4=&#39;c4&#39; and c3=&#39;c3&#39;;</code>。但是最佳实践是按照索引建立的顺序来使用，以此来减少底层优化器的工作量。</p>
+</blockquote>
 <p>解析器，预处理器，优化器处理流程 <a href="https://zhuanlan.zhihu.com/p/61546435" target="_blank" rel="noopener">如下图</a></p>
 <p><img src="/images/blog/201908/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg" alt></p>
 <p><a href="https://zhuanlan.zhihu.com/p/61546435" target="_blank" rel="noopener">图片引用自 程序员历小冰</a></p>
@@ -158,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzqsog1z0007g24r4rvt9trm" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzr5o7tb0006k14r2nwbdvpy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
