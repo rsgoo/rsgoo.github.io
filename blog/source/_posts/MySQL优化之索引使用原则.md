@@ -184,7 +184,7 @@ mysql> create index idx_staffs_nameAgePos on staffs(name,age,pos);
     1 row in set, 1 warning (0.00 sec)
 
     -- 索引 KEY `idx_test03_c1234` (`c1`,`c2`,`c3`,`c4`)
-    -- 此时用到了组合索引的前三个列
+    -- 此时用到了组合索引的前三个列，c2 like 'a2%' 也是一种范围标识
     mysql> explain select * from test03 where c1='a1'  and c2 like 'a2%'  and c3='a3';
     +----+-------------+--------+------------+-------+------------------+------------------+---------+------+------+----------+-----------------------+
     | id | select_type | table  | partitions | type  | possible_keys    | key              | key_len | ref  | rows | filtered | Extra                 |
