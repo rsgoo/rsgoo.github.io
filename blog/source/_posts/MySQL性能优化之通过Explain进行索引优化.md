@@ -1,5 +1,5 @@
 ---
-title: MySQL性能优化之通过Explain进行索引优化
+title: MySQL性能优化之Explain索引优化实例
 date: 2019-08-24 10:59:14
 tags:
     - MySQL
