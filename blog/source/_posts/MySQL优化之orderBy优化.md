@@ -50,7 +50,7 @@ categories:
 
 - 3：尝试提高 `max_length_for_sort_data` 参数的值
 
-![order-by是否使用索引排序分析](/images/blog/8-order-by是否使用索引排序分析.jpeg)
+![order-by是否使用索引排序分析](/images/blog/201908/8-order-by是否使用索引排序分析.jpeg)
 
 ---
 
