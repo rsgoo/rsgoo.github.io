@@ -118,4 +118,8 @@ mysql> explain select age,birth from tableA where birth>"2019-08-27 21:52:08" or
 
 ```
 ---
+
+`Group by` 的优化策略和原理和 `Order by` 趋同，唯一的一点是 `where` 条件优先级高于 `having`，能写在 `where` 限定的条件就不要去 `having` 限定。
+
+---
 笔记来自 [MySQL高级_为排序使用索引OrderBy](https://www.bilibili.com/video/av49181542/?p=226)
