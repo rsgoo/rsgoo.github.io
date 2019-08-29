@@ -10,6 +10,8 @@ categories:
 
 **写在前面**： `MySQL` 的慢查询日志是 `MySQL` 提供的一种日志记录，用于记录在 `MySQL` 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 `long_query_time` 值的 `SQL` 语句，则会被记录到慢查询日志中。
 
+<!--more-->
+
 ----
 
 1：查看 `MySQL` 服务器默认配置的 `long_query_time` 值
