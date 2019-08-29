@@ -11,18 +11,18 @@
         
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。  1：查看 MySQL 服务器默认配置的 long_query_time 值 1234567891011121314151617181920212223242526">
+    <meta name="description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL优化之慢查询日志">
 <meta property="og:url" content="https://inscode.github.io/2019/08/28/MySQL优化之慢查询日志/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。  1：查看 MySQL 服务器默认配置的 long_query_time 值 1234567891011121314151617181920212223242526">
+<meta property="og:description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-28T15:32:34.247Z">
+<meta property="og:updated_time" content="2019-08-29T01:14:34.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL优化之慢查询日志">
-<meta name="twitter:description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。  1：查看 MySQL 服务器默认配置的 long_query_time 值 1234567891011121314151617181920212223242526">
+<meta name="twitter:description" content="写在前面： MySQL 的慢查询日志是 MySQL 提供的一种日志记录，用于记录在 MySQL 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 long_query_time 值的 SQL 语句，则会被记录到慢查询日志中。">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -102,6 +102,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>写在前面</strong>： <code>MySQL</code> 的慢查询日志是 <code>MySQL</code> 提供的一种日志记录，用于记录在 <code>MySQL</code> 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 <code>long_query_time</code> 值的 <code>SQL</code> 语句，则会被记录到慢查询日志中。</p>
+<a id="more"></a>
+
 <hr>
 <p>1：查看 <code>MySQL</code> 服务器默认配置的 <code>long_query_time</code> 值</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like 'long_query_time';</span><br><span class="line">+<span class="comment">-----------------+-----------+</span></span><br><span class="line">| Variable_name   | Value     |</span><br><span class="line">+<span class="comment">-----------------+-----------+</span></span><br><span class="line">| long_query_time | 10.000000 |</span><br><span class="line">+<span class="comment">-----------------+-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`   </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">2：查看及开启 **慢查询** 日志信息</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt; MySQL服务器配置文件详见 [MySQL 5.7.21-1配置文件my.cnf](https://inscode.github.io/2019/08/15/MySQL-5-7-21-1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf/)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">SQL</span></span><br><span class="line"><span class="comment">-- 查看</span></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%slow_query%'</span>;</span><br><span class="line">+<span class="comment">---------------------+---------------------------------+</span></span><br><span class="line">| Variable_name       | Value                           |</span><br><span class="line">+<span class="comment">---------------------+---------------------------------+</span></span><br><span class="line">| slow_query_log      | OFF                             |</span><br><span class="line">| slow_query_log_file | /var/lib/mysql/inscode-slow.log |</span><br><span class="line">+<span class="comment">---------------------+---------------------------------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改 slow_query_log 相关配置，然后重启 MySQL</span></span><br><span class="line">slow_query_log        = <span class="number">1</span></span><br><span class="line">slow_query_log_file   = /<span class="keyword">var</span>/<span class="keyword">log</span>/mysql/mysql-slow.log</span><br></pre></td></tr></table></figure>
@@ -128,7 +130,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/28/MySQL优化之慢查询日志/" data-id="cjzvf9tbm0007nb4rox4lpd31" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/28/MySQL优化之慢查询日志/" data-id="cjzvzydwc0002xf4rrktrdubc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
