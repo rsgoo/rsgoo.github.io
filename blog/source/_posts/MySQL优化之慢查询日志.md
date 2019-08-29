@@ -28,7 +28,7 @@ mysql> show variables like 'long_query_time';
 
 2：查看及开启 **慢查询** 日志信息
 
-> MySQL服务器配置文件详见 [MySQL 5.7.21-1配置文件my.cnf](https://inscode.github.io/2019/08/15/MySQL-5-7-21-1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf/)
+- MySQL服务器配置文件详见 [MySQL 5.7.21-1配置文件my.cnf](https://inscode.github.io/2019/08/15/MySQL-5-7-21-1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf/)
 
 ```SQL
 -- 查看
