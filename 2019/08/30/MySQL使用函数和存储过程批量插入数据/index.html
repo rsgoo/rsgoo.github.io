@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL使用函数和存储过程批量插入数据 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写在前面: 在 MySQL 优化学习中，我们通常需要使用到十万量级甚至是百万量级的数据表来去对比索引优化前后的SQL性能表现。那么怎么去获取到拥有这个数量级的数据表呢？答案之一是使用存储过程往表中批量导入数据。下面来实例演示一个批量导入数据表的案例，记录已被日后查阅。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL使用函数和存储过程批量插入数据">
+<meta property="og:url" content="https://inscode.github.io/2019/08/30/MySQL使用函数和存储过程批量插入数据/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="写在前面: 在 MySQL 优化学习中，我们通常需要使用到十万量级甚至是百万量级的数据表来去对比索引优化前后的SQL性能表现。那么怎么去获取到拥有这个数量级的数据表呢？答案之一是使用存储过程往表中批量导入数据。下面来实例演示一个批量导入数据表的案例，记录已被日后查阅。">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-30T11:22:13.174Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL使用函数和存储过程批量插入数据">
+<meta name="twitter:description" content="写在前面: 在 MySQL 优化学习中，我们通常需要使用到十万量级甚至是百万量级的数据表来去对比索引优化前后的SQL性能表现。那么怎么去获取到拥有这个数量级的数据表呢？答案之一是使用存储过程往表中批量导入数据。下面来实例演示一个批量导入数据表的案例，记录已被日后查阅。">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL使用函数和存储过程批量插入数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/" class="article-date">
+  <time datetime="2019-08-30T09:38:24.000Z" itemprop="datePublished">2019-08-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL使用函数和存储过程批量插入数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>写在前面</strong>: 在 <code>MySQL</code> 优化学习中，我们通常需要使用到十万量级甚至是百万量级的数据表来去对比索引优化前后的SQL性能表现。那么怎么去获取到拥有这个数量级的数据表呢？答案之一是使用存储过程往表中批量导入数据。下面来实例演示一个批量导入数据表的案例，记录已被日后查阅。</p>
+<a id="more"></a>
+
+<p>1：创建数据库及数据表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> data_demo <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> utf8mb4;</span><br><span class="line"></span><br><span class="line"><span class="comment">--创建部门表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> department(</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">unsigned</span> primary <span class="keyword">key</span> auto_increment <span class="keyword">comment</span> <span class="string">'主键'</span>,</span><br><span class="line">    dept_no <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">not</span>  <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span> <span class="keyword">comment</span> <span class="string">'部门编号'</span>,   </span><br><span class="line">    dept_name <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">''</span> <span class="keyword">comment</span> <span class="string">'部门名称'</span>,</span><br><span class="line">    location <span class="built_in">varchar</span>(<span class="number">13</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">''</span> <span class="keyword">comment</span> <span class="string">'部门位置'</span></span><br><span class="line">)<span class="keyword">engine</span> = <span class="keyword">innodb</span> <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> utf8mb4 <span class="keyword">comment</span> <span class="string">'部门信息表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建员工信息表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> employee(</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">unsigned</span> primary <span class="keyword">key</span> auto_increment <span class="keyword">comment</span> <span class="string">'主键'</span>,</span><br><span class="line">    employee_no <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span> <span class="keyword">comment</span> <span class="string">'员工编号'</span>,    </span><br><span class="line">    employee_name <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">''</span> <span class="keyword">comment</span> <span class="string">'员工名称'</span>,</span><br><span class="line">    job <span class="built_in">varchar</span>(<span class="number">9</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">''</span> <span class="keyword">comment</span> <span class="string">'工作'</span>,</span><br><span class="line">    manager <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span> <span class="keyword">comment</span> <span class="string">'上级领导'</span>,</span><br><span class="line">    hiredate <span class="built_in">timestamp</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">comment</span> <span class="string">'入职时间'</span>,</span><br><span class="line">    salary <span class="built_in">float</span>(<span class="number">7</span>,<span class="number">2</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">comment</span> <span class="string">'薪水'</span>,</span><br><span class="line">    dept_no <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span> <span class="keyword">comment</span> <span class="string">'部门编号'</span></span><br><span class="line">)<span class="keyword">engine</span> = <span class="keyword">innodb</span> <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> utf8mb4 <span class="keyword">comment</span> <span class="string">'员工信息表'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>2: 创建 <strong>随机字符生成</strong> 函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">delimiter $$</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> rand_string(n <span class="built_in">int</span>) <span class="keyword">returns</span> <span class="built_in">varchar</span>(<span class="number">255</span>)</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> chars_str <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">default</span> <span class="string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>;</span><br><span class="line">    <span class="keyword">declare</span> return_str <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">default</span> <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">    while i &lt; n do</span><br><span class="line">        <span class="keyword">set</span> return_str = <span class="keyword">concat</span>(return_str, <span class="keyword">substring</span>(chars_str, <span class="keyword">floor</span>(<span class="number">1</span> + <span class="keyword">rand</span>() * <span class="number">52</span>), <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">set</span> i = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">while</span>;</span><br><span class="line">    return return_str;</span><br><span class="line"><span class="keyword">end</span> $$</span><br></pre></td></tr></table></figure>
+
+<p>3: 创建 <strong>随机数值生成</strong> 函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">delimiter $$</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> rand_num() <span class="keyword">returns</span> <span class="built_in">int</span>(<span class="number">5</span>)</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">set</span> i = <span class="keyword">floor</span>(<span class="number">100</span> + <span class="keyword">rand</span>() * <span class="number">10</span>);</span><br><span class="line">    return i;</span><br><span class="line"><span class="keyword">end</span> $$</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>删除函数命令：drop function funcName;</p>
+</blockquote>
+<p>4: 创建 <strong>员工数据插入</strong> 存储过程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">delimiter $$</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> insert_employee(<span class="keyword">in</span> <span class="keyword">start</span> <span class="built_in">int</span>(<span class="number">10</span>), <span class="keyword">in</span> max_num <span class="built_in">int</span>(<span class="number">10</span>))</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">set</span> autocommit=<span class="number">0</span>;</span><br><span class="line">    repeat</span><br><span class="line">        <span class="keyword">set</span> i = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> employee(employee_no, employee_name, job, manager, hiredate, salary, dept_no) <span class="keyword">values</span>((<span class="keyword">start</span>+i), rand_string(<span class="number">6</span>), <span class="string">'saleman'</span>, <span class="number">0001</span> ,<span class="keyword">curdate</span>(), <span class="number">24000</span>,rand_num());</span><br><span class="line">        until i = max_num</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">repeat</span>;</span><br><span class="line">    <span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">end</span> $$</span><br></pre></td></tr></table></figure>
+
+<p>4: 创建 <strong>部门数据插入</strong> 存储过程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">delimiter $$</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> insert_department(<span class="keyword">in</span> <span class="keyword">start</span> <span class="built_in">int</span>(<span class="number">10</span>), <span class="keyword">in</span> max_num <span class="built_in">int</span>(<span class="number">10</span>))</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">set</span> autocommit=<span class="number">0</span>;</span><br><span class="line">    repeat</span><br><span class="line">        <span class="keyword">set</span> i = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> department(dept_no,dept_name,location) <span class="keyword">values</span>((<span class="keyword">start</span>+i),rand_string(<span class="number">10</span>),rand_string(<span class="number">8</span>));</span><br><span class="line">        until i = max_num</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">repeat</span>;</span><br><span class="line">    <span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">end</span> $$</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>删除存储过程命令：drop procedure procedureName;</p>
+</blockquote>
+<p>5: 调用存储过程插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">delimiter ;</span><br><span class="line"><span class="comment">-- 部门号从100开始插入10条记录</span></span><br><span class="line"><span class="keyword">call</span> insert_department(<span class="number">100</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">call</span> insert_employee(<span class="number">1</span>,<span class="number">5000000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>6: 查看数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 部门表</span></span><br><span class="line">mysql&gt; select * from department;</span><br><span class="line">+<span class="comment">----+---------+------------+----------+</span></span><br><span class="line">| id | dept_no | dept_name  | location |</span><br><span class="line">+<span class="comment">----+---------+------------+----------+</span></span><br><span class="line">|  1 |     101 | VPoajUVSCi | kBdJmjhi |</span><br><span class="line">|  2 |     102 | uylHDUPnUM | aOWpIyqk |</span><br><span class="line">|  3 |     103 | cIjWdCCdKo | pHsPXqOY |</span><br><span class="line">|  4 |     104 | yxRPzeVrVE | lqVFqNSZ |</span><br><span class="line">|  5 |     105 | sPYywNAoUD | ihjzUcAx |</span><br><span class="line">|  6 |     106 | KiKaZTxGOa | IrJwdcen |</span><br><span class="line">|  7 |     107 | anqQeYEasK | vZLGZewV |</span><br><span class="line">|  8 |     108 | pMQSSIMKop | JzuznRuy |</span><br><span class="line">|  9 |     109 | lGBKWEgSXh | TYjaAyUZ |</span><br><span class="line">| 10 |     110 | pDTLXGoyDw | yZFbrEWW |</span><br><span class="line">+<span class="comment">----+---------+------------+----------+</span></span><br><span class="line">10 rows in <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 员工表</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/30/MySQL使用函数和存储过程批量插入数据/" data-id="cjzy15pji000axp4r7ckr51hq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/28/MySQL优化之慢查询日志/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL优化之慢查询日志</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">11</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">19</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/27/MySQL优化之orderBy优化/">MySQL优化之orderBy优化</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/26/MySQL优化之小表驱动大表/">MySQL优化之小表驱动大表</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/25/MySQL优化之索引使用原则/">MySQL优化之索引使用原则</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
