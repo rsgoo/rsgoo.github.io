@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg">
 <meta property="og:image" content="https://inscode.github.io/images/blog/201908/5-SQL%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B.jpg">
-<meta property="og:updated_time" content="2019-08-25T13:53:44.080Z">
+<meta property="og:updated_time" content="2019-08-31T04:18:09.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL架构体系及SQL查询执行流程初探">
 <meta name="twitter:description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
@@ -145,6 +145,9 @@
 </ul>
 <h4 id="5：文件系统，文件，日志"><a href="#5：文件系统，文件，日志" class="headerlink" title="5：文件系统，文件，日志"></a>5：文件系统，文件，日志</h4><p><strong>补充: 一条 SQL 查询语句各个关键字解析的顺序过程</strong></p>
 <p><img src="/images/blog/201908/5-SQL%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B.jpg" alt="SQL 语句解析过程"></p>
+<p><strong>补充: 使用show profile 分析 SQL 语句执行流程及其耗时情况</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>写着写着发现提及很多知识点还是未知，路漫漫其修远兮，需要学的东西还多，愿每日都比昨日进步，即使进步很微小。那先吃饭去了🍚</p>
 <h4 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h4><ul>
 <li>数据库实例了解</li>
@@ -161,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzyzaef2000hxl4rcb84ivbd" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="cjzz2up1z000hd84rwg0fmjv0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -200,7 +203,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">11</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">12</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -210,7 +213,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -229,7 +232,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">19</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -240,6 +243,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
         
           <li>
             <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
@@ -255,10 +262,6 @@
         
           <li>
             <a href="/2019/08/26/MySQL优化之小表驱动大表/">MySQL优化之小表驱动大表</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/25/MySQL优化之索引使用原则/">MySQL优化之索引使用原则</a>
           </li>
         
       </ul>

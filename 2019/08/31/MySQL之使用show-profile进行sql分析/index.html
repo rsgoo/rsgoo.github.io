@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL之使用show-profiling进行sql分析 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写在前面: show profiling 是MySQL提供的可以用来分析 当前会话中sql语句 执行消耗资源情况的工具。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL之使用show-profiling进行sql分析">
+<meta property="og:url" content="https://inscode.github.io/2019/08/31/MySQL之使用show-profile进行sql分析/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="写在前面: show profiling 是MySQL提供的可以用来分析 当前会话中sql语句 执行消耗资源情况的工具。">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-31T04:59:43.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL之使用show-profiling进行sql分析">
+<meta name="twitter:description" content="写在前面: show profiling 是MySQL提供的可以用来分析 当前会话中sql语句 执行消耗资源情况的工具。">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL之使用show-profile进行sql分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/" class="article-date">
+  <time datetime="2019-08-31T03:21:56.000Z" itemprop="datePublished">2019-08-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL之使用show-profiling进行sql分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>写在前面</strong>: <code>show profiling</code> 是MySQL提供的可以用来分析 <strong>当前会话中sql语句</strong> 执行消耗资源情况的工具。</p>
+<a id="more"></a>
+
+<p>1: 查看 MySQL 服务器 profiling 配置信息并开启</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看</span></span><br><span class="line">mysql&gt; show variables like '%profiling%';</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br><span class="line">| Variable_name          | Value |</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br><span class="line">| have_profiling         | YES   |</span><br><span class="line">| profiling              | OFF   |</span><br><span class="line">| profiling_history_size | 15    |</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 开启</span></span><br><span class="line">mysql&gt; <span class="keyword">set</span> profiling = <span class="keyword">on</span>;</span><br></pre></td></tr></table></figure>
+
+<p>2: 使用 <code>show profiles</code> 查看最近执行SQL语句的耗时情况</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql&gt; show profiles;</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line">| Query_ID | Duration   | Query                                                      |</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line">|       22 | 1.33266500 | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axla%'</span>   |</span><br><span class="line">|       <span class="number">23</span> | <span class="number">1.34147675</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axlx%'</span>   |</span><br><span class="line">|       <span class="number">24</span> | <span class="number">1.33172000</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axl;%'</span>   |</span><br><span class="line">|       <span class="number">25</span> | <span class="number">1.33968575</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axll%'</span>   |</span><br><span class="line">|       <span class="number">26</span> | <span class="number">1.30903325</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axllz%'</span>  |</span><br><span class="line">|       <span class="number">27</span> | <span class="number">1.33119175</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axllz0%'</span> |</span><br><span class="line">|       <span class="number">28</span> | <span class="number">1.37719575</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee  <span class="keyword">where</span> employee_name <span class="keyword">like</span> <span class="string">'axllzo%'</span> |</span><br><span class="line">|       <span class="number">29</span> | <span class="number">0.00008650</span> | <span class="keyword">show</span> <span class="keyword">profiles</span> <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                                 |</span><br><span class="line">|       <span class="number">30</span> | <span class="number">0.00017425</span> | <span class="keyword">show</span> <span class="keyword">profiles</span> cpu.block <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                       |</span><br><span class="line">|       <span class="number">31</span> | <span class="number">0.00006300</span> | <span class="keyword">show</span> <span class="keyword">profiles</span> cpu,<span class="keyword">block</span> io <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                    |</span><br><span class="line">|       <span class="number">32</span> | <span class="number">0.00007200</span> | <span class="keyword">show</span> <span class="keyword">profiles</span> cpu <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                             |</span><br><span class="line">|       <span class="number">33</span> | <span class="number">0.00006825</span> | <span class="keyword">show</span> profiling cpu <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                            |</span><br><span class="line">|       <span class="number">34</span> | <span class="number">0.00006525</span> | <span class="keyword">show</span> <span class="keyword">profiles</span> cpu <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                             |</span><br><span class="line">|       <span class="number">35</span> | <span class="number">0.00007450</span> | <span class="keyword">show</span> profiling cpu <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">22</span>                            |</span><br><span class="line">|       <span class="number">36</span> | <span class="number">6.57003650</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee                                     |</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line"><span class="number">15</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.05</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看某一条SQL语句具体执行耗时情况</span></span><br><span class="line">mysql&gt; <span class="keyword">show</span> profile cpu,<span class="keyword">block</span> io <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">36</span>;</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line">| Status               | Duration | CPU_user | CPU_system | Block_ops_in | Block_ops_out |</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line">| starting             | 0.000090 | 0.000083 |   0.000007 |            0 |             0 |</span><br><span class="line">| checking permissions | 0.000013 | 0.000010 |   0.000001 |            0 |             0 |</span><br><span class="line">| Opening tables       | 0.000019 | 0.000018 |   0.000002 |            0 |             0 |</span><br><span class="line">| init                 | 0.000023 | 0.000020 |   0.000002 |            0 |             0 |</span><br><span class="line">| System <span class="keyword">lock</span>          | <span class="number">0.000010</span> | <span class="number">0.000010</span> |   <span class="number">0.000001</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| optimizing           | <span class="number">0.000005</span> | <span class="number">0.000004</span> |   <span class="number">0.000000</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">statistics</span>           | <span class="number">0.000016</span> | <span class="number">0.000015</span> |   <span class="number">0.000001</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| preparing            | <span class="number">0.000046</span> | <span class="number">0.000042</span> |   <span class="number">0.000004</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| executing            | <span class="number">0.000005</span> | <span class="number">0.000004</span> |   <span class="number">0.000001</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| Sending <span class="keyword">data</span>         | <span class="number">6.471989</span> | <span class="number">5.454445</span> |   <span class="number">0.405826</span> |       <span class="number">132832</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">end</span>                  | <span class="number">0.020849</span> | <span class="number">0.000872</span> |   <span class="number">0.000079</span> |          <span class="number">984</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">query</span> <span class="keyword">end</span>            | <span class="number">0.013094</span> | <span class="number">0.000000</span> |   <span class="number">0.000795</span> |         <span class="number">1136</span> |             <span class="number">0</span> |</span><br><span class="line">| closing <span class="keyword">tables</span>       | <span class="number">0.001540</span> | <span class="number">0.000000</span> |   <span class="number">0.000364</span> |          <span class="number">632</span> |             <span class="number">0</span> |</span><br><span class="line">| freeing items        | <span class="number">0.002086</span> | <span class="number">0.000000</span> |   <span class="number">0.000471</span> |         <span class="number">1008</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">logging</span> slow <span class="keyword">query</span>   | <span class="number">0.056165</span> | <span class="number">0.000000</span> |   <span class="number">0.005052</span> |         <span class="number">1568</span> |             <span class="number">8</span> |</span><br><span class="line">| cleaning up          | <span class="number">0.004088</span> | <span class="number">0.000000</span> |   <span class="number">0.000771</span> |          <span class="number">992</span> |             <span class="number">0</span> |</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line"><span class="number">16</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.07</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果上面的status 中出现以下四种情况表明需要优化❌，</span></span><br><span class="line">- <span class="number">1</span>：converting <span class="keyword">HEAP</span> <span class="keyword">to</span> MyISAM（查询结果太大，内存不够用，需要往磁盘上搬运）</span><br><span class="line"></span><br><span class="line">- <span class="number">2</span>：<span class="keyword">create</span> tmp <span class="keyword">table</span> (创建临时表【先拷贝数据到临时表，用完临时表数据后删除】)</span><br><span class="line"></span><br><span class="line">- <span class="number">3</span>：Copying <span class="keyword">to</span> tmp <span class="keyword">table</span> <span class="keyword">to</span> dis (把内存中临时表复制到磁盘，危险❌)</span><br><span class="line"></span><br><span class="line">- <span class="number">4</span>：<span class="keyword">locked</span> (锁定了🔐)</span><br></pre></td></tr></table></figure>
+
+<p>3: show profile 后可跟参数类型</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">all</td>
+<td align="left">显示所有开销信息</td>
+</tr>
+<tr>
+<td align="left">block io</td>
+<td align="left">显示块IO开销相关</td>
+</tr>
+<tr>
+<td align="left">context switch</td>
+<td align="left">上下午切换相关开销</td>
+</tr>
+<tr>
+<td align="left">cpu</td>
+<td align="left">显示cpu开销信息</td>
+</tr>
+<tr>
+<td align="left">ipc</td>
+<td align="left">显示发送和接收相关开销信息</td>
+</tr>
+<tr>
+<td align="left">memory</td>
+<td align="left">显示内存相关开销信息</td>
+</tr>
+<tr>
+<td align="left">page fault</td>
+<td align="left">显示页面错误❎相关开销信息</td>
+</tr>
+<tr>
+<td align="left">source</td>
+<td align="left">显示source相关开销信息</td>
+</tr>
+<tr>
+<td align="left">swaps</td>
+<td align="left">显示交换次数相关开销信息</td>
+</tr>
+</tbody></table>
+<p>4: 全局查询日志,</p>
+<p>❌注意❌：<strong>（不可在生产环境使用）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like '%general%';</span><br><span class="line">+<span class="comment">------------------+----------------------------+</span></span><br><span class="line">| Variable_name    | Value                      |</span><br><span class="line">+<span class="comment">------------------+----------------------------+</span></span><br><span class="line">| general_log      | OFF                        |</span><br><span class="line">| general_log_file | /var/lib/mysql/inscode.log |</span><br><span class="line">+<span class="comment">------------------+----------------------------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.07</span> sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 my.cnf 中开启全局日志</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">general_log = 1</span><br><span class="line">general_log_file = /var/log/mysql/mysql-general-log.log</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>笔记记录来源 <a href="https://www.bilibili.com/video/av49181542/?p=229" target="_blank" rel="noopener">MySQL高级_2用Show Profile进行sql分析</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/31/MySQL之使用show-profile进行sql分析/" data-id="cjzz2up1c0000d84r68yv4ejs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL使用函数和存储过程批量插入数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">12</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">20</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/27/MySQL优化之orderBy优化/">MySQL优化之orderBy优化</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/26/MySQL优化之小表驱动大表/">MySQL优化之小表驱动大表</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
