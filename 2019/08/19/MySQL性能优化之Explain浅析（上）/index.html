@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL性能优化之Explain浅析（上） |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL性能优化之Explain浅析（上）">
+<meta property="og:url" content="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain浅析（上）/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-24T09:19:15.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL性能优化之Explain浅析（上）">
+<meta name="twitter:description" content="写在前面: 在软件开发中，遵循着 first finish then perfect 的原则。前期我们往往会更加关注程序功能的实现，编写的 SQL 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 SQL 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 SQL 语句的优化就显得格">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL性能优化之Explain浅析（上）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/" class="article-date">
+  <time datetime="2019-08-19T14:18:54.000Z" itemprop="datePublished">2019-08-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL性能优化之Explain浅析（上）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>写在前面</strong>: 在软件开发中，遵循着 <code>first finish then perfect</code> 的原则。前期我们往往会更加关注程序功能的实现，编写的 <code>SQL</code> 语句也多为满足业务所需的增删改查。如果运气还不错，业务做起来了，数据量达到一定量级时，我们发现一个请求的响应时间会越来越难以接受，其中某些不再合理的 <code>SQL</code> 往往会成为整个请求响应中性能消耗大户，甚至成为性能瓶颈，那么此时对 <code>SQL</code> 语句的优化就显得格外重要了。要优化 <code>SQL</code> 就需要定位 <code>SQL</code> 存在的问题。<code>MySQL</code> 提供了 <code>explain  + sql</code> 命令来获取 <code>SQL</code> 语句执行计划的信息，包括有关如何连接表以及以何种顺序连接表。以下为 <code>explain</code> 学习中所做笔记，记录于此📝以便今后翻阅。</p>
+<p>鉴于篇幅: 这里记录截至 <code>explain</code> 中 <code>type</code> 前的字段</p>
+<a id="more"></a>
+
+<p>备注: 文中用到的sql数据来自 <a href="https://github.com/inscode/inscode.github.io/blob/master/blog/source/static/myemployees.sql" target="_blank" rel="noopener">employees.sql</a></p>
+<hr>
+<h4 id="1-explain-能获取到那些信息？"><a href="#1-explain-能获取到那些信息？" class="headerlink" title="1: explain 能获取到那些信息？"></a>1: explain 能获取到那些信息？</h4><ul>
+<li><p>表的读取顺序</p>
+</li>
+<li><p>表数据读取操作（<code>select</code>）的类型</p>
+</li>
+<li><p>那些所有阔以被使用</p>
+</li>
+<li><p>那些索引实际被使用</p>
+</li>
+<li><p>表之间的引用</p>
+</li>
+<li><p>每张表有多少行被优化器查询</p>
+</li>
+</ul>
+<h4 id="2-explain-的使用及其字段说明"><a href="#2-explain-的使用及其字段说明" class="headerlink" title="2: explain 的使用及其字段说明"></a>2: explain 的使用及其字段说明</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 得到的执行计划如下表</span></span><br><span class="line">mysql&gt; explain select * from employees;</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br><span class="line">| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br><span class="line">|  1 | SIMPLE      | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |   100.00 | NULL  |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br><span class="line">1 row in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.01</span> sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-1-id-字段"><a href="#2-1-id-字段" class="headerlink" title="2.1: id 字段"></a>2.1: id 字段</h5><p><strong>含义或用途</strong>: select 查询的序列号，包含一组数字，表示查询中执行 select 字句或是操作表的顺序</p>
+<p><strong>id 的三种情形</strong></p>
+<ul>
+<li><p>id 相同，执行顺序自上而下</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询员工名，部门名</span></span><br><span class="line">mysql&gt; explain SELECT employees.employee_id,employees.last_name, departments.department_name</span><br><span class="line">    -&gt; from employees</span><br><span class="line">    -&gt; inner join departments</span><br><span class="line">    -&gt; on employees.department_id = departments.department_id;</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------------+---------+---------------------------------------+------+----------+-------+</span></span><br><span class="line">| id | select_type | table       | partitions | type | possible_keys | key        | key_len | ref                                   | rows | filtered | Extra |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------------+---------+---------------------------------------+------+----------+-------+</span></span><br><span class="line">|  1 | SIMPLE      | departments | NULL       | ALL  | PRIMARY       | NULL       | NULL    | NULL                                  |   27 |   100.00 | NULL  |</span><br><span class="line">|  1 | SIMPLE      | employees   | NULL       | ref  | dept_id_fk    | dept_id_fk | 5       | myemployees.departments.department_id |    9 |   100.00 | NULL  |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------------+---------+---------------------------------------+------+----------+-------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>  说明: 表读取顺序是先 <code>departments</code> 后 <code>departments</code>。</p>
+</li>
+<li><p>id 不同，如果是子查询，id 的序号会递增，id 值越大其优先级越高，就越先被执行。</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql&gt; explain select * from employees where salary = (select max(salary) from employees);</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">|  1 | PRIMARY     | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |    10.00 | Using where |</span><br><span class="line">|  2 | SUBQUERY    | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |   100.00 | NULL        |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>  说明: 表执行顺序是先执行 id 为 2 的子查询后执行 id 为 1 的主查询。</p>
+</li>
+<li><p>id 相同不同，同时存在（❓这是什么鬼👻）</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; 没找到例子，下面就只表示一下了😂😂😂(只关注 id 就行)</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">|  1 | PRIMARY     | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |    10.00 | Using where |</span><br><span class="line">|  1 | PRIMARY     | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |   100.00 | NULL        |</span><br><span class="line">|  2 | SUBQUERY    | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  107 |   100.00 | NULL        |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>  说明: id 字段中数字大的先执行，即是 <code>2先执行</code>，然后存在两个评价的 1，按 <code>自上而下的先后顺序执行</code>。</p>
+</li>
+</ul>
+<h5 id="2-2-select-type-字段"><a href="#2-2-select-type-字段" class="headerlink" title="2.2: select_type 字段"></a>2.2: <code>select_type</code> 字段</h5><p><strong>含义或用途</strong>: 表示 <code>SELECT</code> 的类型，主要用于区别 普通查询、联合查询、子查询等复杂查询。常见的取值如下</p>
+<ul>
+<li><p><strong>1-SIMPLE:</strong>  简单 select 查询，不包含子查询或者连接查询（union）</p>
+</li>
+<li><p><strong>2-PRIMARY:</strong>  主查询，即是外层的查询（查询中包含了子查询），PRIMARY 是最后加载的查询</p>
+</li>
+<li><p><strong>3-SUBQUERY:</strong>  在 SELECT 或 where 查询包含了 子查询</p>
+</li>
+<li><p><strong>4-DERIVED:</strong>  在 From 列表中包含的子查询被标记为 DEVIRED(衍生)。MySQL会递归执行这些子查询，把结果放在临时表中（会增加系统消耗）</p>
+</li>
+<li><p><strong>5-UNION:</strong>  若第二个 SELECT 出现在 UNION 之后，则标记为 UNION; 若 UNION 包含在 FROM 字句的子查询中，外层的 SELECT 被标记 DEVIRED</p>
+</li>
+<li><p><strong>6-UNION RESULT:</strong>  两种 UNION 结果的合并</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from employees where email like '%a%' union select * from employees where department_id&gt;90;</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">| id  | select_type  | table      | partitions | type  | possible_keys | key        | key_len | ref  | rows | filtered | Extra                 |</span><br><span class="line">+<span class="comment">-----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">|  1  | PRIMARY      | employees  | NULL       | ALL   | NULL          | NULL       | NULL    | NULL |  107 |    11.11 | Using where           |</span><br><span class="line">|  2  | UNION        | employees  | NULL       | range | dept_id_fk    | dept_id_fk | 5       | NULL |    8 |   100.00 | Using index condition |</span><br><span class="line">| NULL| UNION RESULT | &lt;union1,2&gt; | NULL       | ALL   | NULL          | NULL       | NULL    | NULL | NULL |     NULL | Using temporary       |</span><br><span class="line">+<span class="comment">----+--------------+------------+------------+-------+---------------+------------+---------+------+------+----------+-----------------------+</span></span><br><span class="line">3 rows in <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="2-3-table-字段"><a href="#2-3-table-字段" class="headerlink" title="2.3: table 字段"></a>2.3: <code>table</code> 字段</h5><p><strong>含义或用途</strong>: 输出结果集的表（查询结果的来源表）</p>
+<h5 id="2-4-type-字段"><a href="#2-4-type-字段" class="headerlink" title="2.4: type 字段"></a>2.4: <code>type</code> 字段</h5><p><strong>含义或用途</strong>: 显示查询使用了何种连接类型。结果值从最好到最坏依次如下，通常来说保证 type 值能达到 Range。</p>
+<p><strong><code>system</code> &gt; <code>const</code> &gt; <code>eq_ref</code> &gt; <code>ref</code> &gt; <code>range</code> &gt; <code>index</code> &gt; <code>all</code></strong></p>
+<ul>
+<li><p><strong>1-system:</strong>  单表只有一行记录（等于系统表），是const连接类型的特例。可以忽略不计</p>
+</li>
+<li><p><strong>2-const:</strong>  该表最多只有一个匹配行，在查询开头读取。因为只有一行，所以优化器的其余部分可以将此行中列的值视为常量。const表非常快，因为它们只读一次。const 将 PRIMARY KEY或 UNIQUE索引的所有部分与常量值进行比较时使用。</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 主键 employee_id = 100 是一个常量，对应一条记录， type 为 const</span></span><br><span class="line">mysql&gt; explain select * from (select * from employees where employee_id = 100) as tmp;</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></span><br><span class="line">| id | select_type | table     | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></span><br><span class="line">|  1 | SIMPLE      | employees | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>3-eq_ref:</strong>  唯一性索引（<code>PRIMARY KEY</code> 或 <code>UNIQUE NOT NULL</code>）扫描，对于每个索引键，表中只有一个记录与之匹配。常见于主键或唯一索引</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- job_id='AC_MGR' 在employees表中只有一条记录;</span></span><br><span class="line">mysql&gt; explain select * from employees,departments where employees.job_id='AC_MGR' and departments.department_id = employees.department_id;</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+--------+----------------------+-----------+---------+-------------------------------------+------+----------+-------------+</span></span><br><span class="line">| id | select_type | table       | partitions | type   | possible_keys        | key       | key_len | ref                                 | rows | filtered | Extra       |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+--------+----------------------+-----------+---------+-------------------------------------+------+----------+-------------+</span></span><br><span class="line">|  1 | SIMPLE      | employees   | NULL       | ref    | dept_id_fk,job_id_fk | job_id_fk | 23      | const                               |    1 |   100.00 | Using where |</span><br><span class="line">|  1 | SIMPLE      | departments | NULL       | eq_ref | PRIMARY              | PRIMARY   | 4       | myemployees.employees.department_id |    1 |   100.00 | NULL        |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+--------+----------------------+-----------+---------+-------------------------------------+------+----------+-------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>4-ref:</strong>  非唯一性索引扫描, 返回匹配某个单独值的所有行记录。</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- job_id 是一个索引，配置job_id = 'SA_REP' 的所有记录</span></span><br><span class="line">mysql&gt; explain select * from employees where job_id='SA_REP';</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+-----------+---------+-------+------+----------+-------+</span></span><br><span class="line">| id | select_type | table     | partitions | type | possible_keys | key       | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+-----------+---------+-------+------+----------+-------+</span></span><br><span class="line">|  1 | SIMPLE      | employees | NULL       | ref  | job_id_fk     | job_id_fk | 23      | const |   30 |   100.00 | NULL  |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+------+---------------+-----------+---------+-------+------+----------+-------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>5-range:</strong> 索引仅检索给定范围内的行，使用索引选择行   </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用 =， &lt;&gt;， &gt;， &gt;=， &lt;， &lt;=， IS NULL， &lt;=&gt;， BETWEEN， LIKE，或 IN()运算符</span></span><br><span class="line">mysql&gt; explain select * from employees where employee_id&gt;100;</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+-------------+</span></span><br><span class="line">| id | select_type | table     | partitions | type  | possible_keys | key     | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+-------------+</span></span><br><span class="line">|  1 | SIMPLE      | employees | NULL       | range | PRIMARY       | PRIMARY | 4       | NULL |  106 |   100.00 | Using where |</span><br><span class="line">+<span class="comment">----+-------------+-----------+------------+-------+---------------+---------+---------+------+------+----------+-------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>6-index:</strong> <code>index</code> 与 <code>all</code> 的区别为 <code>index</code> 类型只遍历索引数🌲，所以比 <code>all</code> 快。因为索引文件通常比数据文件小，虽然两者都是扫描全表，但是 <code>index</code> 从索引中读取，而 <code>all</code> 是从硬盘中读取。</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看表 departments 的索引情况</span></span><br><span class="line">mysql&gt; show index from departments;</span><br><span class="line">+<span class="comment">-------------+------------+-----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span></span><br><span class="line">| Table       | Non_unique | Key_name  | Seq_in_index | Column_name   | Collation | Cardinality | Sub_part | Packed | Null | Index_type | <span class="keyword">Comment</span> | Index_comment |</span><br><span class="line">+<span class="comment">-------------+------------+-----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span></span><br><span class="line">| departments |          <span class="number">0</span> | PRIMARY   |            <span class="number">1</span> | department_id | A         |          <span class="number">27</span> |     <span class="literal">NULL</span> | <span class="literal">NULL</span>   |      | BTREE      |         |               |</span><br><span class="line">| departments |          <span class="number">1</span> | loc_id_fk |            <span class="number">1</span> | location_id   | A         |           <span class="number">7</span> |     <span class="literal">NULL</span> | <span class="literal">NULL</span>   | YES  | BTREE      |         |               |</span><br><span class="line">+<span class="comment">-------------+------------+-----------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 覆盖索引</span></span><br><span class="line">mysql&gt; <span class="keyword">explain</span> <span class="keyword">select</span> department_id, location_id <span class="keyword">from</span> departments;</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+-------+---------------+-----------+---------+------+------+----------+-------------+</span></span><br><span class="line">| id | select_type | table       | partitions | type  | possible_keys | key       | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+-------+---------------+-----------+---------+------+------+----------+-------------+</span></span><br><span class="line">|  1 | SIMPLE      | departments | NULL       | index | NULL          | loc_id_fk | 5       | NULL |   27 |   100.00 | Using index |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+-------+---------------+-----------+---------+------+------+----------+-------------+</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- manager_id不是索引字段</span></span><br><span class="line">mysql&gt; explain select department_id, location_id, manager_id from departments;</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br><span class="line">| id | select_type | table       | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br><span class="line">|  1 | SIMPLE      | departments | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   27 |   100.00 | NULL  |</span><br><span class="line">+<span class="comment">----+-------------+-------------+------------+------+---------------+------+---------+------+------+----------+-------+</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from employees where salary=&apos;20000&apos;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>未完待续</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/19/MySQL性能优化之Explain浅析（上）/" data-id="ck01t3ne30026oj4r4i3p1bis" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/20/MySQL性能优化之Explain浅析（下）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL性能优化之Explain浅析（下）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/18/数学思维修炼一-数据的表示/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数学思维修炼一: 数据的表示</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">14</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/01/MySQL主从复制/">MySQL主从复制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL高级之锁/">MySQL高级之锁</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

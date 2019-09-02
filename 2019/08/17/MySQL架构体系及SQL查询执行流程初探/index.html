@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL架构体系及SQL查询执行流程初探 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL架构体系及SQL查询执行流程初探">
+<meta property="og:url" content="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
+<meta property="og:locale" content="Chinese">
+<meta property="og:image" content="https://inscode.github.io/images/blog/201908/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
+<meta property="og:image" content="https://inscode.github.io/images/blog/201908/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg">
+<meta property="og:image" content="https://inscode.github.io/images/blog/201908/5-SQL%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:updated_time" content="2019-09-01T09:28:14.232Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL架构体系及SQL查询执行流程初探">
+<meta name="twitter:description" content="简述: 自工作以来，大部分的时间接触的关系型都是 MySQL 数据库系统，但使用都比较浅显基础(CRUD)。最近打算重新深入学习下 MySQL，安装的版本是 5.7.21，学习记录于此，便日后温习查看。 首先来看看 MySQL 的架构图，然后依次来看看每一部分是做什么的。">
+<meta name="twitter:image" content="https://inscode.github.io/images/blog/201908/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL架构体系及SQL查询执行流程初探" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" class="article-date">
+  <time datetime="2019-08-17T03:25:22.000Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL架构体系及SQL查询执行流程初探
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简述: 自工作以来，大部分的时间接触的关系型都是 <code>MySQL</code> 数据库系统，但使用都比较浅显基础(<code>CRUD</code>)。最近打算重新深入学习下 <code>MySQL</code>，安装的版本是 <code>5.7.21</code>，学习记录于此，便日后温习查看。</p>
+<p>首先来看看 <code>MySQL</code> 的架构图，然后依次来看看每一部分是做什么的。</p>
+<a id="more"></a>
+
+<p><img src="/images/blog/201908/3-MySQL%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg" alt></p>
+<h4 id="1：Client"><a href="#1：Client" class="headerlink" title="1：Client"></a>1：Client</h4><p><code>连接器（Connectors）</code>，也就是通常所说的 MySQL 客户端。不同的编程语言提供了对应的 <code>API</code> 与 MySQL 服务系统进行交互通讯。</p>
+<ul>
+<li>通过 <code>show variables like &#39;%connection%;</code> 来查看 MySQl 服务器的连接信息。默认最大连接数是151。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%connection%&apos;;</span><br><span class="line">+--------------------------+-----------------+</span><br><span class="line">| Variable_name            | Value           |</span><br><span class="line">+--------------------------+-----------------+</span><br><span class="line">| character_set_connection | utf8            |</span><br><span class="line">| collation_connection     | utf8_general_ci |</span><br><span class="line">| max_connections          | 151             |</span><br><span class="line">| max_user_connections     | 0               |</span><br><span class="line">+--------------------------+-----------------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="2：MySQL-Server"><a href="#2：MySQL-Server" class="headerlink" title="2：MySQL Server"></a>2：MySQL Server</h4><p>Server 层是 MySQL 提供服务的核心。主要分为以下几个模块（查询缓存 <code>MySQL8.0</code> 版本被删除，故此不做记录📝）</p>
+<h5 id="2-1：Connection-Pool（连接池）"><a href="#2-1：Connection-Pool（连接池）" class="headerlink" title="2.1：Connection Pool（连接池）"></a>2.1：Connection Pool（连接池）</h5><p>连接池主要实现以下功能</p>
+<h6 id="2-1-1：Authentication（进行身份验证）"><a href="#2-1-1：Authentication（进行身份验证）" class="headerlink" title="2.1.1：Authentication（进行身份验证）**"></a>2.1.1：Authentication（进行身份验证）**</h6><p><code>terminal</code> 下连接命令如下 <code>mysql -u root -h localhost - p</code>。如果用户名密码认证通过，连接器会到 <code>权限表</code> 里面查出用户拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。</p>
+<p>一旦一个用户成功建立连接后，即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。修改完成后，只有再新建的连接才会使用新的权限设置。</p>
+<p>连接完成后如果没有使用，该连接就处于 <code>Sleep</code> 状态。如果超过 MySQL 服务器配置的 <code>wait_time</code> 值，可通过 <code>show variables like &#39;%wait%&#39;;</code> 查看该值，默认是 <code>28800</code> 秒，该连接就会被回收，使用时就需要重新建立连接了。</p>
+<p>如果客户端持续有请求，则一直使用同一个连接，则称该连接为长连接。短连接则是指每次执行完很少的几次查询就断开连接，下次查询再重新建立一个。由于建立连接比较复杂，应当减少连接的操作而使用长连接。但是过多使用长连接会使得内存飙升（因为 MySQL 在执行过程中临时使用的内存是管理在连接对象里面的。这些资源会在连接断开的时候才释放）导致 MySQL 异常重启。</p>
+<p><strong>解决方案1</strong> ：定期断开长连接。使用一段时间后或者程序里面判断执行过一个占用内存的大查询后，定期断开连接，之后要查询时再重新建立连接；</p>
+<p><strong>解决方案2</strong> ：对于 MySQL 5.7 及后续版本，可以在每次执行一个比较大的操作后，通过执行 mysql_reset_connection 来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
+<h6 id="2-1-2：Thread-Reuse（线程重用）"><a href="#2-1-2：Thread-Reuse（线程重用）" class="headerlink" title="2.1.2：Thread Reuse（线程重用）"></a>2.1.2：Thread Reuse（线程重用）</h6><h6 id="2-1-3：Connection-Limits（连接限制"><a href="#2-1-3：Connection-Limits（连接限制" class="headerlink" title="2.1.3：Connection Limits（连接限制)"></a>2.1.3：Connection Limits（连接限制)</h6><h6 id="2-1-4：Check-Memory-内存检测"><a href="#2-1-4：Check-Memory-内存检测" class="headerlink" title="2.1.4：Check Memory (内存检测)"></a>2.1.4：Check Memory (内存检测)</h6><h6 id="2-1-5：缓存"><a href="#2-1-5：缓存" class="headerlink" title="2.1.5：缓存"></a>2.1.5：缓存</h6><p>每个客户端连接都会在服务器进程中拥有一个线程，这个连接的查询只会在这个单独的线程中执行，该线程只能轮流在某个 <code>cpu</code> 上运行，服务器会负责缓存线程。因此，不需要为每一个新建的连接创建或销毁线程，或者直接使用线程池功能，来维护大量的可用连接。</p>
+<hr>
+<h5 id="2-2：SQL-Interface（SQL-接口）"><a href="#2-2：SQL-Interface（SQL-接口）" class="headerlink" title="2.2：SQL Interface（SQL 接口）"></a>2.2：SQL Interface（SQL 接口）</h5><p>用于执行 <code>DML</code>, <code>DDL</code>, 存储过程, 视图, 触发器等。接收客户端发来的sql请求查询，并返回需要查询的结构。</p>
+<h5 id="2-3：Parser（解析器）"><a href="#2-3：Parser（解析器）" class="headerlink" title="2.3：Parser（解析器）"></a>2.3：Parser（解析器）</h5><p>解析器通过关键字将SQL语句进行解析（<strong>词法分析 + 预发分析</strong>），并生成对应的数据结构（解析树）。然后对其进行各种优化，包括重写查询，决定查询的读写顺序，以及选择须使用的索引等。MySQL解析器将使用MySQL语法规则验证和解析查询。</p>
+<p>预处理器则根据一些MySQL规则进行进一步检查解析书是否合法，例如检查数据表和数据列是否存在，还会解析名字和别名，看看它们是否有歧义。</p>
+<h5 id="2-4：Optimizer（优化器）"><a href="#2-4：Optimizer（优化器）" class="headerlink" title="2.4：Optimizer（优化器）"></a>2.4：Optimizer（优化器）</h5><p>优化器会将 <code>解析树</code> 转化成 <code>执行计划</code>。一条查询可以有多种执行方法，最后都是返回相同结果。优化器的作用就是 <strong>找到这其中最好的执行计划</strong>。生成执行计划的过程会消耗较多的时间，特别是存在许多可选的执行计划时。</p>
+<p>如果在一条SQL语句执行的过程中将该语句对应的最终执行计划进行缓存，当相似的语句再次被输入服务器时，就可以直接使用已缓存的执行计划，从而跳过SQL语句生成执行计划的整个过程，进而可以提高语句的执行速度。</p>
+<p>eg：怎么使用索引，怎么处理表的 Join 优化器处理</p>
+<blockquote>
+<p>例如一个数据表建立的组合索引 idx_table_c1c2c3c4, 当查询条件为 <code>where c3=&#39;c3&#39; and c2=&#39;c2&#39;  and c4=&#39;c4&#39; and c1=&#39;c1&#39;;</code> 时查询优化器会自动调整和优化，此时等价于 <code>where c1=&#39;c1&#39; and c2=&#39;c2&#39;  and c4=&#39;c4&#39; and c3=&#39;c3&#39;;</code>。但是最佳实践是按照索引建立的顺序来使用，以此来减少底层优化器的工作量。</p>
+</blockquote>
+<p>解析器，预处理器，优化器处理流程 <a href="https://zhuanlan.zhihu.com/p/61546435" target="_blank" rel="noopener">如下图</a></p>
+<p><img src="/images/blog/201908/4-MySQL%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E4%BC%98%E5%8C%96%E5%99%A8.jpg" alt></p>
+<p><a href="https://zhuanlan.zhihu.com/p/61546435" target="_blank" rel="noopener">图片引用自 程序员历小冰</a></p>
+<h5 id="2-5：Executor（执行器）"><a href="#2-5：Executor（执行器）" class="headerlink" title="2.5：Executor（执行器）"></a>2.5：Executor（执行器）</h5><p>根据 优化器 的执行计划去调用存储引擎 API 接口获取数据</p>
+<h4 id="3：Management-Serveices-amp-Utilities（系统管理和控制工具）"><a href="#3：Management-Serveices-amp-Utilities（系统管理和控制工具）" class="headerlink" title="3：Management Serveices &amp; Utilities（系统管理和控制工具）"></a>3：Management Serveices &amp; Utilities（系统管理和控制工具）</h4><p>备份，安全恢复，复制，集群，管理，配置，迁移和元数据。</p>
+<h4 id="4：Pluggable-Storage-Engines（可插拔的存储引擎）"><a href="#4：Pluggable-Storage-Engines（可插拔的存储引擎）" class="headerlink" title="4：Pluggable Storage Engines（可插拔的存储引擎）"></a>4：Pluggable Storage Engines（可插拔的存储引擎）</h4><ul>
+<li>存储引擎针对数据表</li>
+</ul>
+<h4 id="5：文件系统，文件，日志"><a href="#5：文件系统，文件，日志" class="headerlink" title="5：文件系统，文件，日志"></a>5：文件系统，文件，日志</h4><p><strong>补充: 一条 SQL 查询语句各个关键字解析的顺序过程</strong></p>
+<p><img src="/images/blog/201908/5-SQL%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B.jpg" alt="SQL 语句解析过程"></p>
+<p><strong>补充: 使用show profile 分析 SQL 语句执行流程及其耗时情况</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profiles;</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line">| Query_ID | Duration   | Query                                                      |</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line">|       36 | 6.57003650 | <span class="keyword">select</span> * <span class="keyword">from</span> employee                                     |</span><br><span class="line">|       <span class="number">37</span> | <span class="number">0.02818325</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">1</span>                             |</span><br><span class="line">|       <span class="number">38</span> | <span class="number">0.00047475</span> | <span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">1</span>                             |</span><br><span class="line">+<span class="comment">----------+------------+------------------------------------------------------------+</span></span><br><span class="line"><span class="number">15</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> profile cpu,<span class="keyword">block</span> io <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">37</span>;</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line">| Status               | Duration | CPU_user | CPU_system | Block_ops_in | Block_ops_out |</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line">| starting             | 0.015488 | 0.000507 |   0.000047 |          512 |             0 |</span><br><span class="line">| checking permissions | 0.000019 | 0.000015 |   0.000002 |            0 |             0 |</span><br><span class="line">| Opening tables       | 0.000606 | 0.000166 |   0.000015 |          112 |             0 |</span><br><span class="line">| init                 | 0.006238 | 0.000140 |   0.000000 |          136 |             0 |</span><br><span class="line">| System <span class="keyword">lock</span>          | <span class="number">0.000083</span> | <span class="number">0.000083</span> |   <span class="number">0.000000</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| optimizing           | <span class="number">0.000007</span> | <span class="number">0.000006</span> |   <span class="number">0.000000</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">statistics</span>           | <span class="number">0.000188</span> | <span class="number">0.000189</span> |   <span class="number">0.000000</span> |          <span class="number">240</span> |             <span class="number">0</span> |</span><br><span class="line">| preparing            | <span class="number">0.000018</span> | <span class="number">0.000017</span> |   <span class="number">0.000000</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| executing            | <span class="number">0.000003</span> | <span class="number">0.000003</span> |   <span class="number">0.000000</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| Sending <span class="keyword">data</span>         | <span class="number">0.005445</span> | <span class="number">0.000000</span> |   <span class="number">0.001869</span> |         <span class="number">1480</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">end</span>                  | <span class="number">0.000012</span> | <span class="number">0.000000</span> |   <span class="number">0.000010</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| <span class="keyword">query</span> <span class="keyword">end</span>            | <span class="number">0.000009</span> | <span class="number">0.000000</span> |   <span class="number">0.000009</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| closing <span class="keyword">tables</span>       | <span class="number">0.000007</span> | <span class="number">0.000000</span> |   <span class="number">0.000007</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| freeing items        | <span class="number">0.000046</span> | <span class="number">0.000000</span> |   <span class="number">0.000047</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">| cleaning up          | <span class="number">0.000014</span> | <span class="number">0.000000</span> |   <span class="number">0.000013</span> |            <span class="number">0</span> |             <span class="number">0</span> |</span><br><span class="line">+<span class="comment">----------------------+----------+----------+------------+--------------+---------------+</span></span><br><span class="line"><span class="number">15</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span>, <span class="number">1</span> <span class="keyword">warning</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>写着写着发现提及很多知识点还是未知，路漫漫其修远兮，需要学的东西还多，愿每日都比昨日进步，即使进步很微小。那先吃饭去了🍚</p>
+<h4 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h4><ul>
+<li>数据库实例了解</li>
+</ul>
+<hr>
+<p><strong>参考</strong></p>
+<p><a href="https://time.geekbang.org/column/article/68319" target="_blank" rel="noopener">MySQL实战45讲</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/61757521" target="_blank" rel="noopener">一条SQL语句在MySQL中是如何执行的</a></p>
+<p><a href="https://www.jianshu.com/p/bb6bdedbf9ce" target="_blank" rel="noopener">本来以为mysql即将消亡，没想到它却越来越强大</a></p>
+<p><a href="https://www.jianshu.com/p/7d1552883289" target="_blank" rel="noopener">MySQL体系架构</a></p>
+<p><a href="https://www.jianshu.com/p/1a3a932ccf88" target="_blank" rel="noopener">mysql体系架构图以及二进制安装mariadb</a></p>
+<p><a href="https://blog.csdn.net/u010342038/article/details/52798320" target="_blank" rel="noopener">MySQL中的实例、数据库关系简介</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" data-id="ck01t3ne5002aoj4rtmyez7pl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/17/MySQL-索引那些事儿/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL 索引那些事儿一
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL 5.7.21-1配置文件my.cnf</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">14</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/01/MySQL主从复制/">MySQL主从复制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL高级之锁/">MySQL高级之锁</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        数学思维修炼一: 数据的表示 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
+<meta name="keywords" content="数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学思维修炼一: 数据的表示">
+<meta property="og:url" content="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-18T15:34:03.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数学思维修炼一: 数据的表示">
+<meta name="twitter:description" content="写在前面: 以下为书籍📚 《程序员的数学思维修炼》 第1章 &amp;lt;数据的表示&amp;gt; 读书记录。">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数学思维修炼一-数据的表示" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/数学思维修炼一-数据的表示/" class="article-date">
+  <time datetime="2019-08-18T13:57:49.000Z" itemprop="datePublished">2019-08-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数学/">数学</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数学思维修炼一: 数据的表示
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>写在前面: 以下为书籍📚 <strong>《程序员的数学思维修炼》</strong> 第1章 <strong>&lt;数据的表示&gt;</strong> 读书记录。</p>
+<a id="more"></a>
+
+<h3 id="1-8-和-8-0-相等吗？含义相同吗？"><a href="#1-8-和-8-0-相等吗？含义相同吗？" class="headerlink" title="1: 8 和 8.0 相等吗？含义相同吗？"></a>1: 8 和 8.0 相等吗？含义相同吗？</h3><ul>
+<li><p>从数值大小比较来说，8.0 和 8 是相等的。</p>
+</li>
+<li><p>在近似数的表示中，数字 8 表示数据值精确到个位，如 7.9、8.2 等数精确到个位都表示为 8。而 8.0 则表示数据精确到十分位（小数点后一位），如 8.02、7.99 等精确到十分位都表示为 8.0。因此从这个角度看两者是不同的</p>
+</li>
+<li><p>ps: 看问题得分场景❓❓❓</p>
+</li>
+</ul>
+<h3 id="2-进制的表示"><a href="#2-进制的表示" class="headerlink" title="2: 进制的表示"></a>2: 进制的表示</h3><p><strong>2.1: 二人类为什么习惯十进制？</strong></p>
+<ul>
+<li><p>人类最开始计数时，首先想到的是用 <code>数手指</code> 的方式来计数，满 10 个以后再借一双手，这种 <code>便捷性</code> 使得人类习惯于使用十进制。</p>
+</li>
+<li><p>十进制对比其他进制（如二进制）更简洁，更易识别。</p>
+</li>
+</ul>
+<p><strong>2.2: 计算机为什么要使用二进制？</strong></p>
+<ul>
+<li><p>如果计算机使用 <code>十进制</code>，那么需要让电脑能识别 <code>十进制</code> 中的十个数字。假设最高电压是 <code>12V</code>，那么10个数字中每个数码（0~9）分配到的电压区间是 <code>12 / 9 ≈ 1.3(v)</code>。这样导致数码之间的电压间隔小，如果外界干扰造成电压大幅变化，数据标识就不太准确了。另外最大的问题是硬件上要标识十种状态的话，其电路构造的复杂度就非常复杂了</p>
+</li>
+<li><p>二进制的技术实现比较简单。逻辑电路通常就只有两种状态 [开 or 关]</p>
+</li>
+<li><p>运算规则简单，利于简化计算机内部结构，提高运算速度</p>
+</li>
+<li><p>适合于逻辑运算</p>
+</li>
+<li><p>二进制易于和别的进制进行转换</p>
+</li>
+<li><p>抗干扰能力强👍。因为每位数码只有高低两种状态，当受到一定程度的干扰时，仍能可靠的分辨出是 <code>高电平</code>还是 <code>低电平</code>    </p>
+</li>
+</ul>
+<p><strong>2.3: 二进制的运算</strong></p>
+<ul>
+<li><p>加法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 + 0 = 0</span><br><span class="line">0 + 1 = 1</span><br><span class="line">1 + 0 = 1</span><br><span class="line">1 + 1 = 10(逢2进1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>减法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 - 0 = 0</span><br><span class="line">0 - 1 = 1（借1当2）</span><br><span class="line">1 - 0 = 1</span><br><span class="line">1 - 1 = 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>乘法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 * 0 = 0</span><br><span class="line">0 * 1 = 0</span><br><span class="line">1 * 0 = 0</span><br><span class="line">1 * 1 = 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 / 0 (无意义)</span><br><span class="line">0 / 1 = 0</span><br><span class="line">1 / 0 (无意义)</span><br><span class="line">1 / 1 = 1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/18/数学思维修炼一-数据的表示/" data-id="ck01t3ndn001foj4rv1yfz39u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL性能优化之Explain浅析（上）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/17/MySQL-索引那些事儿/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL 索引那些事儿一</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">14</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/01/MySQL主从复制/">MySQL主从复制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL高级之锁/">MySQL高级之锁</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
