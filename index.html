@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+
+
+
+    <title>雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="雨🌧，自空，醉风，归尘。">
+<meta name="keywords" content="inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="雨醉风尘">
+<meta property="og:url" content="https://inscode.github.io/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="雨🌧，自空，醉风，归尘。">
+<meta property="og:locale" content="Chinese">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="雨醉风尘">
+<meta name="twitter:description" content="雨🌧，自空，醉风，归尘。">
+
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+
+
+    <link rel="icon" href="/images/favicon.png">
+
+
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+
+          <a class="main-nav-link" href="/">首页</a>
+
+          <a class="main-nav-link" href="/archives/">归档</a>
+
+      </nav>
+      <nav id="sub-nav">
+
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+
+    <article id="post-MySQL小知识点杂记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/04/MySQL小知识点杂记/" class="article-date">
+  <time datetime="2019-09-04T10:23:54.000Z" itemprop="datePublished">2019-09-04</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/04/MySQL小知识点杂记/">MySQL小知识点杂记</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/09/04/MySQL小知识点杂记/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/09/04/MySQL小知识点杂记/" data-id="ck054r1tl000d1s4ren2omogd" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL主从复制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/01/MySQL主从复制/" class="article-date">
+  <time datetime="2019-09-01T13:55:38.000Z" itemprop="datePublished">2019-09-01</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/01/MySQL主从复制/">MySQL主从复制</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: MySQL主从复制过程通常分为三步。分别是…第一步，第两步，第三步…</p>
+
+          <p class="article-more-link">
+            <a href="/2019/09/01/MySQL主从复制/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/09/01/MySQL主从复制/" data-id="ck054r1t400001s4rq0zk3l74" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL高级之锁" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/31/MySQL高级之锁/" class="article-date">
+  <time datetime="2019-08-31T09:27:53.000Z" itemprop="datePublished">2019-08-31</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/31/MySQL高级之锁/">MySQL高级之锁</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: 锁🔐是计算机协调多个进程或线程 <strong>并发</strong> 访问某一资源的机制。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/31/MySQL高级之锁/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/31/MySQL高级之锁/" data-id="ck054r1um002i1s4r4nwv2qzp" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL之使用show-profile进行sql分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/" class="article-date">
+  <time datetime="2019-08-31T03:21:56.000Z" itemprop="datePublished">2019-08-31</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: <code>show profiling</code> 是MySQL提供的可以用来分析 <strong>当前会话中sql语句</strong> 执行消耗资源情况的工具。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/31/MySQL之使用show-profile进行sql分析/" data-id="ck054r1tg00051s4r7gbedasy" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL使用函数和存储过程批量插入数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/" class="article-date">
+  <time datetime="2019-08-30T09:38:24.000Z" itemprop="datePublished">2019-08-30</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: 在 <code>MySQL</code> 优化学习中，我们通常需要使用到十万量级甚至是百万量级的数据表来去对比索引优化前后的SQL性能表现。那么怎么去获取到拥有这个数量级的数据表呢？答案之一是使用存储过程往表中批量导入数据。下面来实例演示一个批量导入数据表的案例，记录已被日后查阅。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/30/MySQL使用函数和存储过程批量插入数据/" data-id="ck054r1tk000b1s4rpr7o11s4" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL优化之慢查询日志" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/28/MySQL优化之慢查询日志/" class="article-date">
+  <time datetime="2019-08-28T13:59:46.000Z" itemprop="datePublished">2019-08-28</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/MySQL优化之慢查询日志/">MySQL优化之慢查询日志</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>： <code>MySQL</code> 的慢查询日志是 <code>MySQL</code> 提供的一种日志记录，用于记录在 <code>MySQL</code> 中响应时间超过阈值的语句。即是指 ☞ 如果运行时间超过配置 <code>long_query_time</code> 值的 <code>SQL</code> 语句，则会被记录到慢查询日志中。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/28/MySQL优化之慢查询日志/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/28/MySQL优化之慢查询日志/" data-id="ck054r1tj00071s4riubbvdwl" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL优化之orderBy优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/27/MySQL优化之orderBy优化/" class="article-date">
+  <time datetime="2019-08-27T13:33:03.000Z" itemprop="datePublished">2019-08-27</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/MySQL优化之orderBy优化/">MySQL优化之orderBy优化</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>：<code>order by</code> 字句应该尽量使用 <code>Index</code> 方式排序，避免使用 <code>Filesort</code> 方式排序。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/27/MySQL优化之orderBy优化/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/27/MySQL优化之orderBy优化/" data-id="ck054r1ui002a1s4r507lzt64" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL优化之小表驱动大表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/26/MySQL优化之小表驱动大表/" class="article-date">
+  <time datetime="2019-08-26T13:58:23.000Z" itemprop="datePublished">2019-08-26</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/26/MySQL优化之小表驱动大表/">MySQL优化之小表驱动大表</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>：前面学习了通过 <code>explain</code> 查看 <code>SQL</code> 语句的执行计划，然后对其进行必要的索引优化。那么我们又该怎么获取到这些 <code>SQL</code> 语句呢🤔🤔🤔？</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/26/MySQL优化之小表驱动大表/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/26/MySQL优化之小表驱动大表/" data-id="ck054r1ti00061s4r8gn8cslj" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL优化之索引使用原则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/25/MySQL优化之索引使用原则/" class="article-date">
+  <time datetime="2019-08-25T03:45:50.000Z" itemprop="datePublished">2019-08-25</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/25/MySQL优化之索引使用原则/">MySQL优化之索引使用原则</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: 前面了解到索引是帮助 <code>MySQL</code> 高效获取数据的数据结构。那么在一个数据表查询应用中，我们是否应该使用索引？该怎样使用索引？什么场景下索引会失效？</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/25/MySQL优化之索引使用原则/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/25/MySQL优化之索引使用原则/" data-id="ck054r1vd00321s4rzsrlipi6" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+    <article id="post-MySQL性能优化之通过Explain进行索引优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/24/MySQL性能优化之通过Explain进行索引优化/" class="article-date">
+  <time datetime="2019-08-24T02:59:14.000Z" itemprop="datePublished">2019-08-24</time>
+</a>
+
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+
+
+      <header class="article-header">
+
+
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/24/MySQL性能优化之通过Explain进行索引优化/">MySQL性能优化之Explain索引优化实例</a>
+    </h1>
+
+
+      </header>
+
+    <div class="article-entry" itemprop="articleBody">
+
+        <p><strong>写在前面</strong>: 前面了解 <code>Explain</code> 的基础知识，接下来我们通过好一些案列来实操一下，通过实践加深对前面两篇笔记的了解。</p>
+
+          <p class="article-more-link">
+            <a href="/2019/08/24/MySQL性能优化之通过Explain进行索引优化/#more">Read More</a>
+          </p>
+
+
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/08/24/MySQL性能优化之通过Explain进行索引优化/" data-id="ck054r1v0002u1s4rzb23h5bb" class="article-share-link">Share</a>
+
+
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+
+</article>
+
+
+
+
+
+  <nav id="page-nav">
+
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
+</section>
+
+          <aside id="sidebar">
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Go/" style="font-size: 16.67px;">Go</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 13.33px;">数学</a> <a href="/tags/爬虫/" style="font-size: 16.67px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+
+
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+
+          <li>
+            <a href="/2019/09/04/MySQL小知识点杂记/">MySQL小知识点杂记</a>
+          </li>
+
+          <li>
+            <a href="/2019/09/01/MySQL主从复制/">MySQL主从复制</a>
+          </li>
+
+          <li>
+            <a href="/2019/08/31/MySQL高级之锁/">MySQL高级之锁</a>
+          </li>
+
+          <li>
+            <a href="/2019/08/31/MySQL之使用show-profile进行sql分析/">MySQL之使用show-profiling进行sql分析</a>
+          </li>
+
+          <li>
+            <a href="/2019/08/30/MySQL使用函数和存储过程批量插入数据/">MySQL使用函数和存储过程批量插入数据</a>
+          </li>
+
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      </div>
+      <footer id="footer">
+
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+
+    <a href="/" class="mobile-nav-link">首页</a>
+
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+
+</nav>
+
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
+>>>>>>> refs/remotes/origin/master
