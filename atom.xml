@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://inscode.github.io/"/>
-  <updated>2019-09-04T10:35:58.081Z</updated>
+  <updated>2019-09-04T10:49:50.582Z</updated>
   <id>https://inscode.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://inscode.github.io/2019/09/04/MySQL%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%9D%82%E8%AE%B0/"/>
     <id>https://inscode.github.io/2019/09/04/MySQL小知识点杂记/</id>
     <published>2019-09-04T10:23:54.000Z</published>
-    <updated>2019-09-04T10:35:58.081Z</updated>
+    <updated>2019-09-04T10:49:50.582Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>写在前面</strong>: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。</p><a id="more"></a><p>1: 快速🔜一个表存在多少个数据字段</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- TABLE_SCHEMA 对于数据表所在的数据库名</span></span><br><span class="line"><span class="comment">-- table_name 对于数据表名称</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> information_schema.COLUMNS</span><br><span class="line"><span class="keyword">where</span> TABLE_SCHEMA = <span class="string">'database_name'</span> <span class="keyword">and</span> table_name = <span class="string">'table_name'</span>;</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p><strong>写在前面</strong>: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。</p><a id="more"></a><p>👉1: 获取数据表存在多少个数据字段</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- TABLE_SCHEMA 对于数据表所在的数据库名</span></span><br><span class="line"><span class="comment">-- table_name 对于数据表名称</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> information_schema.COLUMNS</span><br><span class="line"><span class="keyword">where</span> TABLE_SCHEMA = <span class="string">'database_name'</span> <span class="keyword">and</span> table_name = <span class="string">'table_name'</span>;</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     

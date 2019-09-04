@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="雨醉风尘">
 <meta property="og:description" content="写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-09-04T10:35:58.081Z">
+<meta property="og:updated_time" content="2019-09-04T10:49:50.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL小知识点杂记">
 <meta name="twitter:description" content="写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。">
@@ -104,14 +104,14 @@
         <p><strong>写在前面</strong>: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。</p>
 <a id="more"></a>
 
-<p>1: 快速🔜一个表存在多少个数据字段</p>
+<p>👉1: 获取数据表存在多少个数据字段</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- TABLE_SCHEMA 对于数据表所在的数据库名</span></span><br><span class="line"><span class="comment">-- table_name 对于数据表名称</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> information_schema.COLUMNS</span><br><span class="line"><span class="keyword">where</span> TABLE_SCHEMA = <span class="string">'database_name'</span> <span class="keyword">and</span> table_name = <span class="string">'table_name'</span>;</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/09/04/MySQL小知识点杂记/" data-id="ck0550cld000g5q4rgqnebwp0" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/09/04/MySQL小知识点杂记/" data-id="ck0554a8u000e934ro8q8kbl5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
