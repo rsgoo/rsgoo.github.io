@@ -7,25 +7,22 @@
     
     <title>
         
-        程序员数学基础 之 矩阵 |
+        MySQL小知识点杂记 |
         
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="1：矩阵相加">
-<meta name="keywords" content="数学">
+    <meta name="description" content="写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="程序员数学基础 之 矩阵">
-<meta property="og:url" content="https://inscode.github.io/2019/08/03/程序员数学之矩阵/index.html">
+<meta property="og:title" content="MySQL小知识点杂记">
+<meta property="og:url" content="https://inscode.github.io/2019/09/04/MySQL小知识点杂记/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="1：矩阵相加">
+<meta property="og:description" content="写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。">
 <meta property="og:locale" content="Chinese">
-<meta property="og:image" content="https://inscode.github.io/images/blog/201908/1-%E7%9F%A9%E9%98%B5%E7%9B%B8%E5%8A%A0.jpg">
-<meta property="og:image" content="https://inscode.github.io/images/blog/201908/2-%E7%9F%A9%E9%98%B5%E4%B9%98%E4%B8%8A%E7%9F%A9%E9%98%B5.jpg">
-<meta property="og:updated_time" content="2019-08-24T08:04:56.429Z">
+<meta property="og:updated_time" content="2019-09-04T10:35:58.081Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序员数学基础 之 矩阵">
-<meta name="twitter:description" content="1：矩阵相加">
-<meta name="twitter:image" content="https://inscode.github.io/images/blog/201908/1-%E7%9F%A9%E9%98%B5%E7%9B%B8%E5%8A%A0.jpg">
+<meta name="twitter:title" content="MySQL小知识点杂记">
+<meta name="twitter:description" content="写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -78,14 +75,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-程序员数学之矩阵" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MySQL小知识点杂记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/03/程序员数学之矩阵/" class="article-date">
-  <time datetime="2019-08-03T14:35:24.000Z" itemprop="datePublished">2019-08-03</time>
+    <a href="/2019/09/04/MySQL小知识点杂记/" class="article-date">
+  <time datetime="2019-09-04T10:23:54.000Z" itemprop="datePublished">2019-09-04</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/数学/">数学</a>
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -96,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      程序员数学基础 之 矩阵
+      MySQL小知识点杂记
     </h1>
   
 
@@ -104,41 +101,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h6 id="1：矩阵相加"><a href="#1：矩阵相加" class="headerlink" title="1：矩阵相加"></a>1：矩阵相加</h6><a id="more"></a>
+        <p><strong>写在前面</strong>: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。</p>
+<a id="more"></a>
 
-<p><img src="/images/blog/201908/1-%E7%9F%A9%E9%98%B5%E7%9B%B8%E5%8A%A0.jpg" alt></p>
+<p>1: 快速🔜一个表存在多少个数据字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- TABLE_SCHEMA 对于数据表所在的数据库名</span></span><br><span class="line"><span class="comment">-- table_name 对于数据表名称</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> information_schema.COLUMNS</span><br><span class="line"><span class="keyword">where</span> TABLE_SCHEMA = <span class="string">'database_name'</span> <span class="keyword">and</span> table_name = <span class="string">'table_name'</span>;</span><br></pre></td></tr></table></figure>
 
-
-<h6 id="2：矩阵相乘（不符合交换律）"><a href="#2：矩阵相乘（不符合交换律）" class="headerlink" title="2：矩阵相乘（不符合交换律）"></a>2：矩阵相乘（不符合交换律）</h6><ul>
-<li><p>标量 * 矩阵</p>
-<ul>
-<li>变量 * 矩阵的每一个元素，得到一个新矩阵</li>
-</ul>
-</li>
-<li><p>矩阵 * 矩阵</p>
-<ul>
-<li><p>用矩阵的 第1行 分别去 乘以 矩阵的每一列</p>
-</li>
-<li><p>用矩阵的 第N行 分别去 乘以 矩阵的每一列</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="/images/blog/201908/2-%E7%9F%A9%E9%98%B5%E4%B9%98%E4%B8%8A%E7%9F%A9%E9%98%B5.jpg" alt></p>
-<ul>
-<li><p>矩阵A * 矩阵B != 矩阵B * 矩阵A</p>
-</li>
-<li><p>矩阵相乘的条件：前面矩阵的列数 等于 后面矩阵的行数</p>
-</li>
-</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://inscode.github.io/2019/08/03/程序员数学之矩阵/" data-id="ck054mdxj0011x64rxoerx098" class="article-share-link">Share</a>
+      <a data-url="https://inscode.github.io/2019/09/04/MySQL小知识点杂记/" data-id="ck054mdx7000dx64rigbessl1" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
 
     </footer>
   </div>
@@ -146,19 +122,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/04/golang爬取百度贴吧内容/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Golang爬虫系列零：爬取百度贴吧内容
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/02/hexo-test-deploy/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/09/01/MySQL主从复制/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hexo 部署测试</div>
+      <div class="article-nav-title">MySQL主从复制</div>
     </a>
   
 </nav>
