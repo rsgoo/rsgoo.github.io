@@ -2,7 +2,7 @@
 title: Golang爬虫系列二：爬取捧腹网段子及其笑话详情
 date: 2019-08-12 21:55:04
 tags:
-    - Go
+    - Golang
     - 爬虫
 categories:
     - Golang

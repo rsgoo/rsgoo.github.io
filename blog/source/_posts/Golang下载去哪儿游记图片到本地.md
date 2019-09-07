@@ -2,7 +2,7 @@
 title: Golang爬虫系列三：下载去哪儿游记图片到本地
 date: 2019-08-14 19:21:39
 tags:
-    - Go
+    - Golang
     - 爬虫
 categories:
     - Golang
@@ -140,4 +140,3 @@ func saveImageUrlToFile(i int, imgUrl, dir string, fileSaveChan chan int) {
 }
 
 ```
-
