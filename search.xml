@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[MySQL小知识点杂记]]></title>
-    <url>%2F2019%2F09%2F04%2FMySQL%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%9D%82%E8%AE%B0%2F</url>
+    <title><![CDATA[Golang tips]]></title>
+    <url>%2F2019%2F09%2F07%2FGolang-tips%2F</url>
+    <content type="text"><![CDATA[写在前面: 常用但易忘的 Golang 知识点整理。 1: 小数保留指定位数 由于 Go 的 Math.rand() 函数四舍五入只能保留到整数位，当需要保留指定小数位时需要使用 sprintf() 帮忙 123456789var number1 float64 = 27.234567s := fmt.Sprintf("%.5f", number1)//这时 27.23457 的类型是 stringfmt.Printf("这时 %v 的类型是 %T\n", s, s)val, _ := strconv.ParseFloat(s, 64)//此时 27.23457 的类型是 float64fmt.Printf("此时 %v 的类型是 %T\n", val, val)]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>Golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MySQL-tips]]></title>
+    <url>%2F2019%2F09%2F04%2FMySQL-tips%2F</url>
     <content type="text"><![CDATA[写在前面: 在使用 MySQL 过程中，总是会用到一些比较不常用知识点，这些知识点通常不会刻意学习，而是当成工具类随用随查。这篇笔记 📒 便是将自己在平时工作学习过程中遇到这些知识点做此记录，便于以后查阅，以提升效率。 👉1: 获取数据表存在多少个数据字段 1234-- TABLE_SCHEMA 对于数据表所在的数据库名-- table_name 对于数据表名称select count(*) from information_schema.COLUMNSwhere TABLE_SCHEMA = 'database_name' and table_name = 'table_name';]]></content>
       <categories>
         <category>数据库</category>
@@ -199,7 +210,7 @@
         <category>Golang</category>
       </categories>
       <tags>
-        <tag>Go</tag>
+        <tag>Golang</tag>
         <tag>爬虫</tag>
       </tags>
   </entry>
@@ -211,7 +222,7 @@
         <category>Golang</category>
       </categories>
       <tags>
-        <tag>Go</tag>
+        <tag>Golang</tag>
         <tag>爬虫</tag>
       </tags>
   </entry>
@@ -223,7 +234,7 @@
         <category>Golang</category>
       </categories>
       <tags>
-        <tag>Go</tag>
+        <tag>Golang</tag>
         <tag>爬虫</tag>
       </tags>
   </entry>
@@ -247,7 +258,7 @@
         <category>Golang</category>
       </categories>
       <tags>
-        <tag>Go</tag>
+        <tag>Golang</tag>
         <tag>爬虫</tag>
       </tags>
   </entry>

@@ -7,21 +7,22 @@
     
     <title>
         
-        Tag: MySQL |
+        Golang tips |
         
         雨醉风尘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="雨🌧，自空，醉风，归尘。">
-<meta name="keywords" content="inscode,雨醉风尘,dongdong11019,php,rust,go,programing,blog,hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="雨醉风尘">
-<meta property="og:url" content="https://inscode.github.io/tags/MySQL/page/2/index.html">
+    <meta name="description" content="写在前面: 常用但易忘的 Golang 知识点整理。">
+<meta name="keywords" content="Golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang tips">
+<meta property="og:url" content="https://inscode.github.io/2019/09/07/Golang-tips/index.html">
 <meta property="og:site_name" content="雨醉风尘">
-<meta property="og:description" content="雨🌧，自空，醉风，归尘。">
+<meta property="og:description" content="写在前面: 常用但易忘的 Golang 知识点整理。">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-09-06T17:21:00.862Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="雨醉风尘">
-<meta name="twitter:description" content="雨🌧，自空，醉风，归尘。">
+<meta name="twitter:title" content="Golang tips">
+<meta name="twitter:description" content="写在前面: 常用但易忘的 Golang 知识点整理。">
     
     <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
     
@@ -74,121 +75,66 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/20/MySQL性能优化之Explain浅析（下）/" class="archive-article-date">
-  <time datetime="2019-08-20T13:53:16.000Z" itemprop="datePublished">Aug 20</time>
+        <section id="main"><article id="post-Golang-tips" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/07/Golang-tips/" class="article-date">
+  <time datetime="2019-09-06T16:59:07.000Z" itemprop="datePublished">2019-09-07</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Golang/">Golang</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/20/MySQL性能优化之Explain浅析（下）/">MySQL性能优化之Explain浅析（下）</a>
+    <h1 class="article-title" itemprop="name">
+      Golang tips
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/19/MySQL性能优化之Explain浅析（上）/" class="archive-article-date">
-  <time datetime="2019-08-19T14:18:54.000Z" itemprop="datePublished">Aug 19</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/19/MySQL性能优化之Explain浅析（上）/">MySQL性能优化之Explain浅析（上）</a>
-    </h1>
-  
+        <p><strong>写在前面</strong>: 常用但易忘的 Golang 知识点整理。</p>
+<a id="more"></a>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/17/MySQL-索引那些事儿/" class="archive-article-date">
-  <time datetime="2019-08-17T15:45:08.000Z" itemprop="datePublished">Aug 17</time>
-</a>
+<p>1: 小数保留指定位数</p>
+<blockquote>
+<p>由于 Go 的 Math.rand() 函数四舍五入只能保留到整数位，当需要保留指定小数位时需要使用 sprintf() 帮忙</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number1 <span class="keyword">float64</span> = <span class="number">27.234567</span></span><br><span class="line">s := fmt.Sprintf(<span class="string">"%.5f"</span>, number1)</span><br><span class="line"></span><br><span class="line"><span class="comment">//这时 27.23457 的类型是 string</span></span><br><span class="line">fmt.Printf(<span class="string">"这时 %v 的类型是 %T\n"</span>, s, s)</span><br><span class="line"></span><br><span class="line">val, _ := strconv.ParseFloat(s, <span class="number">64</span>)</span><br><span class="line"><span class="comment">//此时 27.23457 的类型是 float64</span></span><br><span class="line">fmt.Printf(<span class="string">"此时 %v 的类型是 %T\n"</span>, val, val)</span><br></pre></td></tr></table></figure>
+
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MySQL-索引那些事儿/">MySQL 索引那些事儿一</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/" class="archive-article-date">
-  <time datetime="2019-08-17T03:25:22.000Z" itemprop="datePublished">Aug 17</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/09/07/Golang-tips/" data-id="ck08y7psc0002234r828uxe1c" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/17/MySQL架构体系及SQL查询执行流程初探/">MySQL架构体系及SQL查询执行流程初探</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/" class="archive-article-date">
-  <time datetime="2019-08-15T14:34:35.000Z" itemprop="datePublished">Aug 15</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/15/MySQL-5-7-21-1配置文件my-cnf/">MySQL 5.7.21-1配置文件my.cnf</a>
-    </h1>
-  
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Golang/">Golang</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
   
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/tags/MySQL/">&laquo; Prev</a><a class="page-number" href="/tags/MySQL/">1</a><span class="page-number current">2</span>
-  </nav>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/04/MySQL-tips/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL-tips</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 </section>
         
