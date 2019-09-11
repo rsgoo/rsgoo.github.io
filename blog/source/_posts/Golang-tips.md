@@ -26,3 +26,58 @@ val, _ := strconv.ParseFloat(s, 64)
 //此时 27.23457 的类型是 float64
 fmt.Printf("此时 %v 的类型是 %T\n", val, val)    
 ```
+
+2: 不定长参数使用
+
+> 不定长类型只能放在参数列表最后
+
+```go
+func main() {
+	LoveManySkills(1.11, "Golang", "Rust", "Redis", "MySQL", "C")
+}
+
+// 不定长类型只能放在参数列表最后
+func LoveManySkills(version float32, skills ...interface{}) {
+	fmt.Println("current version is: ", version)
+	for key, skill := range skills {
+		fmt.Printf("你喜欢的第 %d 门技能是 %v\n", key+1, skill)
+	}
+}
+
+```
+
+3: 获取随机数字
+```go
+myRand := rand.New(rand.NewSource(time.Now().UnixNano()))
+//返回【0，N)之间的数字
+answer := myRand.Intn(N)
+```
+
+4: 匿名函数使用
+```go
+//方式一
+func(a, b int) {
+    fmt.Println(int64(a + b))
+}(110100, 11019)
+
+//方式二
+var product = func(x, y float64) float64 {
+    return x * y
+}
+fmt.Println(product(1101, 2))
+
+//方式三
+whatAmI := func(i interface{}) {
+	switch t := i.(type) {
+	case bool:
+		fmt.Println("I'm a bool")
+	case int:
+		fmt.Println("I'm an int")
+	default:
+		fmt.Printf("Don't know type %T\n", t)
+	}
+}
+whatAmI(true)
+whatAmI(1)
+whatAmI("hey")
+```
