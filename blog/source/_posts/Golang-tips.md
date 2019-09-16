@@ -136,7 +136,6 @@ fmt.Println(ts)
 
 > cmd> go run params.go  -language c -uname dongdong
 
-
 ```go
 package main
 
