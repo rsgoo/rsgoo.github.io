@@ -81,3 +81,76 @@ whatAmI(true)
 whatAmI(1)
 whatAmI("hey")
 ```
+
+5: 将 `slice` 作为变参函数的参数
+> 如果你有一个含有多个值的 slice，想把它们作为参数 使用，你要这样调用 func(slice...)。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+	nums := []int{1, 2, 3, 4, 5}
+	sum, pro := plusNumbs(nums...)
+	fmt.Println(sum)
+	fmt.Println(pro)
+}
+
+func plusNumbs(nums ...int) (sum, product int) {
+	product = 1
+	for _, value := range nums {
+		sum += value
+		product *= value
+	}
+	return sum, product
+}
+```
+
+6: time相关
+```go
+//24个小时后
+duration, _ := time.ParseDuration("24h")
+fmt.Println(time.Now().Add(duration))
+//7天后
+fmt.Println(time.Now().Add(duration*7))
+
+tar1 := time.Now().Add(duration)
+tar2 := time.Now().Add(duration * 7)
+//计算时间的间隔
+fmt.Println(tar2.Sub(tar1))
+```
+
+7: 使用自定义函数删除指定头尾字符
+```go
+s := "ohello worldl"
+ts := strings.TrimFunc(s, func(r rune) bool {
+	return r == 'o' || r == 'l'
+})
+fmt.Println(ts)
+```
+
+
+8: 获取命令行指定的参数值
+
+> cmd> go run params.go  -language c -uname dongdong
+
+
+```go
+package main
+
+import (
+	"flag"
+	"fmt"
+)
+
+func main() {
+	var name string
+	var lang = flag.String("language", "编程语言", "")
+	flag.StringVar(&name, "uname", "请输入姓名", "")
+	flag.Parse()
+	fmt.Println("usernem:", name)
+	fmt.Println("langauge", *lang)
+}
+```
