@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+
+    
+    <title>
+        
+        MySQL主从复制 |
+        
+        雨醉风尘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写在前面: MySQL主从复制过程通常分为三步。分别是…第一步，第两步，第三步…">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL主从复制">
+<meta property="og:url" content="https://inscode.github.io/2019/09/01/23-MySQL主从复制/index.html">
+<meta property="og:site_name" content="雨醉风尘">
+<meta property="og:description" content="写在前面: MySQL主从复制过程通常分为三步。分别是…第一步，第两步，第三步…">
+<meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-09-03T16:03:15.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL主从复制">
+<meta name="twitter:description" content="写在前面: MySQL主从复制过程通常分为三步。分别是…第一步，第两步，第三步…">
+    
+    <link rel="alternate" href="/atom.xml" title="雨醉风尘" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.png">
+    
+    
+    <!--<link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">-->
+        <!--文件替换为本地文件 path: theme/landscape/source/css/google-font.css-->
+        <link href="/css/google-font.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">雨醉风尘</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">日记一事，年复成书</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives/">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//cn.bing.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value=""></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-23-MySQL主从复制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/01/23-MySQL主从复制/" class="article-date">
+  <time datetime="2019-09-01T13:55:38.000Z" itemprop="datePublished">2019-09-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>►<a class="article-category-link" href="/categories/数据库/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL主从复制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>写在前面</strong>: MySQL主从复制过程通常分为三步。分别是…第一步，第两步，第三步…</p>
+<a id="more"></a>
+
+<h4 id="一-MySQL主从复制步骤"><a href="#一-MySQL主从复制步骤" class="headerlink" title="一: MySQL主从复制步骤"></a>一: MySQL主从复制步骤</h4><ul>
+<li><p>1: <code>master</code> 将改变 记录到二进制文件（binary log）。这些记录的过程叫二进制日志事件（binary log event）</p>
+</li>
+<li><p>2: <code>slave</code> 将 <code>master</code> 的 <code>binary log event</code> 拷贝到它的中继日志（relay log）</p>
+</li>
+<li><p>3: <code>slave</code> 重做中继日志中的事件，将改变应用到 <code>slave</code> 自己的数据库中。MySQL 复制是 <strong>异步且是串行化</strong> 的</p>
+</li>
+</ul>
+<h4 id="二-MySQL主从的基本原则"><a href="#二-MySQL主从的基本原则" class="headerlink" title="二: MySQL主从的基本原则"></a>二: MySQL主从的基本原则</h4><ul>
+<li><p>1: 每个 <code>slave</code> 只有一个 <code>mater</code>。</p>
+</li>
+<li><p>2: 每个 slave 只能有一个唯一的服务器id。</p>
+</li>
+<li><p>3: 每个 <code>master</code> 可以有多个 <code>slave</code>。</p>
+</li>
+</ul>
+<blockquote>
+<p>MySQL主从复制的最大问题是 网络延迟</p>
+</blockquote>
+<h4 id="三-一主一从常见配置"><a href="#三-一主一从常见配置" class="headerlink" title="三: 一主一从常见配置"></a>三: 一主一从常见配置</h4><ul>
+<li><p><strong>Master 配置文件</strong></p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1: 配置主服务器唯一id</span></span><br><span class="line">server-id = 1</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2: 启用二进制日志</span></span><br><span class="line">log_bin = /var/log/mysql/mysql-bin-master.log</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3: 启用错误日志记录【可选】</span></span><br><span class="line">log_err = /var/log/mysql/mysql-bin-master-err.log</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4: 配置根目录【可选】</span></span><br><span class="line">basedir = /usr/</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5: 配置临时目录【可选】</span></span><br><span class="line">tmpdir  = /tmp/</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 6: 配置数据目录【可选】</span></span><br><span class="line">datadir = /var/lib/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 7: 主机读写都可以【可选】</span></span><br><span class="line">read-only = 1</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 8: 设置不需要复制的数据库【可选】</span></span><br><span class="line"></span><br><span class="line">replicate_ignore_db =  dbName</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 9: 设置需要复制的数据库【可选】</span></span><br><span class="line">replicate_do_db = dbName</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Slave 配置文件</strong></p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1: 配置从服务器唯一id，和 master 的 server-id 不能一致。</span></span><br><span class="line">server-id = 2</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2: 启用二进制日志【可选】</span></span><br><span class="line">log_bin = /var/log/mysql/mysql-bin-master.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Master 给 Slave 授权</strong></p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--                                    从机数据库ip，如果为% 则是授权给全部ip</span></span><br><span class="line">mysql&gt; grant replication slave on *.* to 's1'@'192.168.153.143' identified by '123456';</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刷新</span></span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询 Master状态</span></span><br><span class="line">mysql&gt; show master status;</span><br><span class="line">+<span class="comment">-------------------------+----------+--------------+------------------+</span></span><br><span class="line">| File                    | Position | Binlog_Do_DB | Binlog_Ignore_DB |</span><br><span class="line">+<span class="comment">-------------------------+----------+--------------+------------------+</span></span><br><span class="line">| mysql-bin-master.000003 |      752 |              |                  |</span><br><span class="line">+<span class="comment">-------------------------+----------+--------------+------------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- File: mysql-bin-master.000002【二进制日志文件】</span></span><br><span class="line"><span class="comment">-- Position: 623【日志复制的位置】</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>slave从机配置需要复制的主机</strong></p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 设置需要复制主机的配置</span></span><br><span class="line"><span class="comment">-- master_log_file 来自 master 机器中执行 show master status 后得到 File 的值</span></span><br><span class="line"><span class="comment">-- master_log_pos 来自 master 机器中执行 show master status 后得到 Position 的值</span></span><br><span class="line"></span><br><span class="line">mysql&gt; change master to</span><br><span class="line">master_host = '192.168.153.160',</span><br><span class="line">master_user = 's1',</span><br><span class="line">master_password ='123456',</span><br><span class="line">master_log_file = 'mysql-bin-master.000005',  </span><br><span class="line">master_log_pos = 4631;</span><br><span class="line"><span class="comment">-- 启动从机</span></span><br><span class="line">mysql&gt; start slave;  </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询从机状态</span></span><br><span class="line"><span class="comment">-- 如果出现 Slave_IO_Running: Connecting ，配置master 的配置文件选项  #bind-address = 127.0.0.1。</span></span><br><span class="line">MariaDB [(none)]&gt; show slave status\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 192.168.153.160</span><br><span class="line">                  Master_User: s1</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: mysql-bin-master.000005</span><br><span class="line">          Read_Master_Log_Pos: 625</span><br><span class="line">               Relay_Log_File: mysqld-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 544</span><br><span class="line">        Relay_Master_Log_File: mysql-bin-master.000005</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB:</span><br><span class="line">          Replicate_Ignore_DB:</span><br><span class="line">           Replicate_Do_Table:</span><br><span class="line">       Replicate_Ignore_Table:</span><br><span class="line">      Replicate_Wild_Do_Table:</span><br><span class="line">  Replicate_Wild_Ignore_Table:</span><br><span class="line">                   Last_Errno: 0</span><br><span class="line">                   Last_Error:</span><br><span class="line">                 Skip_Counter: 0</span><br><span class="line">          Exec_Master_Log_Pos: 625</span><br><span class="line">              Relay_Log_Space: 843</span><br><span class="line">              Until_Condition: None</span><br><span class="line">               Until_Log_File:</span><br><span class="line">                Until_Log_Pos: 0</span><br><span class="line">           Master_SSL_Allowed: No</span><br><span class="line">           Master_SSL_CA_File:</span><br><span class="line">           Master_SSL_CA_Path:</span><br><span class="line">              Master_SSL_Cert:</span><br><span class="line">            Master_SSL_Cipher:</span><br><span class="line">               Master_SSL_Key:</span><br><span class="line">        Seconds_Behind_Master: 0</span><br><span class="line">Master_SSL_Verify_Server_Cert: No</span><br><span class="line">                Last_IO_Errno: 0</span><br><span class="line">                Last_IO_Error:</span><br><span class="line">               Last_SQL_Errno: 0</span><br><span class="line">               Last_SQL_Error:</span><br><span class="line">  Replicate_Ignore_Server_Ids:</span><br><span class="line">             Master_Server_Id: 1</span><br><span class="line">               Master_SSL_Crl:</span><br><span class="line">           Master_SSL_Crlpath:</span><br><span class="line">                   Using_Gtid: No</span><br><span class="line">                  Gtid_IO_Pos:</span><br><span class="line">      Replicate_Do_Domain_Ids:</span><br><span class="line">  Replicate_Ignore_Domain_Ids:</span><br><span class="line">                Parallel_Mode: conservative</span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><ul>
+<li><p>在master 新建一个库及其表并插入一些数据，slave 上也会存在对应的数据😜。</p>
+</li>
+<li><p>切记: 不要在 slave 上执行 增删改 操作。</p>
+</li>
+</ul>
+<p>写在最后: 之前自己一直觉得 <strong>MySQL主从复制</strong> 实验会比较难搞，产生一些畏难心里，不敢去尝试。这周末按照  <code>B站</code> 的教程实现了一下。回想，虽然中间遇到了一些问题，但是坚持坚持，问题终究能解决的。很多时候，并不是问题有多难有多无解，更多的是我们对待未知的心态。Go ahead…</p>
+<hr>
+<p><strong>😊参考&amp;&amp;感谢😊</strong></p>
+<p><a href="https://www.bilibili.com/video/av49181542/?p=241" target="_blank" rel="noopener">MySQL高级-主从复制</a></p>
+<p><a href="https://www.cnblogs.com/ygqygq2/p/6045279.html" target="_blank" rel="noopener">MySQL双主（主主）架构方案</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://inscode.github.io/2019/09/01/23-MySQL主从复制/" data-id="ck0uhi6ug000n6g4r9q4y6bbn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/04/24-MySQL-tips/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL-tips
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/31/21-MySQL高级之锁/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL高级之锁</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/MySQL/">MySQL</a><span class="category-list-count">15</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Golang/" style="font-size: 17.5px;">Golang</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/数学/" style="font-size: 12.5px;">数学</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/22/8-Golang中JSON使用实例/">Golang中JSON使用实例</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/07/9-Golang-tips/">Golang tips</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/04/24-MySQL-tips/">MySQL-tips</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/01/23-MySQL主从复制/">MySQL主从复制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/31/21-MySQL高级之锁/">MySQL高级之锁</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 雨醉风尘<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives/" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<!--替换本地CND-->
+<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
